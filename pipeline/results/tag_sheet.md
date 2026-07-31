@@ -1,6 +1,6 @@
 # Field Tag Sheet
 
-_Generated 2026-07-29T14:33:18+00:00_
+_Generated 2026-07-31T16:43:27+00:00_
 
 Plain-English tags for each profession's key licensure fields, derived
 by `pipeline.map_prep.bucket_text` (no per-row hand-curation — the LLM
@@ -602,18 +602,19 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.degree_required` — states per tag:
 
-- **DDS/DMD Named + CODA** (10)
-- **DDS/DMD Named, Board Approved** (4)
-- **Accredited School, CODA Named** (26)
-- **Accredited School, Board Approved** (8)
-- **Doctoral Degree, General** (2)
+- **DDS/DMD + CODA Accredited** (12)
+- **Graduate + CODA Accredited** (21)
+- **Graduate + Board Approved** (7)
+- **Degree + Accredited (General)** (5)
+- **DDS/DMD Named Only** (5)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **GPR or Specialty Residency** (2)
-- **CODA-Approved Residency w/ Intern Title** (1)
+- **General Practice Residency** (0)
+- **GP or Specialty Residency** (2)
+- **CODA-Approved Residency** (1)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
@@ -623,10 +624,11 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.issuing_authority` — states per tag:
 
-- **Board of Dental Examiners** (12)
-- **Board of Dentistry** (29)
-- **State Dept / Agency** (6)
-- **Dual Authority** (3)
+- **Dental Examiners Board** (12)
+- **Board of Dentistry** (17)
+- **Dept / Agency Only** (5)
+- **Dept + Dental Board** (4)
+- **Other Dental Board** (12)
 
 `licensure.regulatory_authority.name` — states per tag:
 
@@ -634,47 +636,53 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 - **Board of Dentistry** (20)
 - **Dental Board** (6)
 - **Dept / Office (Non-Board)** (5)
-- **Other Dental Board** (6)
+- **Other Dental Board Name** (6)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **Broad Enumerated List** (14)
-- **Concise Category List** (10)
-- **Terse High-Level Only** (11)
-- **Moderate Detail List** (15)
+- **Broad Enumerated List** (19)
+- **Concise Category List** (7)
+- **Standard Six-Domain** (6)
+- **Minimal High-Level** (7)
+- **Extended With Modern Procedures** (11)
 
 `scope.drug_authority` — states per tag:
 
-- **Basic Prescribe/Dispense** (14)
-- **Prescribe + Anesthesia** (17)
-- **Prescribe + Opioid Limits** (6)
-- **Prescribe + Anesthesia + Opioid Limits** (2)
-- **Prescribe + Expanded Authority** (7)
-- **Pharmacist Fill Reference** (4)
+- **Broad Prescribing + Opioid Limits** (11)
+- **Broad Prescribing, No Opioid Cap** (4)
+- **Prescribe + Anesthesia Permits** (8)
+- **Prescribe + Sedation/Anesthesia Detail** (14)
+- **Basic Prescribing Only** (9)
+- **Vaccine Authority Included** (4)
 
 `scope.definition_quote` — states per tag:
 
-- **Modern Comprehensive (ADA-style)** (14)
-- **Enumerated Acts** (16)
-- **Healing Art / Oral Cavity** (4)
-- **Diagnosis & Treatment (Short Form)** (9)
-- **Holds Out / Represents Self** (7)
+- **ADA Model Language** (15)
+- **Perform/Diagnose List** (15)
+- **Healing Art Definition** (4)
+- **Represents/Holds Out Standard** (8)
+- **Broad Surgical + Body Impact** (6)
+- **Minimal / Circular** (2)
 
 #### Discipline
 
 `licensure.disciplinary_grounds` — items per tag:
 
-- **Fraud & Misrepresentation** (132, 49 states)
-- **Criminal Conviction** (60, 42 states)
-- **Clinical Negligence & Incompetence** (124, 44 states)
-- **Substance Abuse & Impairment** (95, 44 states)
-- **Unlicensed Practice & Delegation** (98, 45 states)
-- **Advertising Violations** (65, 39 states)
-- **Billing & Fee Irregularities** (59, 30 states)
-- **Sexual & Immoral Conduct** (34, 25 states)
-- **Regulatory & Reporting Noncompliance** (287, 49 states)
+- **Fraud and Misrepresentation** (116, 49 states)
+- **Criminal Conviction** (60, 43 states)
+- **Clinical Incompetence or Negligence** (95, 40 states)
+- **Substance Abuse or Impairment** (46, 41 states)
+- **Physical or Mental Incapacity** (44, 35 states)
+- **Unprofessional or Immoral Conduct** (125, 48 states)
+- **Unlicensed Practice or Improper Delegation** (110, 48 states)
+- **Advertising Violations** (62, 38 states)
+- **Billing and Fee Irregularities** (60, 33 states)
+- **Drug Prescribing Violations** (56, 33 states)
+- **Record Keeping and Reporting Failures** (68, 24 states)
+- **Regulatory and Order Noncompliance** (123, 49 states)
+- **Out-of-State Discipline** (37, 35 states)
 
 ### Other bucketed fields
 
@@ -682,127 +690,133 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `profession_specific.advanced_practice_eligible_patient_populations` — items per tag:
 
-- **Long-Term Care and Residential Facilities** (39, 19 states)
-- **Schools and Early Childhood Programs** (26, 17 states)
-- **Correctional Facilities** (10, 6 states)
-- **Community and Public Health Settings** (55, 24 states)
-- **Homebound Individuals** (12, 11 states)
-- **Underserved and Low-Income Populations** (26, 17 states)
-- **Children and Youth in Social Services** (12, 6 states)
-- **Hospitals and Medical Facilities** (24, 15 states)
+- **Long-Term Care Residents** (45, 22 states)
+- **School and Early Childhood** (37, 23 states)
+- **Homebound Individuals** (16, 14 states)
+- **Community and Public Health Clinics** (45, 22 states)
+- **Correctional Facility Inmates** (13, 10 states)
+- **Hospitals and Medical Facilities** (19, 14 states)
+- **Low-Income and Underserved Populations** (17, 12 states)
+- **Developmental Disability Facilities** (9, 8 states)
+- **Other Approved Settings** (34, 18 states)
 
 #### Advisory board authority
 
 `licensure.advisory_board.authority` — states per tag:
 
-- **Full Regulatory & Disciplinary** (1)
-- **Advisory Only** (1)
+- **Discipline & Rulemaking** (1)
+- **Hygiene Licensing & Discipline** (1)
 
 #### Advisory board name
 
 `licensure.advisory_board.name` — states per tag:
 
 - **Dental Commission** (1)
-- **Specialty Committee** (1)
+- **Dental Hygiene Advisory** (1)
 
 #### Continuing education topical requirements
 
 `licensure.continuing_education.topical_requirements` — states per tag:
 
-- **Opioid/Controlled Substances** (10)
-- **CPR/Emergency Procedures** (5)
-- **Ethics/Jurisprudence** (2)
-- **Broad Clinical Topics** (4)
-- **Mixed Mandatory Topics** (5)
+- **Opioid/Controlled Substances** (9)
+- **CPR/Emergency Readiness** (4)
+- **Ethics & Law** (2)
+- **Broad Multi-Topic Mandate** (7)
+- **Clinical Hours Focus** (1)
+- **Infection Control & Safety** (0)
 
 #### Dental hygienist supervision levels
 
 `profession_specific.dental_hygienist_supervision_levels` — items per tag:
 
-- **Direct Supervision** (45, 42 states)
-- **Indirect Supervision** (11, 11 states)
-- **General Supervision** (42, 40 states)
-- **Public Health Supervision** (9, 9 states)
-- **Collaborative Practice** (4, 4 states)
-- **Unsupervised Practice** (3, 3 states)
-- **Other Supervision Type** (8, 7 states)
+- **Direct Supervision** (48, 47 states)
+- **Indirect Supervision** (17, 17 states)
+- **General Supervision** (46, 46 states)
+- **Public Health Supervision** (5, 5 states)
+- **Collaborative/Advanced Practice** (3, 3 states)
+- **Telehealth/Remote Supervision** (3, 3 states)
+- **Unsupervised Practice** (6, 6 states)
 
 #### Dental therapist practice setting restrictions
 
 `profession_specific.dental_therapist_practice_setting_restrictions` — items per tag:
 
-- **Federally Qualified Health Centers** (9, 4 states)
-- **Tribal and Indian Health Settings** (5, 3 states)
+- **Federally Qualified Health Centers** (9, 5 states)
+- **Tribal & Indian Health Facilities** (5, 4 states)
 - **Hospital or Medical Facility** (5, 4 states)
-- **Public Health and Government Agency** (6, 5 states)
-- **School-Based Settings** (5, 4 states)
-- **Nonprofit and Charitable Organizations** (6, 3 states)
-- **Underserved Population Clinics** (6, 3 states)
-- **Correctional Facilities** (2, 2 states)
-- **Agreement-Defined Settings** (6, 5 states)
+- **School or Educational Setting** (7, 6 states)
+- **Long-Term & Residential Care** (5, 4 states)
+- **Nonprofit & Community Clinic** (8, 5 states)
+- **Public Health Department** (3, 3 states)
+- **Correctional Facility** (2, 2 states)
+- **Mobile or Underserved Setting** (8, 5 states)
+- **Agreement-Based Setting** (7, 6 states)
 
 #### Education accrediting body
 
 `licensure.education.accrediting_body` — states per tag:
 
-- **ADA / CODA (full name)** (34)
+- **CODA / ADA (full name)** (34)
 - **CODA only** (9)
 - **ADA only** (2)
-- **Board-recognized school** (2)
-- **Federal DOE standard** (1)
+- **Board-Approved School** (2)
+- **Any Recognized Accreditor** (1)
 
 #### National association
 
 `licensure.national_association` — states per tag:
 
-- **ADA Only** (32)
-- **ADA + CODA** (9)
-- **CODA / ADA (CODA-emphasis)** (4)
-- **AADB** (1)
+- **ADA Only** (29)
+- **ADA + CODA** (16)
+- **CODA Only** (2)
 - **State Association** (1)
+- **ADA + JCDNE** (1)
 
 #### National certification
 
 `licensure.national_certification` — states per tag:
 
-- **JCNDE / NBDE** (10)
-- **ADEX** (1)
-- **ADEX + JCNDE** (2)
-- **ADA Specialty Board** (1)
-- **ABOMS (Oral Surgery)** (2)
+- **JCNDE** (7)
+- **NBDE / NBDE-affiliated** (3)
+- **ADEX** (2)
+- **ABOMS** (3)
+- **Multiple Bodies** (2)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
-- **Active Practice + Years** (14)
-- **Good Standing + Equivalency** (12)
-- **Credentials + Exam Required** (16)
+- **Active Practice + Good Standing** (29)
+- **Equivalency Standards Only** (8)
+- **Jurisprudence Exam Required** (3)
+- **Reciprocity Prohibited / Limited** (1)
+- **Military / Special Pathway Only** (3)
 - **Compact / Portability Program** (3)
-- **Restricted / Conditional** (4)
-- **Minimal Requirements** (1)
+- **Conditional / Unclear** (3)
 
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
-- **Dept of Health** (6)
-- **Dept of Commerce/Consumer Affairs** (4)
-- **Professional Licensing Agency** (8)
-- **Labor & Regulation Dept** (4)
-- **Secretary of State Office** (1)
+- **Dept of Health** (9)
+- **Licensing & Regulatory Affairs** (5)
+- **Consumer Affairs** (3)
+- **Commerce Dept** (2)
+- **Labor & Industry** (2)
+- **Professional Regulation Office** (3)
 
 #### Sedation anesthesia permit types
 
 `profession_specific.sedation_anesthesia_permit_types` — items per tag:
 
-- **General Anesthesia** (31, 31 states)
-- **Deep Sedation** (17, 17 states)
-- **Moderate Sedation** (36, 30 states)
-- **Minimal Sedation** (9, 9 states)
-- **Nitrous Oxide Analgesia** (3, 3 states)
-- **Pediatric Endorsement** (3, 2 states)
-- **Unspecified Credential Type** (13, 10 states)
+- **General Anesthesia** (33, 33 states)
+- **Deep Sedation** (22, 22 states)
+- **Moderate Sedation** (45, 36 states)
+- **Minimal Sedation** (10, 10 states)
+- **Nitrous Oxide / Inhalation Analgesia** (12, 12 states)
+- **Local Anesthesia** (10, 9 states)
+- **Facility / Office Permit** (4, 4 states)
+- **Specialty or Other Permit** (12, 10 states)
 
 ## Dietetics
 
@@ -1066,84 +1080,82 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.degree_required` — states per tag:
 
-- **No Formal Degree** (1)
-- **HS / Basic Schooling** (2)
-- **Apprenticeship / Trade Training** (5)
-- **College Coursework (Partial Credit)** (3)
-- **Degree as Full Alternative** (4)
+- **No Degree Required** (2)
+- **Apprenticeship / Hours Only** (7)
+- **Vocational / Trade School** (1)
+- **College Degree as Alt Path** (5)
+- **Multiple Tiered Pathways** (4)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **Journeyman Experience** (6)
-- **Supervised Work Experience** (4)
-- **Apprenticeship** (3)
-- **Apprenticeship or Field Experience** (8)
-- **Management/Supervisory Experience** (3)
-- **General Trade Experience** (6)
+- **Journeyman Experience** (10)
+- **Apprenticeship** (4)
+- **On-the-Job / Practical** (8)
+- **Supervised Experience** (3)
+- **Management / Supervisory** (1)
+- **General Trade Experience** (5)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
 - **~1 Year** (2)
-- **2 Years** (2)
-- **3–4 Years** (4)
-- **5–6 Years** (3)
-- **7–8 Years / 8000 hrs** (2)
-- **Multi-Tier (varies by class)** (17)
+- **~2 Years** (3)
+- **~3–4 Years** (4)
+- **~4–6 Years (tiered)** (11)
+- **~8000 hrs / 4 Yrs** (2)
+- **Multi-tier Hours** (9)
 
 #### Licensing Authority
 
 `licensure.issuing_authority` — states per tag:
 
-- **Dedicated Electrician Board** (15)
-- **General Contractor Board** (6)
-- **Construction Industry Board** (4)
-- **Dept of Labor** (3)
-- **Broad Licensing Agency** (10)
+- **Electrical Examining Board** (14)
+- **Electrical Contractors Board** (5)
+- **General Contractors Board** (11)
+- **Dept of Labor / Industry** (4)
+- **General Licensing Agency** (9)
 
 `licensure.regulatory_authority.name` — states per tag:
 
-- **Dedicated Electrical Board** (21)
-- **General Contractors Board** (6)
-- **Construction Industry Division** (4)
-- **Broad Commerce/Consumer Dept** (4)
-- **Occupational Licensing Div** (3)
+- **Electrical-Specific Board** (21)
+- **General Contractors Board** (7)
+- **State Dept / Division** (11)
+- **Construction Industry Board** (2)
+- **Multi-Trade Board** (2)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **Install & Repair Only** (2)
-- **Install, Repair & Maintain** (14)
-- **Install, Repair, Maintain & Plan** (4)
-- **Install, Repair, Maintain & Supervise** (4)
-- **Broad Scope + Specialty Systems** (5)
-- **Construction Trade Framing** (5)
+- **Install/Repair/Maintain** (5)
+- **Install/Alter/Repair/Maintain** (17)
+- **Install + Plan/Supervise** (8)
+- **Install + Plan/Supervise + Maintain** (3)
+- **Broad Scope (Contracting Types)** (1)
+- **Extended Scope (Specialty Systems)** (5)
 
 `scope.definition_quote` — states per tag:
 
-- **Install/Repair Wiring** (12)
-- **Install/Repair + Design/Supervise** (7)
-- **Broad Electrical Systems** (8)
-- **Specialty Contractor (Generic)** (3)
-- **Multi-Trade / Generic** (2)
-- **Low-Voltage Included** (2)
-- **Contractor Business Scope** (4)
+- **Electrical Work Defined** (10)
+- **Electrical Installation Defined** (7)
+- **Electrical Contracting Defined** (10)
+- **Person/Role Defined** (11)
+- **General Contractor Catch-All** (4)
 
 #### Discipline
 
 `licensure.disciplinary_grounds` — items per tag:
 
-- **Fraud & Misrepresentation** (76, 36 states)
-- **Incompetence & Substandard Work** (46, 31 states)
-- **Criminal Conviction** (18, 16 states)
-- **Statutory & Code Violations** (65, 38 states)
-- **Unlicensed Practice & License Misuse** (77, 31 states)
-- **Contract & Financial Misconduct** (28, 11 states)
-- **Insurance & Bond Failures** (13, 11 states)
-- **Administrative & Procedural Violations** (78, 34 states)
-- **Out-of-State Discipline** (7, 7 states)
+- **Fraud or Misrepresentation** (61, 36 states)
+- **Incompetence or Negligence** (35, 26 states)
+- **Criminal Conviction** (15, 14 states)
+- **Unlicensed Practice or License Misuse** (76, 29 states)
+- **Regulatory or Code Violation** (82, 37 states)
+- **Contract or Financial Misconduct** (22, 9 states)
+- **Advertising Violations** (8, 8 states)
+- **Insurance or Bond Deficiency** (11, 9 states)
+- **Administrative or Procedural Failure** (77, 31 states)
 
 ### Other bucketed fields
 
@@ -1151,138 +1163,139 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.advisory_board.authority` — states per tag:
 
-- **Full Rulemaking & Enforcement** (1)
-- **Broad Advisory & Exams** (2)
-- **Advisory & Policy** (1)
-- **Narrow Consultation** (1)
+- **Advise & Administer Exams** (1)
+- **Advise Only** (1)
 
 #### Advisory board name
 
 `licensure.advisory_board.name` — states per tag:
 
-- **Dedicated Electrical Board** (1)
 - **Examiners Committee** (1)
-- **Safety & Licensing Advisory** (1)
-- **Combined Trades Board** (1)
+- **Safety & Licensing Board** (1)
 
 #### Apprentice supervision ratio
 
 `profession_specific.apprentice_supervision_ratio` — states per tag:
 
-- **1:1 Ratio** (2)
-- **1:2 Ratio** (2)
-- **1:3 Ratio** (5)
-- **Higher / Context-Dependent** (4)
-- **Set by Authority** (1)
+- **1-to-1** (2)
+- **1-to-2** (1)
+- **1-to-3** (6)
+- **Tiered / Context-Dependent** (5)
+- **Board-Set / Unspecified** (1)
 
 #### Approved continuing education providers
 
 `profession_specific.approved_continuing_education_providers` — items per tag:
 
-- **Named Trade Associations** (11, 4 states)
+- **Named Trade Associations** (17, 6 states)
 - **Academic Institutions** (5, 5 states)
-- **Apprenticeship Programs** (2, 2 states)
-- **Government Agencies** (3, 3 states)
-- **Board-Approved Providers** (6, 6 states)
-- **Specialized Training Programs** (4, 4 states)
+- **Government Agency Programs** (4, 4 states)
+- **Board Approved Providers** (10, 9 states)
+- **Labor Union Programs** (2, 2 states)
+- **Specialty Training Programs** (3, 3 states)
+- **Catch-All Approved Provider** (3, 3 states)
 
 #### Continuing education topical requirements
 
 `licensure.continuing_education.topical_requirements` — states per tag:
 
-- **NEC / Code Updates Only** (7)
-- **NEC + Broad Technical Topics** (3)
-- **NEC + Business & Safety Mix** (2)
-- **Broad Technical List** (2)
-- **Minimal / General** (2)
+- **NEC Only** (5)
+- **NEC + Broad Electrical Topics** (4)
+- **NEC + Code + Business/Safety Mix** (4)
+- **Code + Industry Topics** (2)
+- **General Electrical Subjects** (2)
 
 #### Education accrediting body
 
 `licensure.education.accrediting_body` — states per tag:
 
-- **State Board** (1)
-- **Named State Institution** (1)
-- **Generic Accredited College** (3)
-- **Federal Agency** (1)
+- **Accredited College/University** (6)
+- **State Apprenticeship Body** (1)
+- **Federal Apprenticeship Body** (1)
+- **State Career/Tech Board** (1)
+- **Multiple / Flexible** (3)
+- **State-Specific Institution** (1)
 
 #### License tiers
 
 `profession_specific.license_tiers` — items per tag:
 
-- **Apprentice / Trainee** (31, 20 states)
-- **Journeyman / Wireman** (43, 32 states)
-- **Master Electrician** (28, 23 states)
-- **Electrical Contractor** (40, 30 states)
-- **Residential Scope** (21, 14 states)
-- **Specialty / Limited Scope** (79, 26 states)
-- **Inspector / Administrator** (2, 2 states)
-- **General / Engineering Contractor** (9, 4 states)
+- **Apprentice / Trainee** (32, 21 states)
+- **Journeyman Electrician** (42, 30 states)
+- **Master Electrician** (26, 22 states)
+- **Electrical Contractor** (51, 34 states)
+- **Residential License** (21, 15 states)
+- **Specialty / Limited Scope** (78, 23 states)
+- **Administrator / Supervisor** (5, 3 states)
+- **Inspector / Qualifier** (4, 3 states)
 
 #### National association
 
 `licensure.national_association` — states per tag:
 
-- **Fire/Safety Body** (1)
-- **Contractor Associations** (1)
-- **Multi-Association** (1)
+- **Standards Body** (1)
+- **Fire & Safety Org** (1)
+- **Contractor & Labor Coalition** (1)
+- **Regional Contractor Council** (1)
 
 #### Qualifier license requirement by contractor type
 
 `profession_specific.qualifier_license_requirement_by_contractor_type` — items per tag:
 
-- **General Electrical Contractor** (22, 20 states)
-- **Specialty Contractor** (15, 12 states)
-- **Residential Contractor** (5, 5 states)
-- **Low Voltage / Power Limited** (3, 3 states)
-- **Business Entity Qualifier** (5, 2 states)
-- **License Class Tier** (4, 2 states)
-- **Experience / Exam Requirement** (3, 2 states)
+- **Master Electrician Required** (18, 16 states)
+- **Journeyman Electrician Required** (2, 2 states)
+- **Specialty License Required** (14, 10 states)
+- **Qualifying Party Exam Required** (14, 7 states)
+- **Entity Structure Qualifier Rule** (11, 8 states)
+- **Experience Requirement** (3, 1 states)
+- **Scope Restriction by License Class** (4, 2 states)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
-- **Mutual Agreement Required** (16)
-- **Equivalent Standards Only** (9)
-- **Endorsement / Credential Review** (4)
-- **Exam Waiver + Equivalency** (6)
-- **Universal Recognition** (2)
+- **Mutual Agreement Required** (8)
+- **Equivalent Standards Only** (7)
+- **Equivalent + Experience Threshold** (10)
+- **Exam Waiver w/ Conditions** (7)
+- **Formal Written Agreement** (6)
+- **Discretionary / Case-by-Case** (2)
 
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
 - **Labor & Industry** (6)
-- **Licensing & Regulation** (6)
+- **Professional Licensing** (10)
 - **Consumer Affairs** (3)
-- **Professional Regulation** (4)
-- **Commerce Dept** (2)
-- **Public Safety / Other** (4)
+- **Commerce** (3)
+- **Public Safety / Construction** (4)
+- **Independent Division** (2)
 
 #### Residential project definition
 
 `profession_specific.residential_project_definition` — states per tag:
 
-- **1-4 Units / Low Rise** (5)
-- **1-2 Units Only** (1)
-- **Single Family Only** (2)
-- **Stories / Floors Cap** (4)
-- **Wiring / Technical Spec** (1)
-- **Broad Residential Scope** (1)
+- **Single-Family Only** (1)
+- **1–2 Family Dwellings** (3)
+- **Up to 4 Units / Low-Rise** (3)
+- **Multi-Unit with Story Limit** (6)
+- **Technical / Wiring-Based** (2)
+- **Broad Residential Scope** (4)
 
 #### Scope exclusions
 
 `profession_specific.scope_exclusions` — items per tag:
 
-- **Utility & Infrastructure Work** (68, 40 states)
-- **Telecom & Low Voltage Systems** (65, 32 states)
-- **Owner/DIY Work** (84, 38 states)
-- **Industrial & Manufacturing Facilities** (51, 29 states)
-- **Other Licensed Trades** (109, 39 states)
-- **Alarm & Security Systems** (17, 15 states)
-- **Government & Public Agencies** (32, 24 states)
-- **Transportation & Mobile Equipment** (20, 15 states)
-- **Educational & Nonprofit Programs** (16, 11 states)
+- **Utility & Power Distribution** (67, 39 states)
+- **Telecom, Cable & Broadcast** (45, 27 states)
+- **Homeowner & Owner-Occupant** (54, 32 states)
+- **In-House Employer Maintenance** (61, 30 states)
+- **Low Voltage & Signal Systems** (49, 27 states)
+- **Other Licensed Trade Carve-Out** (129, 36 states)
+- **Transportation & Mobile Equipment** (22, 15 states)
+- **Agricultural & Farm Use** (13, 13 states)
+- **Government & Federal Work** (35, 25 states)
 
 ## Electrology
 
@@ -1437,78 +1450,80 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 `licensure.education.degree_required` — states per tag:
 
 - **No Degree Required** (2)
-- **Trade/Vocational Program** (2)
-- **Bachelor's Degree Option** (2)
-- **Board-Defined Requirements** (1)
+- **Degree Substitutes for Experience** (2)
+- **Vocational/Trade Program** (2)
+- **Board-Defined Standards** (3)
+- **Minimal Coursework** (1)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **General Trade Work** (5)
-- **Supervised/Directed Work** (2)
-- **Apprenticeship** (3)
-- **Contracting Employment** (4)
-- **Journeyman/Foreman Level** (1)
+- **General Trade Work** (6)
+- **Supervised/Apprenticeship** (4)
+- **Journeyperson/License Path** (2)
+- **Classification-Specific Work** (4)
+- **Board-Defined Rules** (1)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
 - **~1–2 Years** (4)
-- **3 Years** (2)
-- **4 Years** (4)
-- **5 Years** (1)
-- **Tiered / Multiple Paths** (4)
+- **~3 Years / 3000–6000 hrs** (2)
+- **~4 Years** (4)
+- **~5 Years** (1)
+- **Tiered by License Type** (5)
 
 #### Licensing Authority
 
 `licensure.issuing_authority` — states per tag:
 
-- **HVAC-Specific Board** (4)
-- **General Contractors Board** (6)
-- **Construction Industry Board** (5)
-- **Dept of Labor/Licensing** (8)
-- **Plumbing & Mechanical Board** (2)
+- **HVAC-Specific Board** (7)
+- **General Contractors Board** (14)
+- **Plumbing/Mechanical Board** (3)
+- **Labor/Licensing Dept** (7)
+- **Commerce/Regulation Dept** (3)
+- **Office of Prof. Licensure** (5)
 
 `licensure.regulatory_authority.name` — states per tag:
 
-- **Dedicated HVAC Board** (5)
-- **Plumbing & Mechanical Board** (3)
-- **General Contractors Board** (6)
-- **Construction Industry Board** (5)
-- **State Dept / Agency** (6)
+- **HVAC-Specific Board** (8)
+- **General Contractors Board** (11)
+- **Plumbing & Mechanical Board** (4)
+- **Dept of Labor / Licensing** (12)
+- **Construction Industry Board** (4)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **Install & Repair Only** (3)
-- **Install, Maintain & Repair** (7)
-- **Full Service + Design** (1)
-- **Full Service + Design + Alteration** (9)
-- **Broad Mechanical Scope** (2)
-- **System-Type Enumerated** (3)
+- **Install + Repair + Maintain** (5)
+- **Install + Repair + Alter** (6)
+- **Full Lifecycle (Design–Demo)** (9)
+- **Install + Service Only** (2)
+- **Broad Construction + Demo** (4)
+- **Inspect + Test + Restore** (1)
+- **Multi-Trade Scope** (2)
 
 `scope.definition_quote` — states per tag:
 
-- **HVAC-Specific Scope** (4)
-- **Mechanical/Multi-Trade Scope** (9)
-- **Specialty Contractor (Generic)** (2)
-- **Design+Install+Maintain** (6)
-- **Install+Repair Only** (4)
+- **HVAC-Specific Definition** (17)
+- **Broad Mechanical/Specialty** (7)
+- **General Contractor Definition** (5)
+- **Work Type List Only** (4)
+- **License/Registration Focus** (4)
 
 #### Discipline
 
 `licensure.disciplinary_grounds` — items per tag:
 
-- **Fraud & Misrepresentation** (88, 35 states)
-- **Incompetence & Negligence** (35, 23 states)
-- **Unlicensed & Unauthorized Practice** (67, 30 states)
-- **Contract & Project Failures** (28, 14 states)
-- **Financial Misconduct** (25, 15 states)
-- **Regulatory & Code Violations** (68, 31 states)
-- **Criminal Conviction** (15, 13 states)
-- **Insurance & Bond Deficiency** (12, 11 states)
-- **Administrative Non-Compliance** (68, 27 states)
+- **Fraud or Misrepresentation** (75, 31 states)
+- **Incompetence or Negligence** (36, 23 states)
+- **Criminal Conviction** (13, 11 states)
+- **Contract or Financial Violations** (43, 17 states)
+- **Unlicensed or Unauthorized Practice** (59, 28 states)
+- **Regulatory or Permit Violations** (67, 28 states)
+- **Insurance or Bond Failures** (12, 10 states)
+- **Administrative Noncompliance** (67, 26 states)
 
 ### Other bucketed fields
 
@@ -1516,8 +1531,9 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.advisory_board.authority` — states per tag:
 
-- **Advise & Exam Development** (1)
-- **Advise Only** (1)
+- **Full Advisory + Exams** (1)
+- **Advisory on Rules Only** (1)
+- **Advisory on Implementation** (1)
 
 #### Advisory board name
 
@@ -1525,96 +1541,94 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 - **Mechanical Examiners Committee** (1)
 - **AC & Refrigeration Board** (1)
+- **Residential Contractors Advisors** (1)
 
 #### Continuing education topical requirements
 
 `licensure.continuing_education.topical_requirements` — states per tag:
 
-- **Code & Regulations** (2)
 - **Refrigerant/Environmental** (1)
-- **Broad Industry Topics** (2)
-- **Core HVAC Technical** (1)
-- **Board-Defined Requirements** (1)
-
-#### Education accrediting body
-
-`licensure.education.accrediting_body` — states per tag:
-
-- **Federal + Regional Accreditor** (1)
-- **State Board / Equivalent** (1)
+- **Code & Technical Hours** (1)
+- **Business & Safety Mix** (3)
+- **Trade-Specific Focus** (1)
+- **Board-Defined Curriculum** (1)
 
 #### Exams
 
 `licensure.exams` — states per tag:
 
-- **State Board Exam** (11)
-- **State Dept Exam** (3)
-- **Two-Part Exam** (3)
-- **Multi-Level Exam** (3)
-- **Third-Party Approved** (3)
+- **State-Administered Required** (14)
+- **Board-Approved Required** (3)
+- **Third-Party/Testing Service** (3)
+- **Business & Law Focus** (3)
+- **Multiple Exams Required** (6)
+- **Voluntary Only** (1)
 
 #### Financial responsibility demonstration methods
 
 `profession_specific.financial_responsibility_demonstration_methods` — items per tag:
 
 - **Surety Bond** (18, 17 states)
-- **Cash or Deposit** (7, 6 states)
-- **Letter of Credit** (3, 3 states)
-- **Liability Insurance** (13, 10 states)
-- **Workers Compensation Insurance** (3, 2 states)
-- **Financial Statement** (7, 4 states)
-- **Credit Assessment** (2, 1 states)
-- **Other Compliance** (3, 3 states)
+- **Cash or Deposit Instrument** (6, 4 states)
+- **General Liability Insurance** (16, 16 states)
+- **Workers Compensation Insurance** (6, 6 states)
+- **Net Worth or Financial Statement** (5, 5 states)
+- **Credit or Standing Verification** (2, 2 states)
+- **Other Indemnity or Instrument** (4, 3 states)
 
 #### National certification
 
 `licensure.national_certification` — states per tag:
 
-- **EPA Certification** (1)
+- **EPA Refrigerant Cert** (1)
 - **NICET Certification** (1)
 
 #### Qualifier license type required
 
 `profession_specific.qualifier_license_type_required` — items per tag:
 
-- **Master HVACR License** (8, 5 states)
+- **Master HVACR License** (6, 5 states)
 - **Mechanical Contractor License** (8, 8 states)
-- **HVAC Contractor License** (10, 7 states)
-- **Fuel Gas License** (5, 2 states)
-- **Specialty Trade License** (6, 3 states)
-- **Statutory Reference Only** (2, 2 states)
+- **AC Contractor License (Classed)** (5, 2 states)
+- **Conditioned Air Contractor (Classed)** (2, 1 states)
+- **Heating License (Grouped)** (3, 1 states)
+- **Fuel Gas License** (5, 1 states)
+- **Specialty Trade License** (2, 2 states)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
+- **Substantially Equivalent Standards** (10)
 - **Mutual Reciprocity Required** (6)
-- **Substantial Equivalence Only** (6)
-- **Endorsement / Recognition** (5)
-- **Emergency / Temporary Only** (2)
-- **Formal Agreement Required** (3)
+- **Exam Waiver + Good Standing** (5)
+- **Endorsement / Experience Focus** (3)
+- **Emergency / Limited Scope** (2)
+- **Discretionary / Case-by-Case** (3)
 
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
-- **Labor & Licensing** (3)
+- **Labor & Licensing Dept** (5)
 - **Commerce Dept** (2)
-- **Consumer Affairs** (3)
-- **Professional Regulation** (8)
-- **Other State Office** (2)
+- **Consumer Affairs Dept** (3)
+- **Professional Regulation Div** (5)
+- **Occupational Licensure Office** (3)
+- **Other Agency** (3)
 
 #### System components included
 
 `profession_specific.system_components_included` — items per tag:
 
-- **Heating Systems** (47, 27 states)
-- **Cooling and Refrigeration** (43, 24 states)
-- **Ventilation and Air Distribution** (49, 22 states)
-- **Piping and Fluid Systems** (31, 15 states)
-- **Fuel and Gas Supply** (22, 13 states)
-- **Controls and Electrical** (15, 9 states)
-- **Auxiliary and Support Equipment** (20, 11 states)
+- **Heating Systems** (32, 18 states)
+- **Cooling and Refrigeration** (34, 16 states)
+- **Ventilation and Exhaust** (26, 14 states)
+- **Ductwork and Air Distribution** (17, 9 states)
+- **Piping and Hydronic Systems** (26, 12 states)
+- **Gas and Fuel Supply** (16, 13 states)
+- **Controls and Accessories** (26, 11 states)
+- **Boilers and Pressure Vessels** (7, 5 states)
 
 ## Insurance Navigator
 
@@ -1720,227 +1734,231 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.degree_required` — states per tag:
 
-- **MD or DO (any approved)** (17)
-- **MD or DO (accredited only)** (12)
-- **MD only** (4)
-- **Graduate of Med School** (11)
-- **Foreign School Provisions** (5)
+- **MD/DO Degree Named** (11)
+- **Graduate of Accredited School** (14)
+- **Named Accreditor (LCME/AOA)** (16)
+- **Board-Approved School** (5)
+- **Diploma + Coursework Details** (4)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **Residency Only** (17)
-- **Residency or Internship** (12)
-- **Residency, Internship, or Fellowship** (5)
-- **General Postgrad Training** (12)
+- **Residency Only** (20)
+- **Internship or Residency** (8)
+- **Residency or Fellowship** (5)
+- **Broad Postgraduate Training** (11)
+- **Accredited Program Required** (4)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
-- **1 Year** (9)
-- **2 Years** (9)
-- **3 Years** (2)
-- **1–2 Years (Tiered)** (10)
-- **1–3 Years (Tiered)** (6)
-- **Board Discretion** (6)
+- **1 Year (Domestic)** (10)
+- **2 Years (Domestic)** (8)
+- **1 Yr Domestic / 2 Yr Foreign** (9)
+- **1 Yr Domestic / 3 Yr Foreign** (5)
+- **2 Yr Domestic / 3 Yr Foreign** (2)
+- **Tiered by Grad Date** (3)
+- **Board Discretion** (3)
 
 #### Licensing Authority
 
 `licensure.issuing_authority` — states per tag:
 
-- **State Medical Board** (19)
-- **Board of Medical Examiners** (6)
-- **Board of Medical Licensure** (7)
-- **Healing Arts Board** (2)
-- **Dept / Agency Umbrella** (9)
-- **Composite / Other Board** (7)
+- **Medical Board** (18)
+- **Board of Examiners** (8)
+- **Board of Licensure** (8)
+- **Board of Practice/Arts** (8)
+- **State Health Dept** (6)
+- **Multi-Agency / Hybrid** (2)
 
 `licensure.regulatory_authority.name` — states per tag:
 
-- **Medical Board** (23)
-- **Board of Examiners** (8)
-- **Board of Licensure** (9)
-- **Board of Practice** (2)
-- **Healing Arts Board** (2)
-- **Dept / Commission** (4)
-- **Multi-Profession Board** (2)
+- **Medical Board** (24)
+- **Board of Medical Examiners** (7)
+- **Board of Medical Licensure** (9)
+- **Board of Healing Arts / Practice** (4)
+- **Dept / Office (Non-Board)** (3)
+- **Education Dept / Regents** (1)
+- **Composite / Multi-Profession Board** (2)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **Core Four (Dx/Tx/Rx/Sx)** (14)
-- **Broad + Enumerated Methods** (16)
-- **General Medical/Surgical** (4)
-- **Extended Scope (Telehealth/Tech)** (4)
-- **OB/Pregnancy Explicit** (8)
+- **Core Four** (13)
+- **Core + Telehealth** (4)
+- **Core + Obstetrics/Midwifery** (7)
+- **Broad Enumerated** (20)
+- **Catch-All Phrase** (6)
 
 `scope.drug_authority` — states per tag:
 
-- **Broad Authority** (11)
-- **Broad + Opioid Limits** (7)
-- **Broad + Delegation** (4)
-- **Broad + Procedural Rules** (10)
-- **Basic Prescribing Only** (10)
+- **Broad Authority** (21)
+- **Opioid Limits** (10)
+- **Telehealth Restrictions** (8)
+- **Dispense Restrictions** (5)
+- **Multiple Restrictions** (6)
 
 `scope.definition_quote` — states per tag:
 
-- **Diagnose & Treat Core** (12)
-- **Enumerated Acts List** (18)
-- **Holding Out + Acts** (7)
-- **Title Use Included** (3)
-- **Narrow / Minimal** (7)
-- **Exam-Based Definition** (1)
+- **Diagnose & Treat (Concise)** (19)
+- **Enumerate Acts (Detailed List)** (14)
+- **Holding Out + Acts** (8)
+- **Prescribe/Recommend Focus** (2)
+- **Broad/Conceptual** (5)
+- **Title/Credential Based** (2)
 
 #### Discipline
 
 `licensure.disciplinary_grounds` — items per tag:
 
-- **Fraud & Misrepresentation** (239, 50 states)
-- **Criminal Conviction** (74, 44 states)
-- **Clinical Incompetence & Negligence** (114, 46 states)
-- **Substance Abuse & Impairment** (97, 46 states)
-- **Improper Prescribing & Drug Violations** (95, 39 states)
-- **Sexual Misconduct** (34, 24 states)
-- **Unprofessional & Unethical Conduct** (197, 47 states)
-- **Regulatory & Reporting Violations** (353, 50 states)
-- **Supervision & Delegation Failures** (79, 41 states)
+- **Fraud & Misrepresentation** (196, 49 states)
+- **Criminal Conviction** (77, 45 states)
+- **Clinical Incompetence & Negligence** (132, 46 states)
+- **Impairment** (102, 45 states)
+- **Controlled Substance Violations** (86, 41 states)
+- **Sexual Misconduct** (32, 23 states)
+- **Unprofessional & Unethical Conduct** (202, 49 states)
+- **Billing & Fee Violations** (63, 27 states)
+- **Regulatory & Reporting Failures** (318, 50 states)
 
 ### Other bucketed fields
+
+#### Advisory board authority
+
+`licensure.advisory_board.authority` — states per tag:
+
+- **Non-Binding Advisory** (1)
+- **Adjudicatory Power** (1)
+- **Nominates to Governor** (1)
+
+#### Advisory board name
+
+`licensure.advisory_board.name` — states per tag:
+
+- **State Board of Medical Examiners** (1)
+- **State Medical Examining Board** (1)
+- **Review Panel** (1)
 
 #### Continuing education topical requirements
 
 `licensure.continuing_education.topical_requirements` — states per tag:
 
-- **Opioids / Controlled Substances** (10)
-- **Broad Multi-Topic Mandate** (6)
-- **Specialty-Specific Topics** (3)
-- **Abuse & Violence** (1)
-- **Ethics / Risk / Safety** (3)
-- **Patient Population Focus** (4)
+- **Opioids / Controlled Substances** (8)
+- **Broad Multi-Topic Mandate** (7)
+- **Abuse / Violence / Safety** (2)
+- **Equity / Cultural Competency** (0)
+- **Specialty / Population-Specific** (5)
+- **Board-Discretion / Flexible** (2)
 
 #### Education accrediting body
 
 `licensure.education.accrediting_body` — states per tag:
 
-- **LCME Only** (3)
-- **LCME + AOA** (10)
-- **LCME + AOA + Canadian/Foreign** (7)
-- **AMA / AAMC Named Bodies** (7)
-- **Board Discretion** (14)
-- **Federal/WHO Reference** (4)
-
-#### Exams
-
-`licensure.exams` — states per tag:
-
-- **USMLE / COMLEX Primary** (10)
-- **Multi-Exam Menu** (14)
-- **State Board Exam** (7)
-- **Board-Approved Flexible** (16)
-- **USMLE + State Supplement** (3)
+- **LCME + AOA/COCA** (14)
+- **LCME Only** (2)
+- **AMA / AAMC Named** (6)
+- **Board Discretion** (18)
+- **Federal/Dept of Ed** (2)
+- **Multi-Body + Foreign** (7)
 
 #### Foreign medical graduate requirements
 
 `profession_specific.foreign_medical_graduate_requirements` — states per tag:
 
-- **ECFMG + Extended Residency** (13)
-- **ECFMG Only / Minimal** (8)
-- **ECFMG + Standard Residency** (13)
-- **Residency-Focused / No ECFMG Specified** (3)
-- **Special Pathway / Limited License** (7)
-- **Board Discretion / Flexible** (5)
+- **ECFMG + Postgrad Training** (24)
+- **ECFMG + Extended Postgrad** (11)
+- **ECFMG Only / Minimal Add-ons** (6)
+- **Provisional/Limited Pathway** (7)
+- **Employer-Sponsored Pathway** (1)
+- **Board Discretion** (1)
 
 #### License status types
 
 `profession_specific.license_status_types` — items per tag:
 
-- **Active Full License** (39, 36 states)
-- **Inactive / Retired Status** (42, 28 states)
-- **Temporary / Provisional License** (47, 29 states)
-- **Training / Resident Permit** (24, 23 states)
-- **Limited / Restricted License** (39, 25 states)
-- **Teaching / Faculty License** (15, 12 states)
-- **Administrative Medicine License** (11, 11 states)
-- **Volunteer / Pro Bono License** (14, 13 states)
-- **Interstate / Compact License** (5, 5 states)
+- **Active Full License** (27, 25 states)
+- **Inactive / Retired** (59, 41 states)
+- **Temporary / Provisional** (71, 43 states)
+- **Training / Postgraduate** (48, 39 states)
+- **Limited / Restricted / Probationary** (63, 40 states)
+- **Disciplinary / Adverse** (44, 18 states)
+- **Specialty / Special Purpose** (87, 40 states)
+- **Interstate Compact / Endorsement** (21, 19 states)
 
 #### National association
 
 `licensure.national_association` — states per tag:
 
-- **AMA Only** (3)
-- **AMA + AOA** (6)
-- **AOA Only** (2)
-- **Accreditation Body** (3)
-- **Board/Specialty Focus** (1)
-- **Multi-Org Broad** (6)
-- **State/Regional Only** (2)
+- **AMA / AOA Only** (16)
+- **ACGME + AOA** (7)
+- **AMA + ACGME Mix** (5)
+- **ABMS Included** (5)
+- **FSMB / Exam Boards** (2)
+- **State Society Only** (2)
+- **Broad Multi-Org** (4)
 
 #### National certification
 
 `licensure.national_certification` — states per tag:
 
-- **NBME / Osteopathic Boards** (4)
-- **ECFMG Only** (8)
-- **ABMS / Specialty Boards** (3)
-- **Multi-Body (NBME + ECFMG)** (1)
-- **Multi-Body (ABMS + Canadian)** (3)
+- **NBME / NBOME** (7)
+- **ABMS / AOA Specialty** (8)
+- **ECFMG Only** (11)
+- **Mixed Boards** (9)
 
 #### Opioid prescribing limits
 
 `profession_specific.opioid_prescribing_limits` — states per tag:
 
-- **Hard Day-Supply Cap** (6)
-- **MME/Dosage Cap** (2)
-- **Chronic Pain Standards** (2)
-- **Board Guidelines Required** (6)
-- **Delegation/Telehealth Limits** (2)
-- **Protections for Pain Relief** (2)
-- **Schedule-Specific Restrictions** (3)
+- **Hard Day/Supply Cap** (6)
+- **MME or Dose Cap** (2)
+- **Telehealth Restrictions** (5)
+- **Board Rule Authority** (7)
+- **Discipline-Based Only** (4)
+- **Stimulant/Schedule II Restrictions** (3)
 
 #### Physician assistant prescriptive authority
 
 `profession_specific.physician_assistant_prescriptive_authority` — states per tag:
 
-- **Broad / Full Schedule II-V** (7)
-- **Schedule III-V Only** (3)
-- **Schedule II-V with Restrictions** (5)
-- **Delegated by Supervising MD** (4)
-- **Board/Agreement Defined** (6)
-- **No Independent Prescribing** (1)
+- **Full Rx incl. Schedule II** (7)
+- **Schedule III–V Only** (4)
+- **Schedule II Restricted** (4)
+- **Delegated by Physician** (7)
+- **Board/Agreement Defined** (8)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
-- **IMLC Compact** (4)
-- **Equivalent Standards** (20)
-- **Equivalent + Active Practice** (11)
-- **National Board / Exam** (8)
-- **Comprehensive Multi-Factor** (4)
-- **Credential Portability Program** (1)
+- **Equivalent Standards** (19)
+- **Active Practice Required** (7)
+- **Board Discretion** (5)
+- **IMLC Pathway** (5)
+- **Exam Equivalency Focus** (6)
+- **Multi-Path / Hybrid** (8)
 
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
-- **Dept of Health** (8)
-- **Consumer Affairs** (3)
-- **Commerce / Trade** (3)
-- **Professional Licensing Div** (5)
-- **Labor & Industry** (2)
+- **Dept of Health** (11)
+- **Consumer / Commerce Dept** (4)
+- **Professional Licensing Agency** (11)
+- **Labor / Regulatory Dept** (3)
 - **Education Dept** (1)
 
 #### Telehealth prescribing rules
 
 `profession_specific.telehealth_prescribing_rules` — states per tag:
 
-- **Prior In-Person Required** (6)
 - **Same Standard as In-Person** (6)
-- **Controlled Substance Restrictions** (7)
-- **Licensure / Jurisdictional Focus** (12)
-- **Permissive / Flexible** (6)
+- **Relationship Required** (5)
+- **Controlled Substance Restrictions** (11)
+- **In-Person Exam Required** (4)
+- **Licensure / Jurisdiction Rule** (13)
+- **Board Rule Authority** (2)
 
 ## Music Therapy
 
@@ -1974,240 +1992,244 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.degree_required` — states per tag:
 
-- **Approved Program Only** (18)
-- **HS Diploma + Approved Program** (6)
-- **Diploma/Degree, Approved Program** (11)
-- **Multi-Level (RN/LPN/APRN Distinct)** (10)
-- **Accredited Program Required** (5)
+- **Approved Program Only** (25)
+- **Program + Diploma/Degree** (7)
+- **RN/LPN Split** (8)
+- **APRN Graduate Req** (9)
+- **BSN Upgrade Required** (1)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **Transition to Practice** (2)
-- **Supervised Practice** (1)
-- **Collaborative Practice** (1)
-- **Supervised/Collaborative** (1)
+- **Supervised/Collaborative Practice** (3)
+- **Transition to Practice** (1)
+- **Clinical Experience** (2)
+- **Prescriptive Authority Pathway** (1)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
-- **~1,000 hrs** (1)
-- **~2,000 hrs** (2)
-- **~2,000 hrs + Agreement** (1)
-- **~4,600 hrs / 3 yrs** (1)
+- **~1,000 hrs** (2)
+- **~2,000 hrs** (1)
+- **~4,000+ hrs** (2)
+- **Time-Based (Months)** (1)
 
 #### Licensing Authority
 
 `licensure.issuing_authority` — states per tag:
 
-- **Board of Nursing** (19)
-- **Named State Board of Nursing** (21)
-- **Dept / Agency (non-board)** (4)
-- **Board + Dept Joint** (2)
-- **Specialized Board Name** (4)
+- **Board of Nursing** (17)
+- **Named State Board of Nursing** (24)
+- **Dept / Agency (with Board)** (6)
+- **Other State Board** (3)
 
 `licensure.regulatory_authority.name` — states per tag:
 
-- **Board of Nursing** (11)
-- **State Board of Nursing** (11)
-- **Named State Board of Nursing** (20)
-- **Board of Examiners** (2)
-- **Board of Registration** (3)
-- **Dept / Division (non-board)** (3)
+- **Board of Nursing** (10)
+- **State Board of Nursing** (6)
+- **Named State Board of Nursing** (26)
+- **Board of Registered Nursing** (4)
+- **Department / Division** (4)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **Nursing Process + Medications + Teaching** (9)
-- **Nursing Process + Delegation + Supervision** (16)
-- **Diagnosis + Counseling + Medical Regimen** (6)
-- **Broad Enumerated List** (11)
-- **Minimal / Execution-Focused** (6)
+- **Nursing Process + Care + Delegation** (16)
+- **Traditional Care + Medication Execution** (8)
+- **Broad Clinical + APRN Prescribing** (17)
+- **Collaborative/Integrated Care Model** (6)
+- **Minimal/Concise Scope** (3)
 
 `scope.drug_authority` — states per tag:
 
-- **RN Administer Only** (13)
-- **APRN Prescribe (Independent)** (9)
-- **APRN Prescribe (Collaborative)** (6)
-- **APRN Prescribe (Delegated)** (2)
-- **Mixed RN+APRN Tiers** (12)
-- **Narrow/Specific Authority** (2)
+- **Full Independent APRN Rx** (25)
+- **Independent After Transition Period** (7)
+- **Collaborative Agreement Required** (15)
+- **Physician-Delegated Rx** (1)
+- **Limited/Restricted Rx** (2)
+- **CRNA Anesthesia Only** (0)
 
 `scope.definition_quote` — states per tag:
 
-- **Diagnose & Treat Responses** (5)
-- **Nursing Process Centered** (18)
-- **Observation, Care & Counsel** (5)
-- **Optimal Health Attainment** (9)
-- **Broad Collaborative Care** (6)
-- **List of Acts** (7)
+- **Diagnose & Treat Responses** (7)
+- **Specialized Knowledge + Nursing Process** (20)
+- **Care & Counsel (Traditional)** (7)
+- **Attain/Maintain Optimal Health** (6)
+- **Enumerated Act List** (5)
+- **Broad/Minimal Definition** (5)
 
 #### Discipline
 
 `licensure.disciplinary_grounds` — items per tag:
 
-- **Fraud in Licensure** (74, 47 states)
-- **Criminal Conviction** (61, 43 states)
-- **Incompetence or Negligence** (77, 45 states)
-- **Substance Abuse or Impairment** (65, 45 states)
-- **Physical or Mental Incapacity** (45, 36 states)
-- **Unprofessional Conduct** (168, 46 states)
-- **Records and Documentation Violations** (24, 16 states)
-- **Regulatory and Administrative Violations** (193, 50 states)
-- **Adverse Action in Other Jurisdiction** (40, 36 states)
+- **Fraud & Misrepresentation** (119, 49 states)
+- **Criminal Conviction** (61, 46 states)
+- **Substance Abuse & Impairment** (54, 41 states)
+- **Clinical Incompetence & Negligence** (82, 45 states)
+- **Unprofessional & Unethical Conduct** (141, 48 states)
+- **Mental or Physical Incapacity** (51, 37 states)
+- **Drug Diversion & Controlled Substance Misuse** (39, 24 states)
+- **Regulatory & Reporting Violations** (162, 50 states)
+- **Prior Disciplinary Action Elsewhere** (40, 36 states)
 
 ### Other bucketed fields
+
+#### Advisory board authority
+
+`licensure.advisory_board.authority` — states per tag:
+
+- **Advisory Only** (2)
+- **Advisory & Recommendatory** (1)
+- **Drafts Rules & Advises** (1)
+- **Recommends Standards (Structured Review)** (1)
+- **Reviews Complaints & Advises** (1)
+
+#### Advisory board name
+
+`licensure.advisory_board.name` — states per tag:
+
+- **APRN Advisory Committee** (3)
+- **Prescriptive Authority Focus** (1)
+- **Autonomous Practice Council** (1)
+- **Multiple Committees** (1)
 
 #### Aprn role categories
 
 `profession_specific.aprn_role_categories` — items per tag:
 
-- **Nurse Practitioner** (44, 44 states)
-- **Nurse Anesthetist** (43, 43 states)
-- **Nurse Midwife** (36, 36 states)
-- **Clinical Nurse Specialist** (41, 41 states)
-- **Psychiatric Mental Health Specialist** (4, 4 states)
-- **General APRN Category** (3, 3 states)
+- **Nurse Practitioner** (49, 49 states)
+- **Nurse Anesthetist** (47, 47 states)
+- **Nurse Midwife** (42, 42 states)
+- **Clinical Nurse Specialist** (49, 49 states)
+- **APRN General** (2, 2 states)
 
 #### Continuing education topical requirements
 
 `licensure.continuing_education.topical_requirements` — states per tag:
 
-- **Pharmacology / Prescribing** (5)
-- **Opioids / Substance Use** (3)
+- **Opioids / Prescribing Only** (6)
+- **Pharmacology / Prescribing Broad** (6)
 - **Abuse / Trafficking / Safety** (2)
-- **Mental Health / Suicide** (1)
-- **Broad Multi-Topic Mix** (7)
-- **Bias / Cultural Competency** (1)
-- **Jurisprudence / Scope** (1)
+- **Multi-Topic Mix** (7)
+- **Single Specialty Topic** (2)
+- **Law / Jurisprudence Only** (1)
 
 #### Controlled substance schedule authority
 
 `profession_specific.controlled_substance_schedule_authority` — items per tag:
 
-- **Schedule I** (2, 2 states)
-- **Schedule II Unrestricted** (10, 10 states)
-- **Schedule II Restricted** (13, 12 states)
-- **Schedule II Partial** (1, 1 states)
-- **Schedules III–V** (51, 18 states)
-- **Non-Controlled Drugs** (3, 2 states)
-- **Role/Statute Based Authority** (3, 1 states)
+- **Schedule II Unrestricted** (25, 25 states)
+- **Schedule II Restricted** (6, 5 states)
+- **Schedule III** (31, 31 states)
+- **Schedule IIIN** (1, 1 states)
+- **Schedule IV** (31, 31 states)
+- **Schedule V** (29, 29 states)
+- **Schedules II–V Combined** (1, 1 states)
+- **Unscheduled Broad Authority** (3, 3 states)
 
 #### Education accrediting body
 
 `licensure.education.accrediting_body` — states per tag:
 
-- **State Board Only** (13)
-- **National Accreditor** (4)
-- **USDOE Recognized** (4)
-- **State Board + National** (6)
-- **Regional/Legal Agency** (2)
-
-#### Exams
-
-`licensure.exams` — states per tag:
-
-- **NCLEX Only** (28)
-- **NCLEX + Jurisprudence** (2)
-- **NCLEX + APRN Cert** (5)
-- **NCLEX + Jurisprudence + APRN** (0)
-- **Board-Prescribed Exam** (10)
-- **National Exam (Generic)** (5)
+- **State Board Approved** (30)
+- **National Accreditor (USDOE)** (6)
+- **Named National Bodies** (2)
+- **Regional/Other Gov Body** (2)
+- **Board + National Option** (6)
 
 #### License tiers
 
 `profession_specific.license_tiers` — items per tag:
 
-- **Licensed Practical Nurse** (48, 48 states)
-- **Registered Nurse** (55, 50 states)
-- **Nurse Practitioner** (23, 21 states)
-- **Nurse Anesthetist** (22, 22 states)
-- **Nurse Midwife** (16, 16 states)
-- **Clinical Nurse Specialist** (21, 21 states)
-- **APRN Umbrella** (35, 33 states)
-- **Nursing Assistant / Aide** (9, 7 states)
-- **Medication Aide / Other** (8, 7 states)
+- **Registered Nurse** (50, 50 states)
+- **Licensed Practical Nurse** (50, 50 states)
+- **Advanced Practice RN** (45, 44 states)
+- **APRN Specialty Role** (143, 41 states)
+- **Nurse Aide / Assistant** (22, 20 states)
+- **Medication Aide** (21, 18 states)
+- **Temporary / Interim Permit** (27, 24 states)
+- **Multistate Compact License** (16, 16 states)
+- **Other License Type** (19, 16 states)
 
 #### Lpn supervision requirements
 
 `profession_specific.lpn_supervision_requirements` — items per tag:
 
-- **Registered Nurse** (47, 45 states)
-- **Advanced Practice Registered Nurse** (17, 16 states)
-- **Physician** (42, 39 states)
-- **Physician Assistant** (9, 9 states)
-- **Dentist** (33, 33 states)
-- **Podiatrist** (14, 14 states)
-- **Other Specialist** (11, 7 states)
-- **General Licensed Provider** (15, 15 states)
+- **Registered Nurse** (49, 48 states)
+- **Advanced Practice Registered Nurse** (18, 17 states)
+- **Physician** (47, 46 states)
+- **Physician Assistant** (11, 11 states)
+- **Dentist** (38, 38 states)
+- **Podiatrist** (18, 18 states)
+- **Optometrist / Chiropractor** (9, 6 states)
+- **Catch-All Licensed Provider** (10, 10 states)
 
 #### National association
 
 `licensure.national_association` — states per tag:
 
-- **ANA / General Nursing** (4)
-- **Nurse Midwives** (2)
-- **Nurse Practitioners** (1)
-- **Nurse Anesthetists** (1)
-- **State-Level Body** (1)
-- **Credentialing / Accreditation** (1)
-- **Multi-Association** (1)
+- **NCSBN / State Boards** (3)
+- **Nurse Practitioner / Credentialing** (4)
+- **Nurse-Midwifery** (4)
+- **Nurse Anesthesia** (3)
+- **Accreditation Body** (1)
+- **State-Level Association** (2)
+- **Multi-Role Mix** (1)
 
 #### National certification
 
 `licensure.national_certification` — states per tag:
 
-- **NCLEX / NCSBN** (4)
-- **Named Certifying Body** (4)
-- **Board-Approved Body (APRN)** (5)
-- **Board-Approved Body (General)** (5)
-- **CGFNS International** (1)
+- **NCLEX Only** (3)
+- **Named Specific Bodies** (11)
+- **Board-Recognized Body** (23)
+- **Accreditor-Validated Body** (2)
+- **General APRN Specialty Cert** (3)
 
 #### Opioid prescribing limits
 
 `profession_specific.opioid_prescribing_limits` — states per tag:
 
-- **Short Supply Cap (≤7 days)** (6)
-- **Day Supply Cap (>7 days)** (1)
-- **MME/Dose Limit** (2)
-- **Physician Oversight Required** (3)
-- **Dispensing Prohibited** (1)
-- **Rules-Based / Referential** (2)
+- **Short Supply Cap (≤7 days)** (7)
+- **Longer Supply Cap (>7 days)** (3)
+- **MME / Dose Limit** (1)
+- **Physician Oversight Required** (2)
+- **Training / CE Requirement** (2)
+- **Rulemaking / Procedural** (2)
+- **Telemedicine Restrictions** (2)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
-- **Meet State Standards** (19)
-- **Substantially Equivalent** (12)
-- **Active Practice Required** (2)
-- **Compact + Endorsement** (4)
-- **Compact Only** (2)
-- **Strict / Multi-Step** (9)
+- **Qualifications Equivalency** (19)
+- **Clean License + Background Check** (6)
+- **Compact / Portability Program** (4)
+- **Exam + Education Verified** (6)
+- **Active Practice Required** (3)
+- **Multi-Condition Bundle** (12)
 
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
-- **Dept of Health** (6)
-- **Health Professions Agency** (1)
-- **Consumer Affairs** (3)
-- **Commerce / Economic Dev** (3)
-- **Professional Licensing Office** (4)
-- **Labor & Industry** (2)
+- **Dept of Health** (7)
+- **Consumer / Commerce Dept** (5)
+- **Professional Licensing Agency** (9)
+- **Dept of Commerce & Insurance** (1)
+- **Labor / Safety Dept** (3)
 
 #### Telehealth prescribing rules
 
 `profession_specific.telehealth_prescribing_rules` — states per tag:
 
-- **Standard of Care Parity** (5)
-- **Controlled Substance Restrictions** (4)
-- **In-Person Visit Required** (2)
-- **Relationship & Consent Required** (2)
+- **Controlled Substance Restrictions** (3)
+- **Prior Relationship Required** (3)
+- **In-Person Visit Required** (3)
+- **Scope of Practice Standard** (6)
+- **Licensing / Admin Focus** (3)
 - **Collaborative Practice Rules** (3)
-- **Board Rules Pending** (2)
-- **Broad Telehealth Authorization** (2)
 
 ## Optician
 
@@ -2241,19 +2263,18 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.degree_required` — states per tag:
 
-- **OD Degree Required** (15)
-- **Graduate of Accredited School** (19)
-- **Graduate of Board-Approved School** (7)
-- **Graduate + Min Years Specified** (8)
-- **Board Standards / Equivalency** (1)
+- **OD Degree Required** (14)
+- **Graduate of Accredited School** (20)
+- **Graduate, Board-Approved School** (7)
+- **Graduate, Min Years Specified** (8)
+- **Board Standards Only** (1)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **Optometry Internship** (1)
-- **Supervised Clinical Experience** (1)
-- **Ophthalmologist-Supervised Internship** (1)
+- **Clinical Internship** (2)
+- **Supervised Diagnostic Experience** (1)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
@@ -2265,67 +2286,67 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.issuing_authority` — states per tag:
 
-- **State Optometry Board** (28)
+- **Optometry Board** (28)
 - **Board of Examiners** (13)
-- **Dept of Health** (5)
-- **Other State Agency** (4)
+- **State Dept / Agency** (4)
+- **Dual Authority** (5)
 
 `licensure.regulatory_authority.name` — states per tag:
 
-- **Board of Optometry** (31)
-- **Board of Examiners** (13)
+- **Board of Optometry** (32)
+- **Board of Examiners (Optometry)** (11)
 - **Board of Registration** (2)
-- **Dept / Agency (Non-Board)** (4)
+- **State Dept / Agency** (5)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **Basic Exam & Lenses** (2)
-- **Exam, Lenses & Topical Drugs** (7)
-- **Exam, Lenses, Oral & Topical Drugs** (14)
-- **Broad Scope + Minor Procedures** (20)
-- **Expanded Scope + Surgery/Laser** (7)
+- **Basic Exam & Lenses** (5)
+- **Exam + Pharma + Foreign Body** (18)
+- **Exam + Pharma + Minor Procedures** (17)
+- **Broad Scope + Surgery** (2)
+- **Broad Scope + Laser/Injections** (8)
 
 `scope.drug_authority` — states per tag:
 
-- **Broad Formulary, Few Exclusions** (7)
-- **Topical + Oral, Sched III-V** (6)
-- **Topical + Oral, Hydrocodone Allowed** (18)
-- **Tiered/Certification Levels** (10)
-- **Topical Only or Limited Oral** (2)
-- **Board Formulary / Rule-Defined** (7)
+- **Broad (Sched III–V + Hydrocodone)** (18)
+- **Moderate (Sched III–V, No Hydrocodone)** (7)
+- **Limited Oral + Topical** (8)
+- **Topical/Diagnostic Only** (1)
+- **Board Formulary / Rules-Defined** (7)
+- **Tiered Certification Levels** (9)
 
 `scope.definition_quote` — states per tag:
 
-- **Broad Full Scope** (7)
-- **Exam Diagnose Treat** (7)
-- **No Surgery Explicit** (13)
-- **Surgery Permitted** (4)
-- **Narrow / Vision Focus** (4)
-- **Enumerated Acts List** (15)
+- **Broad Full-Scope** (12)
+- **Exam + Treat + Drugs** (22)
+- **Exam + Diagnose + Rx Only** (8)
+- **Narrow / Refractive Focus** (2)
+- **Includes Surgery / Laser** (3)
+- **Behavior-Based Definition** (3)
 
 `profession_specific.surgery_definition` — states per tag:
 
-- **Broad Tissue-Alteration Definition** (14)
-- **Invasive Procedure + Laser** (8)
-- **Anesthesia/Closure-Based Definition** (3)
-- **Enumerated Prohibited Procedures** (8)
-- **Vague / Minimal Definition** (7)
+- **Broad Tissue-Alteration Definition** (8)
+- **Invasive Procedure Definition** (6)
+- **Enumerated Excluded Procedures** (10)
+- **Simple Exclusion Only** (12)
+- **Closure/Anesthesia-Based Definition** (3)
 
 #### Discipline
 
 `licensure.disciplinary_grounds` — items per tag:
 
-- **Fraud & Misrepresentation** (123, 48 states)
-- **Criminal Conviction** (50, 42 states)
-- **Incompetence & Negligence** (75, 44 states)
-- **Substance Abuse & Impairment** (43, 36 states)
-- **Physical & Mental Incapacity** (38, 31 states)
-- **False or Deceptive Advertising** (44, 33 states)
-- **Unlicensed Practice & License Misuse** (98, 43 states)
-- **Unprofessional & Unethical Conduct** (119, 43 states)
-- **Regulatory & Reporting Violations** (208, 49 states)
+- **Fraud and Misrepresentation** (150, 48 states)
+- **Criminal Conviction** (51, 42 states)
+- **Incompetence and Negligence** (97, 46 states)
+- **Substance Abuse and Impairment** (52, 41 states)
+- **False or Deceptive Advertising** (66, 37 states)
+- **Unlicensed Practice and Aiding** (82, 39 states)
+- **Sexual and Ethical Misconduct** (57, 32 states)
+- **Improper Prescribing or Drug Violations** (34, 26 states)
+- **Regulatory and Administrative Violations** (246, 50 states)
 
 ### Other bucketed fields
 
@@ -2333,133 +2354,131 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.continuing_education.topical_requirements` — states per tag:
 
-- **Ocular Disease & Pharmacology** (7)
-- **Opioid / Substance Use** (6)
-- **Therapeutics Certification Add-On** (13)
-- **Glaucoma-Specific** (1)
-- **Jurisprudence / Admin** (1)
-- **Broad Clinical Topics** (2)
+- **Pharmacology / Therapeutics** (5)
+- **Ocular Disease & Treatment** (2)
+- **Opioids / Substance Use** (5)
+- **Cert-Tiered Requirements** (9)
+- **Jurisprudence / Practice Mgmt** (1)
+- **Mixed / Multiple Topics** (7)
 
 #### Controlled substance schedule restrictions
 
 `profession_specific.controlled_substance_schedule_restrictions` — items per tag:
 
-- **Schedule I Prohibited** (15, 15 states)
-- **Schedule II Prohibited** (13, 13 states)
-- **Schedule II Hydrocodone Exception** (18, 18 states)
-- **Schedule III-V Permitted With Limits** (11, 9 states)
-- **Schedule III-V Analgesics Only** (8, 6 states)
-- **All Controlled Substances Prohibited** (5, 4 states)
-- **Drug Class Exclusions** (10, 9 states)
-- **Supply Duration Limits** (11, 10 states)
+- **Schedule I Prohibited** (21, 21 states)
+- **Schedule II Prohibited** (15, 15 states)
+- **Schedule II Hydrocodone Exception** (19, 19 states)
+- **Schedule III–V Permitted With Limits** (16, 14 states)
+- **Schedule III–V Prohibited** (11, 7 states)
+- **Supply Duration Limit** (10, 10 states)
+- **Non-Controlled Exclusions** (11, 6 states)
 
 #### Education accrediting body
 
 `licensure.education.accrediting_body` — states per tag:
 
-- **ACOE / AOA** (10)
-- **Board-Approved** (15)
-- **State Board** (5)
-- **US Dept of Ed / CHEA** (4)
-- **Regional or Professional Org** (4)
+- **ACOE / AOA** (9)
+- **State Board Approved** (26)
+- **Federal / CHEA / USDE** (6)
+- **ARBO** (1)
+- **State Agency (Non-Board)** (1)
 
 #### Exams
 
 `licensure.exams` — states per tag:
 
-- **NBEO Required** (9)
+- **NBEO Required** (5)
 - **National Exam (Board-Approved)** (10)
-- **State Board Exam** (14)
-- **State + NBEO Combined** (11)
-- **Board Discretion** (6)
+- **State Board Exam** (13)
+- **NBEO + State Jurisprudence** (5)
+- **NBEO + State Board Exam** (13)
+- **Board Discretion Only** (4)
 
 #### Laser procedures authorized
 
 `profession_specific.laser_procedures_authorized` — items per tag:
 
-- **Capsulotomy** (6, 6 states)
-- **Trabeculoplasty** (5, 5 states)
-- **Peripheral Iridotomy** (3, 3 states)
-- **Diagnostic Laser Use** (4, 4 states)
-- **Broad Laser Authority** (5, 4 states)
-- **Other Laser Procedures** (3, 3 states)
+- **Laser Capsulotomy (YAG)** (7, 7 states)
+- **Laser Trabeculoplasty** (6, 6 states)
+- **Laser Peripheral Iridotomy** (4, 4 states)
+- **Broad Laser Authorization** (4, 4 states)
+- **General Laser Reference** (1, 1 states)
 
 #### Minor surgical procedures authorized
 
 `profession_specific.minor_surgical_procedures_authorized` — items per tag:
 
-- **Foreign Body Removal** (21, 16 states)
-- **Corneal Procedures** (17, 10 states)
-- **Eyelash Epilation** (14, 14 states)
-- **Lacrimal System Procedures** (23, 14 states)
-- **Eyelid Lesion Management** (18, 11 states)
-- **Injections** (19, 9 states)
-- **Light and Device Therapies** (6, 4 states)
-- **Wound Repair and Suture** (5, 5 states)
-- **General or Broad Authorization** (6, 6 states)
+- **Foreign Body Removal** (28, 22 states)
+- **Corneal Procedures** (16, 9 states)
+- **Eyelid Lesion Surgery** (22, 11 states)
+- **Epilation** (13, 13 states)
+- **Lacrimal System Procedures** (22, 13 states)
+- **Injections** (23, 13 states)
+- **Light and Device Therapy** (5, 3 states)
+- **Postoperative and Diagnostic Care** (11, 8 states)
 
 #### National association
 
 `licensure.national_association` — states per tag:
 
-- **AOA (National)** (8)
-- **AOA Accreditation Body** (2)
-- **State Optometric Assoc.** (7)
-- **Regulatory / Exam Board** (3)
+- **AOA Only** (5)
+- **ACOE / AOA+ACOE** (6)
+- **ARBO** (1)
+- **IABEO** (1)
 
 #### National certification
 
 `licensure.national_certification` — states per tag:
 
-- **NBEO** (24)
-- **NBEO (IABO variant)** (1)
+- **NBEO** (23)
+- **IABO** (2)
 - **ARBO / CELMO** (1)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
-- **Equivalent Standards + Practice Hours** (14)
-- **Equivalent Standards Only** (14)
-- **Equivalent Standards + Exams Required** (12)
-- **Board Discretion** (4)
-- **Expedited/Endorsement Path** (4)
-- **Minimal / General Statement** (2)
+- **Minimal / Broad Discretion** (4)
+- **Good Standing + Equivalent Standards** (18)
+- **Active Practice Requirement** (12)
+- **Strict Multi-Condition** (13)
+- **Jurisprudence Exam Required** (3)
 
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
-- **Dept of Health** (9)
+- **Dept of Health** (6)
+- **Dept of Commerce** (2)
 - **Consumer Affairs** (3)
-- **Commerce / Economic Dev** (2)
-- **Professional Licensing Office** (7)
-- **Labor / Regulation Dept** (6)
+- **Professional Licensing Office** (4)
+- **Licensing & Regulatory Dept** (5)
+- **Labor & Industry Dept** (2)
+- **Secretary of State** (1)
 
 #### Specialty certification types
 
 `profession_specific.specialty_certification_types` — items per tag:
 
-- **Diagnostic Pharmaceutical Agents** (17, 17 states)
-- **Therapeutic Pharmaceutical Agents** (38, 37 states)
-- **Glaucoma Treatment** (9, 8 states)
-- **Oral Pharmaceutical Agents** (3, 3 states)
-- **Laser / Surgical Procedures** (4, 4 states)
-- **Advanced Scope Procedures** (7, 7 states)
-- **Immunization / Injection** (3, 3 states)
-- **Practice Setting / Other** (2, 2 states)
+- **Diagnostic Pharmaceutical Agents** (16, 15 states)
+- **Therapeutic Pharmaceutical Agents** (39, 37 states)
+- **Oral Pharmaceutical Agents** (6, 5 states)
+- **Glaucoma Treatment Certification** (8, 7 states)
+- **Laser Surgery Certification** (3, 3 states)
+- **Advanced Procedures Endorsement** (7, 7 states)
+- **Immunization Certification** (3, 3 states)
 
 #### Tiered license types
 
 `profession_specific.tiered_license_types` — items per tag:
 
-- **Basic Optometrist License** (23, 23 states)
-- **Diagnostic Pharmaceutical Certification** (12, 12 states)
-- **Therapeutic Pharmaceutical Certification** (26, 24 states)
-- **Glaucoma Specialist Certification** (5, 5 states)
-- **Advanced Procedures Certification** (7, 7 states)
-- **Limited or Specialty License** (8, 6 states)
-- **Inactive or Volunteer License** (4, 3 states)
+- **Basic License** (26, 26 states)
+- **Diagnostic Pharmaceutical Authority** (13, 13 states)
+- **Therapeutic Pharmaceutical Authority** (32, 28 states)
+- **Glaucoma Specialty Authorization** (6, 6 states)
+- **Surgical / Laser / Injection Procedures** (10, 9 states)
+- **Temporary / Training License** (7, 4 states)
+- **Other Special Registration** (2, 2 states)
 
 ## Perfusionist
 
@@ -2702,88 +2721,84 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.degree_required` — states per tag:
 
-- **DPM Degree** (21)
-- **DPM or Equivalent** (7)
-- **Graduate of Accredited School** (12)
+- **DPM Degree** (7)
+- **DPM + Accreditation Body** (13)
+- **Graduate of Accredited School** (10)
+- **Graduate + Hour/Year Requirements** (8)
 - **Diploma/Certificate** (5)
-- **Four-Year Course** (5)
+- **Board-Approved School** (7)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **Podiatric Residency** (18)
-- **Residency Program** (5)
-- **Postgraduate Training** (9)
+- **Podiatric Residency** (16)
+- **Residency Program** (6)
+- **CPME-Approved Residency** (2)
 - **Residency or Preceptorship** (5)
-- **Residency or Fellowship** (2)
-- **Residency or Active Practice** (1)
+- **Postgraduate Training (Broad)** (10)
+- **Board-Discretion Experience** (3)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
-- **1 Year** (21)
-- **2 Years** (3)
+- **1 Year** (22)
+- **2 Years** (4)
 - **3 Years** (2)
-- **Residency Required** (4)
-- **Flexible / Conditional** (3)
+- **Tiered / Conditional** (2)
 
 #### Licensing Authority
 
 `licensure.issuing_authority` — states per tag:
 
-- **Podiatry Board** (17)
-- **Podiatric Medicine Board** (12)
+- **Dedicated Podiatry Board** (31)
 - **Medical Board** (13)
-- **Health Department** (4)
-- **Multi-Prof Licensing Dept** (4)
+- **State Health/Licensing Dept** (6)
 
 `licensure.regulatory_authority.name` — states per tag:
 
-- **Dedicated Podiatry Board** (22)
-- **Podiatric Medicine Board** (12)
+- **Podiatry-Specific Board** (32)
 - **Medical Board** (13)
-- **Other State Agency** (3)
+- **State Health/Other Agency** (5)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **Med/Surg/Mech Core** (16)
-- **Med/Surg/Mech + Electrical** (5)
-- **Med/Surg/Mech + Manipulative** (7)
-- **Broad Enumerated** (7)
-- **Diagnosis-Forward** (9)
-- **Catch-All / General** (6)
+- **Core Triad (med/mech/surg)** (20)
+- **Extended Triad + Electrical/Manip** (11)
+- **Diagnosis-Forward List** (10)
+- **Broad/All Means** (5)
+- **Detailed Enumeration** (4)
 
 `scope.drug_authority` — states per tag:
 
-- **Broad Prescriptive Authority** (5)
-- **Scope-Limited Prescribing** (8)
+- **Local Anesthetic Only** (5)
+- **General Prescribing (Scope-Limited)** (24)
 - **Controlled Substances Explicit** (12)
-- **Local Anesthesia Only** (5)
-- **Foot/Ankle Conditions Only** (8)
+- **Schedules Specified** (4)
+- **Narcotics Authorized** (4)
 
 `scope.definition_quote` — states per tag:
 
-- **Foot Only** (8)
-- **Foot & Ankle** (24)
-- **Foot, Ankle & Leg** (15)
-- **Broad / Primary Care** (2)
-- **Procedural / Title-Based** (1)
+- **Foot Only** (7)
+- **Foot & Ankle** (14)
+- **Foot, Ankle & Leg/Lower Extremity** (22)
+- **Broad / Health Profession framing** (6)
+- **Title/Conduct-Based Definition** (1)
 
 #### Discipline
 
 `licensure.disciplinary_grounds` — items per tag:
 
-- **Fraud & Misrepresentation** (141, 47 states)
-- **Criminal Conviction** (57, 42 states)
-- **Negligence & Incompetence** (63, 37 states)
-- **Substance Abuse & Impairment** (51, 42 states)
-- **Physical & Mental Incapacity** (44, 34 states)
-- **Unprofessional & Unethical Conduct** (146, 47 states)
-- **Drug & Controlled Substance Violations** (51, 31 states)
-- **Advertising Violations** (43, 37 states)
-- **Regulatory & Administrative Violations** (218, 46 states)
+- **Fraud & Misrepresentation** (140, 46 states)
+- **Criminal Conviction** (58, 44 states)
+- **Clinical Negligence & Incompetence** (64, 39 states)
+- **Substance Abuse & Impairment** (50, 42 states)
+- **Physical or Mental Incapacity** (48, 35 states)
+- **Unprofessional & Unethical Conduct** (159, 47 states)
+- **Drug Prescribing Violations** (46, 32 states)
+- **Advertising Violations** (46, 36 states)
+- **Regulatory & Administrative Violations** (205, 48 states)
 
 ### Other bucketed fields
 
@@ -2791,91 +2806,91 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.advisory_board.authority` — states per tag:
 
-- **Full Board Role** (1)
-- **Advisory + Rulemaking Input** (1)
-- **Advisory + Disciplinary** (1)
-- **Advice Only (Broad)** (1)
-- **Advice Only (Disciplinary)** (1)
+- **Advisory Only** (2)
+- **Advisory + Disciplinary** (2)
+- **Must Consult Before Action** (1)
+- **Rule Proposal Authority** (1)
 
 #### Advisory board name
 
 `licensure.advisory_board.name` — states per tag:
 
-- **Advisory Committee** (2)
+- **Full Board** (1)
 - **Advisory Board** (1)
-- **Joint Advisory Committee** (1)
-- **Association Representatives** (1)
+- **Advisory Committee** (3)
+- **Review Committee** (1)
 
 #### Board certification body
 
 `profession_specific.board_certification_body` — items per tag:
 
-- **ABFAS** (3, 3 states)
-- **ABPS / Podiatric Surgery Board** (6, 6 states)
-- **ABPM** (1, 1 states)
-- **CPME Approved Board** (1, 1 states)
-- **State-Recognized / Generic Body** (3, 3 states)
+- **ABFAS (Foot & Ankle Surgery)** (4, 4 states)
+- **ABPS (Podiatric Surgery)** (6, 6 states)
+- **ABPM (Podiatric Medicine)** (2, 2 states)
+- **ABOS / Osteopathic Orthopedics** (2, 1 states)
+- **Multi-Specialty / Other Podiatric** (2, 1 states)
+- **Board-Approved / Generic Standard** (2, 2 states)
 
 #### Continuing education topical requirements
 
 `licensure.continuing_education.topical_requirements` — states per tag:
 
 - **Opioid/Controlled Substance Prescribing** (7)
-- **Substance Use Disorder & Treatment** (2)
-- **Opioid + Drug Monitoring Program** (1)
-- **Other Mandatory Topics** (1)
+- **Substance Use & Addiction** (2)
+- **Patient Safety / Error Prevention** (0)
+- **Infection Control** (1)
+- **Approved Source / Format Rules** (2)
+- **Multi-Topic Required** (1)
 
 #### Education accrediting body
 
 `licensure.education.accrediting_body` — states per tag:
 
-- **CPME / APMA** (18)
-- **APMA Only** (6)
-- **Council on Podiatry Education (older)** (6)
-- **State Board** (4)
-- **Board-Approved Flexibility** (7)
+- **APMA (org name only)** (5)
+- **CPME / Council (named)** (20)
+- **Board-Approved School** (10)
+- **State Board Approval** (5)
+- **National Accreditor (generic)** (3)
 
 #### National association
 
 `licensure.national_association` — states per tag:
 
-- **APMA** (25)
-- **American Podiatry Assoc** (5)
-- **CPME / Colleges** (3)
-- **Multiple Associations** (1)
-- **State Society** (1)
+- **APMA** (27)
+- **CPME** (3)
+- **American Podiatry Assoc (older name)** (5)
+- **State Association** (2)
 
 #### National certification
 
 `licensure.national_certification` — states per tag:
 
-- **NBPME** (13)
-- **ABPS / ABFAS** (7)
-- **ABFAS + ABPM (Dual)** (1)
-- **APMA / CPME** (3)
-- **Specialty Board (General)** (2)
+- **NBPME** (14)
+- **NBPE / NBP Examiners** (7)
+- **ABFAS** (3)
+- **ABPS / Podiatric Surgery** (3)
+- **Multiple Boards Accepted** (2)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
 - **Substantially Equivalent Standards** (17)
-- **Equivalent + Practice History** (8)
-- **Equivalent + Mutual Reciprocity** (8)
-- **Exam + Endorsement Focus** (6)
-- **Broad / Flexible Criteria** (2)
+- **Equivalent + Practice Years** (12)
+- **Equivalent + Mutual Reciprocity** (7)
+- **Exam + Credentials Review** (9)
+- **Broad Discretion / Light Touch** (3)
 
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
-- **Dept of Health** (5)
-- **Health Professions Agency** (2)
-- **Consumer Affairs** (3)
-- **Commerce / Economic Dev** (3)
-- **Professional Licensing Div** (7)
-- **Labor / Industry** (3)
-- **Other State Agency** (2)
+- **Dept of Health** (8)
+- **Consumer Affairs / Commerce** (5)
+- **Licensing & Regulatory Affairs** (4)
+- **Professional Regulation Division** (3)
+- **Dept of State / Secretary of State** (2)
+- **Labor & Industry** (3)
 
 ## Polysomnography
 
@@ -3163,79 +3178,78 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `licensure.education.degree_required` — states per tag:
 
-- **Bach + 150 Hours** (11)
-- **Bach + Accounting Concentration** (15)
-- **Bach + 150 + Concentration** (15)
-- **Bach Degree Only** (6)
-- **Board Discretion** (1)
+- **Bach + 150 Hours** (23)
+- **Bach + 150 Hours + Concentration** (16)
+- **Bach Degree Only** (8)
+- **150 Hours Only** (1)
+- **Board Discretion** (2)
 
 #### Professional Experience
 
 `licensure.post_degree_experience.kind` — states per tag:
 
-- **Broad Skills List** (25)
-- **Public Practice Only** (10)
-- **General Accounting** (7)
-- **Multi-Sector Broad** (7)
-- **Board-Defined** (1)
+- **Broad Skills List** (22)
+- **Public Practice Only** (5)
+- **Any Accounting Field** (8)
+- **CPA-Supervised Required** (13)
 
 `licensure.post_degree_experience.duration` — states per tag:
 
-- **1 Year** (30)
+- **1 Year** (26)
 - **2 Years** (3)
-- **1–2 Years (Edu-Dependent)** (8)
-- **1–3+ Years (Tiered)** (4)
-- **Hours-Based** (3)
-- **Board Discretion** (1)
+- **Hours-Based** (4)
+- **1 or 2 Years (Pathway-Dependent)** (12)
+- **2+ Years (Multi-Track)** (2)
 
 #### Licensing Authority
 
 `licensure.issuing_authority` — states per tag:
 
-- **Board of Accountancy** (29)
-- **Board of Public Accountancy** (11)
-- **Board of CPA Examiners** (4)
-- **Dept / Division (non-board)** (6)
+- **State Board of Accountancy** (29)
+- **State Board of Public Accountancy** (12)
+- **State Dept / Agency** (5)
+- **Board of CPA Examiners** (3)
+- **Education Board** (1)
 
 `licensure.regulatory_authority.name` — states per tag:
 
 - **Board of Accountancy** (30)
-- **Board of Public Accountancy** (11)
+- **Board of Public Accountancy** (12)
 - **Board of CPA Examiners** (3)
-- **Board of Accountants** (2)
-- **Dept / Education Dept** (2)
+- **Examining Board** (2)
+- **Dept / broader agency** (3)
 
 #### Scope of Practice
 
 `scope.methods_authorized` — states per tag:
 
-- **Attest + Advisory + Tax** (30)
-- **Attest + Advisory Only** (1)
-- **Attest + Compilation Only** (11)
-- **Broad Accounting + Tax** (5)
-- **Standards-Referenced Scope** (1)
+- **Broad Enumerated List** (18)
+- **Attest + Advisory Core** (16)
+- **Standards-Referenced Detail** (9)
+- **Audit/Assurance Focused** (4)
+- **High-Level Summary** (3)
 
 `scope.definition_quote` — states per tag:
 
-- **Attest-Only Definition** (9)
-- **Broad Skills + Attest** (14)
-- **Broad Skills No Attest** (10)
-- **Holding-Out + Broad Skills** (7)
-- **Report Issuance Focus** (6)
+- **Broad Services List** (20)
+- **Attest-Focused** (7)
+- **CPA Title + Services** (9)
+- **Report/Opinion Issuance** (8)
+- **Minimal/Terse** (6)
 
 #### Discipline
 
 `licensure.disciplinary_grounds` — items per tag:
 
-- **Fraud in Obtaining License** (59, 44 states)
-- **Dishonesty Fraud Negligence in Practice** (95, 45 states)
-- **Criminal Conviction** (59, 41 states)
-- **Out-of-State Discipline** (53, 44 states)
-- **Agency Practice Revocation** (38, 36 states)
-- **Violation of Rules or Standards** (137, 48 states)
-- **CPE or Peer Review Failure** (21, 14 states)
-- **Unauthorized Practice** (45, 21 states)
-- **Fitness and Conduct** (60, 38 states)
+- **Fraud or Deceit in Obtaining License** (55, 42 states)
+- **Dishonesty or Negligence in Practice** (106, 46 states)
+- **Criminal Conviction** (58, 41 states)
+- **Out-of-State or Agency Discipline** (98, 48 states)
+- **Violation of Statute or Board Rules** (131, 47 states)
+- **Continuing Education or Peer Review Failure** (19, 12 states)
+- **Unlicensed or Improper Practice** (48, 23 states)
+- **Impairment or Incapacity** (15, 9 states)
+- **Conduct Reflecting Unfitness** (49, 37 states)
 
 ### Other bucketed fields
 
@@ -3243,126 +3257,92 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 
 `profession_specific.attest_services_types` — items per tag:
 
-- **Audit (SAS)** (46, 46 states)
-- **Review (SSARS)** (43, 43 states)
-- **Compilation (SSARS)** (10, 10 states)
-- **Examination of Prospective Info** (31, 31 states)
-- **Attestation Engagements (SSAE)** (38, 35 states)
-- **Agreed-Upon Procedures** (10, 10 states)
-- **PCAOB Engagements** (34, 34 states)
-- **Government Auditing** (4, 4 states)
+- **Audit / SAS Engagement** (46, 45 states)
+- **Review / SSARS Engagement** (43, 42 states)
+- **Compilation / SSARS Engagement** (10, 10 states)
+- **Attestation / SSAE Engagement** (43, 40 states)
+- **Prospective Financial Info Examination** (30, 30 states)
+- **PCAOB Engagement** (38, 38 states)
+- **Government Auditing Standards** (4, 4 states)
+- **General Attest or Assurance Service** (13, 9 states)
 
 #### Continuing education topical requirements
 
 `licensure.continuing_education.topical_requirements` — states per tag:
 
-- **Ethics Only** (2)
-- **Accounting & Auditing Core** (2)
-- **Ethics + State Law** (2)
-- **Broad Topic List** (1)
-- **Attestation / Audit Specialty** (2)
+- **Ethics Only** (1)
+- **Accounting/Audit + Ethics** (1)
+- **Broad Subject List** (2)
+- **State Law + Ethics** (1)
+- **Detailed Hour Allocations** (2)
 
 #### Education accrediting body
 
 `licensure.education.accrediting_body` — states per tag:
 
-- **Regional Accreditor** (7)
-- **Federal DOE Reference** (6)
-- **Business-Specific Accreditor** (1)
-- **Board Discretion** (7)
-- **State Agency** (1)
-
-#### Exams
-
-`licensure.exams` — states per tag:
-
-- **Uniform CPA Exam Only** (37)
-- **Uniform CPA + Ethics Exam** (9)
-- **Uniform CPA + Ethics + Other** (1)
-- **State/Board-Defined Exam** (3)
+- **Board Discretion** (16)
+- **Regional Accreditors Named** (3)
+- **US Dept of Education** (6)
+- **Regional + Board Fallback** (3)
+- **Business Accreditors Included** (1)
 
 #### National association
 
 `licensure.national_association` — states per tag:
 
-- **AICPA Only** (33)
-- **AICPA + NASBA** (5)
-- **AICPA + PCAOB** (3)
-- **NASBA Only** (1)
+- **AICPA Only** (37)
+- **NASBA Only** (2)
+- **AICPA + NASBA** (6)
+- **AICPA + PCAOB** (1)
 
 #### National certification
 
 `licensure.national_certification` — states per tag:
 
-- **AICPA (org only)** (11)
-- **Uniform CPA Exam** (2)
-- **AICPA + Uniform Exam** (1)
-- **AICPA/NASBA Joint** (1)
-- **Erroneous Reference** (1)
+- **AICPA + NASBA Joint** (2)
+- **NASBA NQAS** (4)
+- **NASBA Only** (1)
+- **AICPA Only** (1)
 
 #### Practice privilege consent conditions
 
 `profession_specific.practice_privilege_consent_conditions` — items per tag:
 
-- **Jurisdiction and Disciplinary Authority** (50, 47 states)
-- **Compliance with Laws and Rules** (48, 46 states)
-- **Cessation if Home License Invalid** (42, 40 states)
-- **Agent for Service of Process** (46, 46 states)
-- **Notification and Reporting** (4, 3 states)
-- **Scope of Practice Limits** (2, 2 states)
-- **Other** (0, 0 states)
+- **Jurisdiction and Disciplinary Authority Consent** (50, 47 states)
+- **Compliance with Laws and Rules** (46, 46 states)
+- **Cessation of Practice if Home-State License Invalid** (41, 41 states)
+- **Agent for Service of Process Appointment** (45, 45 states)
+- **Reporting and Cooperation Obligations** (5, 4 states)
+- **Additional State-Specific Conditions** (8, 6 states)
 
 #### Reciprocity requirements
 
 `licensure.reciprocity.requirements` — states per tag:
 
-- **Substantial Equivalency Only** (7)
-- **Substantial Equiv + Experience Fallback** (22)
-- **Exam + Experience + CPE** (8)
-- **Practice Privileges (No License)** (8)
-- **Reciprocal / Comparable License** (5)
+- **Substantial Equivalency Only** (6)
+- **SE + Traditional Fallback** (23)
+- **Traditional Requirements** (10)
+- **Practice Privilege Emphasized** (7)
+- **Mutual Recognition Required** (4)
 
 #### Regulatory authority umbrella agency
 
 `licensure.regulatory_authority.umbrella_agency` — states per tag:
 
-- **Commerce / Consumer Affairs** (4)
-- **Professional Licensing Division** (6)
-- **Business & Professional Regulation** (1)
+- **Consumer Affairs / Protection** (4)
+- **Commerce & Economic Dev** (2)
+- **Professional Licensing Dept** (9)
+- **Business Regulation** (1)
 - **Labor & Industry** (2)
-- **Secretary of State / Dept of State** (2)
-- **Governor's Office** (1)
+- **Other State Agency** (5)
 
 #### Statute of limitations for accountant negligence
 
 `profession_specific.statute_of_limitations_for_accountant_negligence` — states per tag:
 
-- **1-yr Discovery / 3-yr Absolute** (1)
-- **2-yr Discovery** (1)
-
-## Public Adjuster
-
-### Priority fields
-
-#### Minimum Degree
-
-_No bucketed tags for this field (data too sparse or not yet run)._
-
-#### Professional Experience
-
-_No bucketed tags for this field (data too sparse or not yet run)._
-
-#### Licensing Authority
-
-_No bucketed tags for this field (data too sparse or not yet run)._
-
-#### Scope of Practice
-
-_No bucketed tags for this field (data too sparse or not yet run)._
-
-#### Discipline
-
-_No bucketed tags for this field (data too sparse or not yet run)._
+- **Discovery + Hard Cap** (1)
+- **External Statute Governs** (1)
+- **Board Discovery Rule** (1)
 
 ## Real Estate Broker
 
