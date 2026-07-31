@@ -1,9 +1,11 @@
 # Re-extract wave — readiness plan (as of 2026-07-31 EOD)
 
-> **OUTCOME (2026-07-31 evening): the full wave was deliberately NOT run.**
-> 136 cells re-extracted for $21.6 of a projected ~$120; the rest left recipe-stale
-> on purpose. Preflight blocker resolved. Read "What actually happened" at the
-> bottom before acting on anything above it — several numbers in this plan are wrong.
+> **OUTCOME (2026-07-31 evening): the full wave was deliberately NOT run, and most of
+> what WAS run got reverted.** 231 cells re-extracted for $38.67; **86 kept** (optometry
+> + the 29 starved cells). medicine, electrician and nursing were re-extracted, measured,
+> and reverted as churn carrying real regressions. Preflight blocker resolved.
+> Read "What actually happened" at the bottom before acting on anything above it —
+> several numbers in this plan are wrong.
 
 Written as a handoff. Everything below is committed; the working tree is clean and
 944 tests pass. Start here, not in the old conversation.
@@ -232,14 +234,39 @@ Cells that gained 50 sections at ~3x gained nothing measurable.
 
 ## What was run ($21.57 total)
 
-| batch | cells | cost | result |
+| batch | cells | cost | verdict |
 |---|---|---|---|
-| optometry (pilot) | 50 | $9.02 | 320 scope cells not_addressed -> determinate vs 18 back; +305 net quote-backed |
-| medicine (calibration) | 50 | $10.45 | net **+8** quote-backed; 416/517 changes are rephrasing |
-| growth-range probe | 10 | $2.10 | established the ratio rule |
-| **starved cells (#118)** | 26 | $3.69 | **claims 302 -> 1136 (+276%), citations 45 -> 386 (+758%)** |
+| optometry (pilot) | 50 | $9.02 | **KEPT** — 17.1:1 gain ratio (see below) |
+| medicine (calibration) | 50 | $10.45 | **REVERTED** — 1.5:1, rephrasing + regressions |
+| growth-range probe | 10 | $2.10 | KEPT — established the ratio rule |
+| **starved cells (#118)** | 26 | $3.69 | **KEPT** — claims 302 -> 1136, citations 45 -> 386 |
+| nursing + electrician | 95 | $17.10 | **REVERTED** — ~1:1 and 1.6:1 |
 
-0 errored across all 136. 0 consistency violations in any of them.
+0 errored across all 231. 0 consistency violations in any of them.
+
+### The measure that decided it
+
+Among scope status flips, how many REPLACED a quoted determination with an unquoted
+one, vs added evidence:
+
+| profession | flips | dropped a quote | added one | ratio | |
+|---|---|---|---|---|---|
+| optometry | 344 | 19 | 324 | **17.1:1** | kept |
+| electrician | 88 | 34 | 54 | 1.6:1 | reverted |
+| medicine | 37 | 15 | 22 | 1.5:1 | reverted |
+| nursing | ~43 | 22 | 21 | ~1:1 | reverted |
+
+**Net quote-count is NOT a valid proxy** — it nets losses against gains. electrician
+looked "+20 net, modest but positive" while carrying 34 evidence-dropping flips
+including `electrician/CA "Electrical Contractor": present -> absent`, which is flatly
+wrong. Check the DIRECTION of flips.
+
+The losses are a real defect, filed as **#126**: extraction intermittently drops an
+explicit quoted prohibition and returns `not_addressed`. optometry/GA turned
+"Optometrists are prohibited from using nondiagnostic lasers" into `not_addressed` on
+three laser items. optometry was kept anyway because 324 gains beats 19 losses, and
+those **19 are the complete known set** — its non-scope fields were checked separately
+and show 0 dropped quotes across 2189 claims.
 
 ## What was deliberately left stale
 
@@ -252,8 +279,23 @@ issue #123's churn as the dominant effect.
 Re-running them buys a clean freshness ledger, not better data. If someone wants it
 later it is ~$100 and ~1 h, and preflight now passes on the naive queue unaided.
 
-Still worth doing if revisited: the 3 professions WITH scope dims (nursing,
-electrician; optometry is done) — those get the two-pass rule's real gains.
+**Do NOT "just re-run the scope professions"** — that was tried on 2026-07-31 and
+reverted. The two-pass rule targets the `not_addressed` boundary of THREE-STATE dims,
+which is what optometry has (275 flips into `prohibited`). nursing's and electrician's
+dims are present/absent (license_tiers, aprn_role_categories) — a vocabulary the rule
+does not help and that flips both ways.
+
+## The durable conclusion
+
+**Prompt-driven re-extraction produces churn; corpus-driven re-extraction produces
+value.** Every profession re-run on an UNCHANGED corpus came back roughly break-even
+with regressions on both sides. The one unambiguous win was the 29 cells whose CORPUS
+had been repaired — no tradeoff, no judgement call.
+
+So the premise of this plan — "the prompt improved, therefore re-run all 626 cells" —
+does not survive contact with the data. The ~$100 not spent would have bought churn
+with embedded regressions. The workflow that works is narrow: **fix a cell's corpus,
+re-extract that cell.**
 
 ## Not published
 

@@ -73,6 +73,17 @@ extract_state → results/structured/ (reads trimmed/ — the structured records
 build_frontend → publish/web/public/data/ + Vercel blob (the published payload)
 ```
 
+**Re-extract because the CORPUS changed, not because the prompt did.** Measured
+2026-07-31 on four professions re-run against an unchanged corpus: 3 of 4 came back
+roughly break-even and were reverted (optometry 17.1:1 gain/loss and kept; electrician
+1.6:1, medicine 1.5:1, nursing ~1:1). The losses are real errors — `electrician/CA`
+flipped "Electrical Contractor" to absent. The one unambiguous win was corpus-driven:
+29 cells the #118 trim bug had cut to 1-2 sections went 302 → 1136 quote-backed claims
+for $3.69. So a whole-corpus "wave" after a prompt edit buys churn with embedded
+regressions (#126); fix a cell's corpus and re-extract that cell instead. When judging
+a re-run, count flips that DROPPED a quote vs added one — net quote-count nets the two
+against each other and hides category errors.
+
 **Re-extract gotcha — now automated; the danger is the BY-HAND path.** After re-pulling
 or locally transforming `text/`, **clean → trim → extract** must all re-run. Skipping
 `clean_text` silently leaves `clean/` (and therefore `trimmed/`) stale, so the new text
