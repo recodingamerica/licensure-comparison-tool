@@ -123,6 +123,16 @@ def test_state_browse_index_covers_the_professions_it_should():
     Cheap enough to keep honest without parsing the blobs themselves.
     """
     from pipeline.paths import WEB_PUBLIC_DIR, STRUCTURED_DIR, TRIMMED_DIR, published_professions
+    from pipeline.config.loaders import is_absence_record
+
+    def _shipped(prof: str, state: str) -> bool:
+        """Mirror build_state_browse's inclusion rule: structured + trimmed both
+        present, and the record is not a verified absence (whose corpus, where it
+        has one, is the local-enabling hook rather than the profession's own law)."""
+        struct = STRUCTURED_DIR / prof / f"{state}.json"
+        if not struct.exists() or not (TRIMMED_DIR / prof / f"{state}.json").exists():
+            return False
+        return not is_absence_record(json.loads(struct.read_text()))
 
     index_path = WEB_PUBLIC_DIR / "states.json"
     if not index_path.exists():
@@ -133,11 +143,7 @@ def test_state_browse_index_covers_the_professions_it_should():
     for entry in json.loads(index_path.read_text()):
         state = entry["state"]
         listed = set(entry.get("professions") or [])
-        expected = {
-            p for p in published
-            if (STRUCTURED_DIR / p / f"{state}.json").exists()
-            and (TRIMMED_DIR / p / f"{state}.json").exists()
-        }
+        expected = {p for p in published if _shipped(p, state)}
         if listed != expected:
             missing, extra = sorted(expected - listed), sorted(listed - expected)
             problems.append(f"{state}: missing={missing} unexpected={extra}")

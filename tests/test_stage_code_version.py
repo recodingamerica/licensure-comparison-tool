@@ -48,7 +48,11 @@ STAGE_MODULES = {
 PINNED = {
     "clean":   "646739b0fdf57776",
     "trim":    "95942b5c84784332",
-    "extract": "d99a47cb0a096ba5",
+    # 2026-07-31: added drop_skipped() at both gate sites — verified-absence cells are
+    # removed from the queue before submit. Changes WHICH cells extract runs on, never
+    # what a run produces for a cell, so no stored output was made by superseded logic
+    # and CODE_VERSION stays at 2 (bumped this morning for the two-pass scope rule).
+    "extract": "17c2fbcd5ff9046a",
     "schema":  "ce3a4fff44437a13",
     "verify":  "023b289280b002a8",
     "mapprep": "9d15d2bb31cc0e10",

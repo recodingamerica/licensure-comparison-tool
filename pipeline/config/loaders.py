@@ -155,6 +155,24 @@ def load_verified_absences() -> dict:
     return safe_load_unique(path.read_text()) or {}
 
 
+# The marker apply_verified_absences stamps on the records it writes. Read the
+# record on disk, not membership in verified_absences.yaml: a few listed pairs
+# carry a real extracted record from a real corpus and must keep behaving normally.
+VERIFIED_ABSENCE_SOURCE = "verified_absence"
+
+
+def is_absence_record(record: object) -> bool:
+    """True when a structured record is a hand-verified "no state license".
+
+    Such a cell has no licensing act, so it must not be extracted (preflight) and
+    must not contribute statute text to the frontend (build_state_browse). Where
+    one does carry a corpus, that corpus is the local-enabling hook — Kansas's
+    municipal art. 15, New York apprenticeship law — or an outright mis-map, so
+    shipping it under the profession's name would misattribute the law.
+    """
+    return isinstance(record, dict) and record.get("source") == VERIFIED_ABSENCE_SOURCE
+
+
 @functools.lru_cache(maxsize=1)
 def load_costs() -> dict:
     """Load config/costs.yaml — estimated USD per unit for each paid stage."""

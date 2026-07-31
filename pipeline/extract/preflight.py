@@ -28,6 +28,23 @@ extract slots or produced junk:
 
 A pair with none of the above is extract-ready.
 
+One further category is reported but does NOT block, because it is a settled
+answer rather than a problem:
+
+  SKIP_ABSENCE   the cell's structured record is `source: verified_absence` — a
+                 hand-verified "this state has no state-level license" from
+                 config/verified_absences.yaml, carrying its own basis + note.
+                 Such a cell has no licensing act to extract, so it normally has
+                 no corpus and would otherwise surface as NO_TRIMMED forever
+                 (2026-07-31: 22 of them held up a 648-cell wave that way).
+                 Where one DOES have a corpus, that corpus is the local-enabling
+                 hook (KS municipal art. 15, NY apprenticeship) or an outright
+                 mis-map (hvac/SD held Social Work law) — extracting it would
+                 overwrite the verified record with claims drawn from statutes
+                 that do not license the profession, and apply_verified_absences
+                 never clobbers an extracted record, so it is a one-way door.
+                 These pairs are dropped from the queue by drop_skipped().
+
 CLI:
 
     python -m pipeline.extract.preflight --queue path/to/queue.json
@@ -49,12 +66,16 @@ from pathlib import Path
 
 
 from pipeline import provenance
-from pipeline.paths import DISCOVERED_DIR, TRIMMED_DIR, REPO_ROOT
+from pipeline.config.loaders import is_absence_record
+from pipeline.paths import DISCOVERED_DIR, STRUCTURED_DIR, TRIMMED_DIR, REPO_ROOT
 from pipeline.ingest._trim_health import is_poisoned
 
 # Ordered worst-first; the first matching condition is the reported blocker.
 BLOCKERS = ("NO_SCHEMA", "SCHEMA_DIRTY", "NO_TRIMMED", "EMPTY_TRIMMED", "POISONED",
             "STALE_UPSTREAM")
+# Reported alongside the blockers, but never fails the gate — see module docstring.
+SKIPS = ("SKIP_ABSENCE",)
+CODES = BLOCKERS + SKIPS
 
 
 @lru_cache(maxsize=None)
@@ -72,8 +93,26 @@ def schema_dirty(profession: str) -> bool:
     return bool(line) and not line.startswith("??")
 
 
+def is_verified_absence(profession: str, state: str) -> bool:
+    """True when the cell's structured record is a hand-verified absence.
+
+    Keyed on the record actually on disk, not on membership in
+    config/verified_absences.yaml: a few pairs are listed there but carry a real
+    extracted record from a real corpus (construction_trades OK/WY), and those
+    should keep re-extracting normally.
+    """
+    path = STRUCTURED_DIR / profession / f"{state}.json"
+    try:
+        rec = json.loads(path.read_text())
+    except Exception:
+        return False
+    return is_absence_record(rec)
+
+
 def check_pair(profession: str, state: str) -> str | None:
-    """Return the blocker code for one (profession, state), or None if ready."""
+    """Return the blocker/skip code for one (profession, state), or None if ready."""
+    if is_verified_absence(profession, state):
+        return "SKIP_ABSENCE"
     if not (DISCOVERED_DIR / f"{profession}.json").exists():
         return "NO_SCHEMA"
     if schema_dirty(profession):
@@ -107,9 +146,10 @@ def run_preflight(queue: dict[str, list[str]]) -> dict:
     """Check a {profession: [states]} queue.
 
     Returns {"ok": bool, "ready": [(p,s)...], "blocked": {CODE: [(p,s)...]}}.
+    `ok` weighs only BLOCKERS — SKIPS are settled answers, not problems.
     """
     schema_dirty.cache_clear()   # dedup git calls within this run, never across runs
-    blocked: dict[str, list[tuple[str, str]]] = {b: [] for b in BLOCKERS}
+    blocked: dict[str, list[tuple[str, str]]] = {c: [] for c in CODES}
     ready: list[tuple[str, str]] = []
     for profession, states in queue.items():
         for state in states:
@@ -122,12 +162,29 @@ def run_preflight(queue: dict[str, list[str]]) -> dict:
     return {"ok": ok, "ready": ready, "blocked": blocked}
 
 
+def drop_skipped(queue: dict[str, list[str]], report: dict) -> dict[str, list[str]]:
+    """Return `queue` minus the pairs preflight marked as skips.
+
+    Callers iterate the queue rather than report["ready"], so without this a
+    non-blocking skip would sail through the gate and still be extracted.
+    """
+    skip = {pair for code in SKIPS for pair in report["blocked"].get(code, [])}
+    if not skip:
+        return queue
+    out = {}
+    for profession, states in queue.items():
+        kept = [s for s in states if (profession, s) not in skip]
+        if kept:
+            out[profession] = kept
+    return out
+
+
 def format_report(report: dict) -> str:
     lines: list[str] = []
     total = len(report["ready"]) + sum(len(v) for v in report["blocked"].values())
     lines.append(f"PREFLIGHT: {total} (profession,state) pairs checked")
     lines.append(f"  READY: {len(report['ready'])}")
-    for code in BLOCKERS:
+    for code in CODES:
         pairs = report["blocked"][code]
         lines.append(f"  {code}: {len(pairs)}")
         if pairs:

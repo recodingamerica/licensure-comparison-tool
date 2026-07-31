@@ -40,6 +40,7 @@ from typing import Any
 from pipeline._env import load_env
 load_env()
 
+from pipeline.config.loaders import is_absence_record
 from pipeline.extract.model_helpers import iter_quote_carriers, iter_evidence
 from pipeline.extract.locate_quote import (
     normalize_with_mapping, split_quote_segments, locate_segments_in_normalized,
@@ -154,7 +155,14 @@ def build_state(state: str) -> dict[str, Any] | None:
         trimmed_path = TRIMMED_DIR / prof / f"{state}.json"
         if not struct_path.exists() or not trimmed_path.exists():
             continue
-        prof_records[prof] = json.loads(struct_path.read_text())
+        record = json.loads(struct_path.read_text())
+        # A verified absence has no licensing act. Some such cells DO carry a
+        # corpus — the local-enabling hook (KS municipal art. 15, NY apprenticeship
+        # law) — and shipping its text here would file municipal or apprenticeship
+        # statutes under the profession's own name in the statute dictionary.
+        if is_absence_record(record):
+            continue
+        prof_records[prof] = record
         trimmed = json.loads(trimmed_path.read_text())
         prof_practice[prof] = [
             {"url": s.get("url"), "citation": s.get("citation"),

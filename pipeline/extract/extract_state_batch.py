@@ -63,7 +63,7 @@ from pipeline.extract.extract_state import (
 from pipeline.paths import DISCOVERED_DIR, TRIMMED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR
 from pipeline import provenance
 from pipeline._llm import loads_lenient
-from pipeline.extract.preflight import run_preflight, format_report
+from pipeline.extract.preflight import run_preflight, format_report, drop_skipped
 
 logging.basicConfig(
     level=logging.INFO,
@@ -115,6 +115,8 @@ def submit(queue: dict[str, list[str]], model: str = DEFAULT_MODEL, force: bool 
     log.info("preflight:\n%s", format_report(report))
     if not report["ok"] and not force:
         sys.exit("preflight FAILED — fix the blockers above or pass --force to override")
+    # Settled non-answers (verified absences) never reach the model — see preflight.
+    queue = drop_skipped(queue, report)
 
     requests: list[dict] = []
     skipped: list[tuple[str, str, str]] = []
@@ -213,6 +215,8 @@ def run_litellm(queue: dict[str, list[str]], model: str = DEFAULT_MODEL, force: 
     log.info("preflight:\n%s", format_report(report))
     if not report["ok"] and not force:
         sys.exit("preflight FAILED — fix the blockers above or pass --force to override")
+    # Settled non-answers (verified absences) never reach the model — see preflight.
+    queue = drop_skipped(queue, report)
 
     written: list[dict] = []
     errored: list[dict] = []
