@@ -261,3 +261,22 @@ def test_drop_skipped_drops_empty_profession(tree):
     structure("hvac", "IN", {"source": "verified_absence"})
     queue = {"hvac": ["CO", "IN"]}
     assert pf.drop_skipped(queue, pf.run_preflight(queue)) == {}
+
+
+def test_all_absence_queue_names_the_cause(tree, monkeypatch, caplog):
+    """An all-absence queue empties in drop_skipped BEFORE the loop that fills
+    `skipped`, so the "nothing to submit" error must name the absences or it
+    reports an empty list as the reason and explains nothing."""
+    import logging
+    import pipeline.extract.extract_state_batch as esb
+
+    schema, trim, structure = tree
+    schema("hvac")
+    structure("hvac", "CO", {"source": "verified_absence"})
+    monkeypatch.setattr(esb, "run_preflight", pf.run_preflight)
+    monkeypatch.setattr(esb, "drop_skipped", pf.drop_skipped)
+
+    with caplog.at_level(logging.ERROR):
+        with pytest.raises(SystemExit):
+            esb.submit({"hvac": ["CO"]})
+    assert "1 verified-absence cell(s) dropped" in caplog.text

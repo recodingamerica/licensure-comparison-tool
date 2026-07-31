@@ -63,7 +63,7 @@ from pipeline.extract.extract_state import (
 from pipeline.paths import DISCOVERED_DIR, TRIMMED_DIR, STRUCTURED_DIR, LOGS_DIR, RESULTS_DIR
 from pipeline import provenance
 from pipeline._llm import loads_lenient
-from pipeline.extract.preflight import run_preflight, format_report, drop_skipped
+from pipeline.extract.preflight import run_preflight, format_report, drop_skipped, SKIPS
 
 logging.basicConfig(
     level=logging.INFO,
@@ -116,6 +116,9 @@ def submit(queue: dict[str, list[str]], model: str = DEFAULT_MODEL, force: bool 
     if not report["ok"] and not force:
         sys.exit("preflight FAILED — fix the blockers above or pass --force to override")
     # Settled non-answers (verified absences) never reach the model — see preflight.
+    n_absence = sum(len(report["blocked"].get(c) or []) for c in SKIPS)
+    if n_absence:
+        log.info("dropping %d verified-absence cell(s): no licensing act to extract", n_absence)
     queue = drop_skipped(queue, report)
 
     requests: list[dict] = []
@@ -165,7 +168,10 @@ def submit(queue: dict[str, list[str]], model: str = DEFAULT_MODEL, force: bool 
             })
 
     if not requests:
-        log.error("no requests to submit — every state skipped: %s", skipped)
+        # Name the cause: with an all-absence queue, drop_skipped emptied it before
+        # the loop that fills `skipped`, so reporting `skipped` alone says nothing.
+        log.error("no requests to submit — %d verified-absence cell(s) dropped, "
+                  "%d skipped for other reasons: %s", n_absence, len(skipped), skipped)
         sys.exit(1)
 
     log.info("submitting batch: %d requests across %d professions (%d skipped)",
@@ -216,6 +222,9 @@ def run_litellm(queue: dict[str, list[str]], model: str = DEFAULT_MODEL, force: 
     if not report["ok"] and not force:
         sys.exit("preflight FAILED — fix the blockers above or pass --force to override")
     # Settled non-answers (verified absences) never reach the model — see preflight.
+    n_absence = sum(len(report["blocked"].get(c) or []) for c in SKIPS)
+    if n_absence:
+        log.info("dropping %d verified-absence cell(s): no licensing act to extract", n_absence)
     queue = drop_skipped(queue, report)
 
     written: list[dict] = []

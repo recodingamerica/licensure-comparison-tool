@@ -48,11 +48,12 @@ STAGE_MODULES = {
 PINNED = {
     "clean":   "646739b0fdf57776",
     "trim":    "95942b5c84784332",
-    # 2026-07-31: added drop_skipped() at both gate sites — verified-absence cells are
-    # removed from the queue before submit. Changes WHICH cells extract runs on, never
-    # what a run produces for a cell, so no stored output was made by superseded logic
-    # and CODE_VERSION stays at 2 (bumped this morning for the two-pass scope rule).
-    "extract": "17c2fbcd5ff9046a",
+    # 2026-07-31: drop_skipped() at both gate sites + the operator-facing log/error
+    # naming how many verified-absence cells were dropped. Changes WHICH cells extract
+    # runs on and what it PRINTS, never what a run produces for a cell, so no stored
+    # output was made by superseded logic and CODE_VERSION stays at 2 (bumped this
+    # morning for the two-pass scope rule).
+    "extract": "2fcb59aacb5b02cf",
     "schema":  "ce3a4fff44437a13",
     "verify":  "023b289280b002a8",
     "mapprep": "9d15d2bb31cc0e10",
