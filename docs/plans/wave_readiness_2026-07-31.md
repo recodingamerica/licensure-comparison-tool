@@ -1,7 +1,7 @@
 # Re-extract wave — readiness plan (as of 2026-07-31 EOD)
 
 > **OUTCOME (2026-07-31 evening): the full wave was deliberately NOT run, and most of
-> what WAS run got reverted.** 231 cells re-extracted for $38.67; **86 kept** (optometry
+> what WAS run got reverted.** 231 cells re-extracted for $42.36; **86 kept** (optometry
 > + the 29 starved cells). medicine, electrician and nursing were re-extracted, measured,
 > and reverted as churn carrying real regressions. Preflight blocker resolved.
 > Read "What actually happened" at the bottom before acting on anything above it —
