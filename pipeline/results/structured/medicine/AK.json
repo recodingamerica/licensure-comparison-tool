@@ -30,7 +30,11 @@
       }
     },
     "age_minimum": null,
-    "moral_character_required": null,
+    "moral_character_required": {
+      "value": true,
+      "quote": "the board determines that the applicant is professionally unfit to practice medicine or osteopathy in the state",
+      "citation": "08.64.240"
+    },
     "education": {
       "degree_required": {
         "value": "Certificate of graduation from a legally chartered medical school accredited by the Association of American Medical Colleges and the Council on Medical Education of the American Medical Association",
@@ -62,7 +66,7 @@
     "post_degree_experience": {
       "required": {
         "value": true,
-        "quote": "submit a certificate from a recognized hospital or hospitals certifying that the applicant has satisfactorily performed the duties of resident physician or intern for a period of",
+        "quote": "submit a certificate from a recognized hospital or hospitals certifying that the applicant has satisfactorily performed the duties of resident physician or intern for a period of ... two years if the applicant graduated from medical school on or after January 1, 1995",
         "citation": "08.64.200"
       },
       "experience_source": {
@@ -71,7 +75,7 @@
         "citation": "08.64.200"
       },
       "duration": {
-        "value": "One year (pre-1995 graduates) or two years (1995 and later graduates); foreign medical graduates require three years",
+        "value": "Two years (for graduates on or after January 1, 1995); one year (for graduates before January 1, 1995)",
         "quote": "one year if the applicant graduated from medical school before January 1, 1995 ... two years if the applicant graduated from medical school on or after January 1, 1995",
         "citation": "08.64.200"
       },
@@ -83,36 +87,27 @@
     },
     "exams": [
       {
-        "name": "Board examination in subjects determined by the board",
+        "name": "Board examination",
         "required": true,
-        "notes": "May be waived for license by credentials under AS 08.64.250",
+        "notes": "Applicants may be excused under AS 08.64.250 (license by credentials). The board may waive the examination requirement for applicants with an active license from another state/territory/province.",
         "jurisdiction": "state (in-house)",
         "permitted_attempts": null,
         "quote": "An applicant shall take examinations in subjects the board considers necessary, unless excused under provisions of AS 08.64.250.",
         "citation": "08.64.210"
-      },
-      {
-        "name": "National Board of Examiners for Osteopathic Physicians and Surgeons or National Board of Osteopathic Medical Examiners (for osteopath applicants)",
-        "required": false,
-        "notes": "Accepted in lieu of the state examination for osteopath applicants",
-        "jurisdiction": "national",
-        "permitted_attempts": null,
-        "quote": "take the examination required by AS 08.64.210 or be certified to practice by the National Board of Examiners for Osteopathic Physicians and Surgeons or by the National Board of Osteopathic Medical Examiners",
-        "citation": "08.64.205"
       }
     ],
     "renewal": {
       "interval_years": {
         "value": 2,
-        "quote": "Licenses shall be renewed biennially on the dates set by the department with the approval of the respective board.",
-        "citation": "UMBRELLA / Chapter 01. Centralized Licensing"
+        "quote": "A temporary permit issued under this section is valid for six months ... Upon application by the permittee and approval of the board, a permit issued under this section may be converted to a biennial license upon payment of the biennial fee",
+        "citation": "08.64.270"
       }
     },
     "renewal_fee_usd": null,
     "continuing_education": {
       "required": {
         "value": true,
-        "quote": "Before a license may be renewed, the licensee shall submit evidence to the board or its designee that continuing education requirements prescribed by regulations adopted by the board have been met.",
+        "quote": "requiring every licensee of medicine, osteopathy, and podiatry in the state to fulfill continuing education requirements",
         "citation": "08.64.312"
       },
       "hours_per_period": null,
@@ -132,19 +127,19 @@
     "reciprocity": {
       "available": {
         "value": true,
-        "quote": "The board may waive the examination requirement and license by credentials if the physician, osteopath, or podiatry applicant meets the requirements of AS 08.64.200, 08.64.205, or 08.64.209, submits proof of continued competence as required by regulation, pays the required fee, and has an active license from a board of medical examiners established under the laws of a state or territory of the United States or a province or territory of Canada issued after thorough examination",
+        "quote": "The board may waive the examination requirement and license by credentials if the physician, osteopath, or podiatry applicant meets the requirements ... and has an active license from a board of medical examiners established under the laws of a state or territory of the United States or a province or territory of Canada issued after thorough examination",
         "citation": "08.64.250"
       },
       "requirements": {
-        "value": "Applicant must meet education requirements, submit proof of continued competence, pay the required fee, and hold an active license from another U.S. state/territory or Canadian province/territory issued after thorough examination, or have passed an examination specified by the board.",
-        "quote": "The board may waive the examination requirement and license by credentials if the physician, osteopath, or podiatry applicant meets the requirements of AS 08.64.200, 08.64.205, or 08.64.209, submits proof of continued competence as required by regulation, pays the required fee",
+        "value": "Applicant must meet all standard requirements (education, postgraduate training, etc.), submit proof of continued competence, pay the required fee, and hold an active license from another U.S. state/territory or Canadian province/territory issued after thorough examination, or have passed an examination as specified by the board.",
+        "quote": "The board may waive the examination requirement and license by credentials if the physician, osteopath, or podiatry applicant meets the requirements of AS 08.64.200, 08.64.205, or 08.64.209, submits proof of continued competence as required by regulation, pays the required fee, and has an active license from a board of medical examiners established under the laws of a state or territory of the United States or a province or territory of Canada issued after thorough examination",
         "citation": "08.64.250"
       }
     },
     "advisory_board": {
       "exists": {
         "value": false,
-        "quote": "a board of medical examiners, to be known as the State Medical Board, consisting of five physicians licensed in the state and residing in as many separate geographical areas of the state as possible, one physician assistant licensed under AS 08.64.107, and two persons with no direct financial interest in the health care industry",
+        "quote": "a board of medical examiners, to be known as the State Medical Board, consisting of five physicians licensed in the state",
         "citation": "08.64.010"
       },
       "name": null,
@@ -156,9 +151,9 @@
       "citation": "08.64.205"
     },
     "national_association": {
-      "value": "Association of American Medical Colleges; American Medical Association; American Osteopathic Association; Accreditation Council for Graduate Medical Education",
-      "quote": "accredited by the Association of American Medical Colleges and the Council on Medical Education of the American Medical Association",
-      "citation": "08.64.200"
+      "value": "American Medical Association; American Osteopathic Association; Accreditation Council for Graduate Medical Education",
+      "quote": "approved by the American Medical Association or the American Osteopathic Association",
+      "citation": "08.64.205"
     },
     "regulatory_model": {
       "value": "license",
@@ -188,55 +183,55 @@
     "disciplinary_grounds": [
       {
         "short_label": "fraud_in_obtaining_license",
-        "description": "Securing a license through deceit, fraud, or intentional misrepresentation",
+        "description": "Secured a license through deceit, fraud, or intentional misrepresentation",
         "quote": "secured a license through deceit, fraud, or intentional misrepresentation",
         "citation": "08.64.326"
       },
       {
-        "short_label": "fraud_in_practice",
-        "description": "Engaging in deceit, fraud, or intentional misrepresentation while providing professional services",
+        "short_label": "fraud_in_professional_services",
+        "description": "Engaged in deceit, fraud, or intentional misrepresentation while providing professional services",
         "quote": "engaged in deceit, fraud, or intentional misrepresentation while providing professional services or engaging in professional activities",
         "citation": "08.64.326"
       },
       {
         "short_label": "false_advertising",
-        "description": "Advertising professional services in a false or misleading manner",
+        "description": "Advertised professional services in a false or misleading manner",
         "quote": "advertised professional services in a false or misleading manner",
         "citation": "08.64.326"
       },
       {
         "short_label": "criminal_conviction",
-        "description": "Conviction of a class A or unclassified felony, or a substantially related class B or C felony, or a crime involving unlawful procurement/sale/prescription/dispensing of drugs",
-        "quote": "has been convicted, including conviction based on a guilty plea or plea of nolo contendere, of (A) a class A or unclassified felony or a crime in another jurisdiction with elements similar to a class A or unclassified felony in this jurisdiction",
+        "description": "Convicted of a class A or unclassified felony, certain class B or C felonies, or a crime involving unlawful procurement/sale/prescription/dispensing of drugs",
+        "quote": "has been convicted, including conviction based on a guilty plea or plea of nolo contendere, of a class A or unclassified felony or a crime in another jurisdiction with elements similar to a class A or unclassified felony in this jurisdiction",
         "citation": "08.64.326"
       },
       {
-        "short_label": "unlawful_drug_procurement_or_dispensing",
-        "description": "Procuring, selling, prescribing, or dispensing drugs in violation of law",
+        "short_label": "illegal_drug_procurement_or_dispensing",
+        "description": "Procured, sold, prescribed, or dispensed drugs in violation of law",
         "quote": "has procured, sold, prescribed, or dispensed drugs in violation of a law regardless of whether there has been a criminal action or harm to the patient",
         "citation": "08.64.326"
       },
       {
-        "short_label": "improper_supervision_of_patient_care",
-        "description": "Permitting patient care by supervisees that does not conform to minimum professional standards",
+        "short_label": "substandard_supervision",
+        "description": "Intentionally or negligently permitted patient care by supervised persons that does not conform to minimum professional standards",
         "quote": "intentionally or negligently permitted the performance of patient care by persons under the licensee's supervision that does not conform to minimum professional standards even if the patient was not injured",
         "citation": "08.64.326"
       },
       {
         "short_label": "failure_to_comply_with_chapter",
-        "description": "Failing to comply with the chapter, its regulations, or orders of the board",
+        "description": "Failed to comply with this chapter, a regulation adopted under it, or an order of the board",
         "quote": "failed to comply with this chapter, a regulation adopted under this chapter, or an order of the board",
         "citation": "08.64.326"
       },
       {
         "short_label": "professional_incompetence_or_negligence",
-        "description": "Demonstrating professional incompetence, gross negligence, or repeated negligent conduct",
+        "description": "Demonstrated professional incompetence, gross negligence, or repeated negligent conduct",
         "quote": "professional incompetence, gross negligence, or repeated negligent conduct",
         "citation": "08.64.326"
       },
       {
         "short_label": "substance_addiction_impairing_practice",
-        "description": "Addiction to or habitual overuse of alcohol or other drugs that impairs ability to practice safely",
+        "description": "Addiction to, severe dependency on, or habitual overuse of alcohol or other drugs that impairs ability to practice safely",
         "quote": "addiction to, severe dependency on, or habitual overuse of alcohol or other drugs that impairs the licensee's ability to practice safely",
         "citation": "08.64.326"
       },
@@ -247,38 +242,38 @@
         "citation": "08.64.326"
       },
       {
-        "short_label": "sexual_or_unprofessional_misconduct",
-        "description": "Engaging in unprofessional conduct, sexual misconduct, or lewd/immoral conduct in connection with professional services",
+        "short_label": "unprofessional_or_sexual_misconduct",
+        "description": "Engaged in unprofessional conduct, sexual misconduct, or lewd or immoral conduct in connection with delivery of professional services",
         "quote": "engaged in unprofessional conduct, in sexual misconduct, or in lewd or immoral conduct in connection with the delivery of professional services to patients",
         "citation": "08.64.326"
       },
       {
         "short_label": "violation_of_abortion_law",
-        "description": "Violating AS 18.16.010 (abortion statute)",
+        "description": "Violated AS 18.16.010 (abortion law)",
         "quote": "has violated AS 18.16.010",
         "citation": "08.64.326"
       },
       {
-        "short_label": "violation_of_code_of_ethics",
-        "description": "Violating any code of ethics adopted by board regulation",
+        "short_label": "violation_of_ethics_code",
+        "description": "Violated any code of ethics adopted by regulation by the board",
         "quote": "has violated any code of ethics adopted by regulation by the board",
         "citation": "08.64.326"
       },
       {
-        "short_label": "denial_of_care_for_refusal_to_arbitrate",
-        "description": "Denying care to a patient solely because the patient refused to agree to arbitration",
+        "short_label": "denial_of_care_for_arbitration_refusal",
+        "description": "Denied care or treatment to a patient solely because the patient refused to agree to arbitration",
         "quote": "has denied care or treatment to a patient or person seeking assistance from the physician if the only reason for the denial is the failure or refusal of the patient to agree to arbitrate",
         "citation": "08.64.326"
       },
       {
-        "short_label": "license_action_in_another_jurisdiction",
-        "description": "Having a license in another jurisdiction denied, suspended, revoked, surrendered under investigation, restricted, limited, conditioned, or placed on probation",
+        "short_label": "out_of_state_license_action",
+        "description": "Had a license or certificate to practice medicine in another jurisdiction denied, suspended, revoked, surrendered, restricted, or placed on probation",
         "quote": "has had a license or certificate to practice medicine in another state or territory of the United States, or a province or territory of Canada, denied, suspended, revoked, surrendered while under investigation for an alleged violation, restricted, limited, conditioned, or placed on probation",
         "citation": "08.64.326"
       },
       {
-        "short_label": "opioid_overprescription",
-        "description": "Prescribing or dispensing an opioid in excess of the maximum dosage authorized under AS 08.64.363",
+        "short_label": "opioid_overprescribing",
+        "description": "Prescribed or dispensed an opioid in excess of the maximum dosage authorized under AS 08.64.363",
         "quote": "prescribed or dispensed an opioid in excess of the maximum dosage authorized under AS 08.64.363",
         "citation": "08.64.326"
       }
@@ -291,130 +286,146 @@
     "citations": [
       {
         "cite": "08.64.010",
-        "kind": null
+        "kind": "board composition"
       },
       {
         "cite": "08.64.101",
-        "kind": null
+        "kind": "board duties"
       },
       {
         "cite": "08.64.170",
-        "kind": null
+        "kind": "license required"
+      },
+      {
+        "cite": "08.64.190",
+        "kind": "application contents"
       },
       {
         "cite": "08.64.200",
-        "kind": null
+        "kind": "physician qualifications"
       },
       {
         "cite": "08.64.205",
-        "kind": null
+        "kind": "osteopath qualifications"
       },
       {
         "cite": "08.64.209",
-        "kind": null
+        "kind": "podiatry qualifications"
       },
       {
         "cite": "08.64.210",
-        "kind": null
+        "kind": "examination"
       },
       {
         "cite": "08.64.225",
-        "kind": null
+        "kind": "foreign medical graduates"
       },
       {
         "cite": "08.64.230",
-        "kind": null
+        "kind": "license granted"
+      },
+      {
+        "cite": "08.64.240",
+        "kind": "license refused"
       },
       {
         "cite": "08.64.250",
-        "kind": null
+        "kind": "license by credentials"
+      },
+      {
+        "cite": "08.64.260",
+        "kind": "reexamination"
       },
       {
         "cite": "08.64.270",
-        "kind": null
+        "kind": "temporary permits"
       },
       {
         "cite": "08.64.272",
-        "kind": null
+        "kind": "residency and internship permits"
       },
       {
         "cite": "08.64.275",
-        "kind": null
+        "kind": "locum tenens permit"
       },
       {
         "cite": "08.64.276",
-        "kind": null
+        "kind": "retired status license"
       },
       {
         "cite": "08.64.312",
-        "kind": null
-      },
-      {
-        "cite": "08.64.326",
-        "kind": null
-      },
-      {
-        "cite": "08.64.331",
-        "kind": null
-      },
-      {
-        "cite": "08.64.332",
-        "kind": null
-      },
-      {
-        "cite": "08.64.333",
-        "kind": null
-      },
-      {
-        "cite": "08.64.334",
-        "kind": null
-      },
-      {
-        "cite": "08.64.336",
-        "kind": null
-      },
-      {
-        "cite": "08.64.338",
-        "kind": null
-      },
-      {
-        "cite": "08.64.345",
-        "kind": null
-      },
-      {
-        "cite": "08.64.360",
-        "kind": null
-      },
-      {
-        "cite": "08.64.363",
-        "kind": null
-      },
-      {
-        "cite": "08.64.364",
-        "kind": null
-      },
-      {
-        "cite": "08.64.367",
-        "kind": null
-      },
-      {
-        "cite": "08.64.370",
-        "kind": null
-      },
-      {
-        "cite": "08.64.380",
-        "kind": null
+        "kind": "continuing education"
       },
       {
         "cite": "08.64.313",
-        "kind": null
+        "kind": "inactive license"
+      },
+      {
+        "cite": "08.64.326",
+        "kind": "disciplinary grounds"
+      },
+      {
+        "cite": "08.64.331",
+        "kind": "disciplinary sanctions"
+      },
+      {
+        "cite": "08.64.332",
+        "kind": "automatic suspension"
+      },
+      {
+        "cite": "08.64.333",
+        "kind": "telehealth discipline"
+      },
+      {
+        "cite": "08.64.334",
+        "kind": "voluntary surrender"
+      },
+      {
+        "cite": "08.64.336",
+        "kind": "duty to report"
+      },
+      {
+        "cite": "08.64.338",
+        "kind": "medical and psychiatric exams"
+      },
+      {
+        "cite": "08.64.345",
+        "kind": "malpractice reporting"
+      },
+      {
+        "cite": "08.64.360",
+        "kind": "penalty for unlicensed practice"
+      },
+      {
+        "cite": "08.64.363",
+        "kind": "opioid prescribing limits"
+      },
+      {
+        "cite": "08.64.364",
+        "kind": "telehealth prescribing"
+      },
+      {
+        "cite": "08.64.367",
+        "kind": "investigational drugs"
+      },
+      {
+        "cite": "08.64.370",
+        "kind": "exceptions"
+      },
+      {
+        "cite": "08.64.380",
+        "kind": "definitions"
+      },
+      {
+        "cite": "UMBRELLA / Chapter 01. Centralized Licensing",
+        "kind": "umbrella licensing provisions"
       }
     ]
   },
   "scope": {
     "definition_quote": {
-      "value": "for a fee, donation or other consideration, to diagnose, treat, operate on, prescribe for, or administer to, any human ailment, blemish, deformity, disease, disfigurement, disorder, injury, or other mental or physical condition; or to attempt to perform or represent that a person is authorized to perform any of the acts set out in this subparagraph",
-      "quote": "for a fee, donation or other consideration, to diagnose, treat, operate on, prescribe for, or administer to, any human ailment, blemish, deformity, disease, disfigurement, disorder, injury, or other mental or physical condition; or to attempt to perform or represent that a person is authorized to perform any of the acts set out in this subparagraph",
+      "value": "\"practice of medicine\" or \"practice of osteopathy\" means: (A) for a fee, donation or other consideration, to diagnose, treat, operate on, prescribe for, or administer to, any human ailment, blemish, deformity, disease, disfigurement, disorder, injury, or other mental or physical condition; or to attempt to perform or represent that a person is authorized to perform any of the acts set out in this subparagraph; (B) to use or publicly display a title in connection with a person's name including \"doctor of medicine,\" \"physician,\" \"M.D.,\" or \"doctor of osteopathic medicine\" or \"D.O.\" or a specialist designation",
+      "quote": "\"practice of medicine\" or \"practice of osteopathy\" means: (A) for a fee, donation or other consideration, to diagnose, treat, operate on, prescribe for, or administer to, any human ailment, blemish, deformity, disease, disfigurement, disorder, injury, or other mental or physical condition",
       "citation": "08.64.380"
     },
     "methods_authorized": {
@@ -429,22 +440,22 @@
       "citation": "08.64.380"
     },
     "drug_authority": {
-      "value": "Physicians may prescribe, dispense, and administer prescription drugs, including controlled substances, subject to limitations on opioid prescribing and telehealth prescribing rules.",
-      "quote": "prescribing, dispensing, or administering a prescription drug that is a controlled substance if the requirements under (a) of this section and AS 08.64.363 are met",
+      "value": "Physicians may prescribe, dispense, and administer prescription drugs including controlled substances, subject to limits on opioid prescriptions (7-day supply for initial prescriptions) and telehealth prescribing rules.",
+      "quote": "prescribing, dispensing, or administering a prescription drug that is a controlled substance",
       "citation": "08.64.364"
     },
     "citations": [
       {
         "cite": "08.64.380",
-        "kind": null
+        "kind": "definition of practice"
       },
       {
         "cite": "08.64.363",
-        "kind": null
+        "kind": "opioid prescribing limits"
       },
       {
         "cite": "08.64.364",
-        "kind": null
+        "kind": "telehealth prescribing"
       }
     ]
   },
@@ -455,16 +466,16 @@
         "inactive",
         "retired status",
         "temporary permit",
-        "locum tenens temporary permit",
-        "resident/intern permit"
+        "locum tenens permit",
+        "residency/internship permit"
       ],
-      "quote": "A licensee who does not practice in the state may hold an inactive license ... On retiring from practice and payment of an appropriate one-time fee, a licensee in good standing with the board may apply for the conversion of an active or inactive license to a retired status license ... the board, a member of the board, the executive secretary, or a person designated by the board to issue temporary permits may issue a temporary permit",
+      "quote": "A licensee who does not practice in the state may hold an inactive license ... On retiring from practice ... a licensee in good standing with the board may apply for the conversion of an active or inactive license to a retired status license ... the board may issue a temporary permit ... a temporary permit for locum tenens practice ... the board may issue a permit to an applicant without examination ... for the limited purpose of residency or internship",
       "citation": "08.64.313",
       "unverified": true
     },
     "foreign_medical_graduate_requirements": {
-      "value": "Foreign medical graduates must meet requirements of AS 08.64.200(a)(3)-(5) and AS 08.64.255, and must have completed three years of postgraduate training (or other board-approved proof of competency), and must have passed examinations specified by the board in regulations.",
-      "quote": "Applicants who are graduates of medical colleges not accredited by the Association of American Medical Colleges and the Council on Medical Education of the American Medical Association shall (1) meet the requirements of AS 08.64.200(a)(3) - (5) and 08.64.255; (2) have successfully completed (A) three years of postgraduate training",
+      "value": "Foreign medical graduates must meet requirements of AS 08.64.200(a)(3)-(5) and 08.64.255, complete three years of postgraduate training (or alternative board-approved requirements), and pass examinations as specified by the board. Alternative proof of competency may include current licensure in another state with active practice for at least three years, or current board certification by the American Board of Medical Specialties.",
+      "quote": "Applicants who are graduates of medical colleges not accredited by the Association of American Medical Colleges and the Council on Medical Education of the American Medical Association shall ... have successfully completed three years of postgraduate training",
       "citation": "08.64.225"
     },
     "postgraduate_training_years_required": {
@@ -478,8 +489,8 @@
       "citation": "08.64.200"
     },
     "opioid_prescribing_limits": {
-      "value": "Initial opioid prescription to an adult may not exceed a seven-day supply; all opioid prescriptions for minors may not exceed a seven-day supply. Exceptions apply for acute medical conditions, chronic pain, cancer, palliative care, logistical/travel barriers, or substance abuse treatment.",
-      "quote": "A licensee may not issue (1) an initial prescription for an opioid that exceeds a seven-day supply to an adult patient for outpatient use; (2) a prescription for an opioid that exceeds a seven-day supply to a minor",
+      "value": "Initial opioid prescriptions for adult outpatients may not exceed a seven-day supply. Prescriptions for minors may not exceed a seven-day supply. Exceptions exist for acute medical conditions, chronic pain, cancer pain, palliative care, logistical/travel barriers, and treatment of substance abuse or opioid dependence.",
+      "quote": "A licensee may not issue an initial prescription for an opioid that exceeds a seven-day supply to an adult patient for outpatient use; a prescription for an opioid that exceeds a seven-day supply to a minor",
       "citation": "08.64.363"
     },
     "controlled_substance_database_registration_required": {
@@ -489,8 +500,8 @@
     },
     "pain_management_clinic_registration_required": null,
     "telehealth_prescribing_rules": {
-      "value": "The board may not impose disciplinary sanctions on a physician for prescribing non-controlled substances via telehealth if follow-up care is available and records are offered to the primary care provider. Controlled substances may be prescribed via telehealth if those requirements and opioid limits are met. Physicians may not prescribe in response to an Internet questionnaire or email without a prior physician-patient relationship.",
-      "quote": "The board may not impose disciplinary sanctions on a physician or physician assistant for rendering a diagnosis, providing treatment, or prescribing, dispensing, or administering a prescription drug that is not a controlled substance to a person without conducting a physical examination if (1) the physician, physician assistant, or another licensed health care provider in the medical practice is available to provide follow-up care",
+      "value": "A physician or physician assistant may prescribe non-controlled substances via telehealth without a physical examination if follow-up care is available and records are sent to the primary care provider with patient consent. Controlled substances may also be prescribed if those conditions and AS 08.64.363 are met. A physician may not prescribe abortion-inducing drugs via telehealth without complying with AS 18.16.010. Neither a physician nor PA may prescribe in response to an Internet questionnaire or email to a person with whom they have no prior physician-patient relationship.",
+      "quote": "The board may not impose disciplinary sanctions on a physician or physician assistant for rendering a diagnosis, providing treatment, or prescribing, dispensing, or administering a prescription drug that is not a controlled substance to a person without conducting a physical examination if the physician, physician assistant, or another licensed health care provider in the medical practice is available to provide follow-up care",
       "citation": "08.64.364"
     },
     "telemedicine_license_available": null,
@@ -501,14 +512,14 @@
       "citation": "08.64.170"
     },
     "physician_assistant_prescriptive_authority": {
-      "value": "Physician assistants may prescribe, dispense, or administer prescription drugs (including controlled substances) under regulations adopted by the board governing their scope of activities, subject to the same telehealth and opioid prescribing limitations as physicians.",
-      "quote": "the board shall adopt regulations regarding the licensure of physician assistants and the medical services that they may perform, including the ... scope of activities authorized",
+      "value": "Physician assistants may prescribe, dispense, or administer prescription drugs including controlled substances under the supervision, control, and responsibility of a licensed physician, subject to board regulations and the same telehealth prescribing rules as physicians.",
+      "quote": "adopt regulations regarding the licensure of physician assistants and the medical services that they may perform, including the ... scope of activities authorized",
       "citation": "08.64.107"
     },
     "max_physician_assistants_per_supervising_physician": null,
     "malpractice_reporting_required": {
       "value": true,
-      "quote": "A person licensed under this chapter shall report in writing to the board concerning the outcome of each medical malpractice claim or civil action in which damages have been or are to be paid by or on behalf of the licensee to the claimant or plaintiff, whether by judgment or under a settlement.",
+      "quote": "A person licensed under this chapter shall report in writing to the board concerning the outcome of each medical malpractice claim or civil action in which damages have been or are to be paid by or on behalf of the licensee to the claimant or plaintiff",
       "citation": "08.64.345"
     },
     "hospital_privilege_action_reporting_required": {
@@ -518,7 +529,7 @@
     },
     "impaired_physician_program_authorized": {
       "value": true,
-      "quote": "under regulations adopted by the board, contract with private professional organizations to establish an impaired medical professionals program to identify, confront, evaluate, and treat persons licensed under this chapter who abuse alcohol, other drugs, or other substances or are mentally ill or cognitively impaired",
+      "quote": "contract with private professional organizations to establish an impaired medical professionals program to identify, confront, evaluate, and treat persons licensed under this chapter who abuse alcohol, other drugs, or other substances or are mentally ill or cognitively impaired",
       "citation": "08.64.101"
     },
     "compelled_mental_physical_exam_authority": {
@@ -535,7 +546,7 @@
     "sexual_misconduct_training_required": null,
     "investigational_drug_protection": {
       "value": true,
-      "quote": "A physician may not be subject to disciplinary action by the board for prescribing, dispensing, or administering an investigational drug, biological product, or device, or providing related treatment, to a patient for the purpose of sustaining the patient's life if the patient (1) has a terminal illness",
+      "quote": "A physician may not be subject to disciplinary action by the board for prescribing, dispensing, or administering an investigational drug, biological product, or device, or providing related treatment, to a patient for the purpose of sustaining the patient's life if the patient has a terminal illness",
       "citation": "08.64.367"
     },
     "scope__license_status_types": [
@@ -566,7 +577,7 @@
       {
         "item": "Probationary License",
         "status": "present",
-        "quote": "place a licensee on probationary status and require the licensee to (A) report regularly to the board on matters involving the basis of probation",
+        "quote": "place a licensee on probationary status and require the licensee to report regularly to the board on matters involving the basis of probation",
         "citation": "08.64.331"
       },
       {
