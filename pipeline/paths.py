@@ -42,11 +42,14 @@ def _publish_excluded() -> set[str]:
     mean one thing everywhere, or a profession gets dropped from the scorecard while a
     stale payload keeps it in the browse view and the occupation picker (#121)."""
     try:
-        from pipeline.config.loaders import registry_professions  # deferred: cycle
-        return {k for k, v in registry_professions().items()
-                if isinstance(v, dict) and v.get("publish") is False}
-    except Exception:
-        return set()
+        from pipeline.config.loaders import registry_professions  # deferred: loaders imports us
+    except ImportError:
+        return set()   # the import cycle is the only failure worth absorbing
+    # A malformed professions.yaml PROPAGATES. Swallowing it here would silently
+    # un-retire an occupation — the config says don't publish, the code publishes anyway —
+    # which is the failure mode this flag exists to prevent.
+    return {k for k, v in registry_professions().items()
+            if isinstance(v, dict) and v.get("publish") is False}
 
 
 def core_professions(min_states: int = MIN_STATES_FOR_CORE) -> list[str]:

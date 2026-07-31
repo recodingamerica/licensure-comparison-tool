@@ -110,6 +110,46 @@ def test_shipped_artifact_matches_the_data_on_disk(name):
     )
 
 
+def test_state_browse_index_covers_the_professions_it_should():
+    """`data/state/` is 191 MB across 50 blobs — far too slow to rebuild-and-compare, so
+    check its 16 KB index instead.
+
+    build_state_browse includes a profession in a state's blob exactly when that cell has
+    both a structured record and a trimmed corpus, and writes the resulting set into
+    states.json. So the index is a cheap, faithful proxy for coverage: this morning it
+    said 12 professions where it should have said 13, because dietetics was missing from
+    every state blob AND from the statute-dictionary picker that reads this file.
+
+    Cheap enough to keep honest without parsing the blobs themselves.
+    """
+    from pipeline.paths import WEB_PUBLIC_DIR, STRUCTURED_DIR, TRIMMED_DIR, published_professions
+
+    index_path = WEB_PUBLIC_DIR / "states.json"
+    if not index_path.exists():
+        pytest.skip("no states.json published locally (fresh clone)")
+
+    published = published_professions()
+    problems = []
+    for entry in json.loads(index_path.read_text()):
+        state = entry["state"]
+        listed = set(entry.get("professions") or [])
+        expected = {
+            p for p in published
+            if (STRUCTURED_DIR / p / f"{state}.json").exists()
+            and (TRIMMED_DIR / p / f"{state}.json").exists()
+        }
+        if listed != expected:
+            missing, extra = sorted(expected - listed), sorted(listed - expected)
+            problems.append(f"{state}: missing={missing} unexpected={extra}")
+
+    assert not problems, (
+        f"{len(problems)} states' browse coverage disagrees with the records on disk. A "
+        f"missing profession is invisible in /browse and in the statute-dictionary picker. "
+        f"Re-run `python -m pipeline.publish.build_state_browse`.\n  "
+        + "\n  ".join(problems[:10])
+    )
+
+
 def _cells(payload: dict) -> dict:
     """{(profession, row label, state): status} — compares the scope matrix by meaning
     rather than JSON layout, so a key reordering or an added display field doesn't read
