@@ -2,7 +2,7 @@
 
 _Auto-generated from the extraction model (`standard_model.py` + the profession's discovered schema). Do not edit by hand — regenerate with `python -m pipeline.publish.generate_field_dictionary`._
 
-**Reflects extracted data as of 2026-07-29** (latest commit to `hvac` records). Regenerate to refresh.
+**Reflects extracted data as of 2026-07-31** (latest commit to `hvac` records). Regenerate to refresh.
 
 Every field is an **Evidence** object: a `value`, the verbatim `quote` from the statute that supports it, and the `citation` it came from. Each example below is drawn from the first state that has a value for that field; the source state is shown in parentheses.
 
@@ -23,7 +23,7 @@ character), fees, renewal, continuing education, and reciprocity._
 | `moral_character_required` | boolean | Whether the statute conditions licensure on good moral character / fitness. | true (AL) |
 | `education` | object | Education entry requirement — degree, level, accreditation, and any tiers. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.degree_required` | string |  | "graduate of an approved heating, air conditioning, or refri (AL) |
-| &nbsp;&nbsp;&nbsp;&nbsp;`education.accrediting_body` | string |  | "United States Department of Labor (apprenticeship programs) (NJ) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`education.accrediting_body` | string |  | "accredited college or university or manufacturer's accredit (AZ) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.degree_level` | enum — one of: none, high_school, associate, bachelor, master, doctorate | The comparable education FLOOR as a normalized rung. Populate whenever licensure is gated on a degree; null only if the statute is silent on education. | "none" (AL) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.school_approval_basis` | enum — one of: national_accreditor, regional_accreditor, board_approved, unspecified | How the statute decides a school counts. national_accreditor=a named national program accreditor (ACOE/CODA/ACEND/LCME/CPME). regional_accreditor='regionally accredited college or university'. board_approved='approved by the board' (discretionary state gate). unspecified=says 'accredited' with no basis named, or silent. | "board_approved" (AL) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`education.credential_pegged` | boolean | True if the statute pegs the education requirement to a NATIONAL CREDENTIAL (e.g. 'registered by CDR', 'passed the NBEO') rather than (or in addition to) a stated degree — such a state inherits whatever that national body currently requires. | false (AL) |
@@ -44,7 +44,7 @@ character), fees, renewal, continuing education, and reciprocity._
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].permitted_attempts` | integer | Max attempts allowed before re-qualification. Null if not specified. | 3 (DE) |
 | `renewal` | object | How the credential is renewed — interval and any conditions. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`renewal.interval_years` | integer | Most states are 1 or 2 | 2 (AK) |
-| `renewal_fee_usd` | integer | License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case. | 100 (LA) |
+| `renewal_fee_usd` | integer | License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case. | 110 (CT) |
 | `continuing_education` | object | Continuing-education requirement to keep the credential active. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.required` | boolean |  | false (AK) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.hours_per_period` | integer |  | 4 (AL) |

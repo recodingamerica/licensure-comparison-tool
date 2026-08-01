@@ -4,28 +4,28 @@
     "licensure.disciplinary_grounds": {
       "field_name": "licensure.disciplinary_grounds",
       "bucket_set": [
-        "Fraud in Licensure",
-        "Criminal Conviction",
+        "Fraud or Misrepresentation",
         "Incompetence or Negligence",
+        "Criminal Conviction",
         "Regulatory or Code Violation",
         "License Misuse or Transfer",
-        "Unlicensed Practice or Employment",
         "Contract or Financial Misconduct",
-        "Substance Abuse or Impairment",
-        "Other Compliance Failures"
+        "Unlicensed Practice or Aiding",
+        "Substance Use or Impairment",
+        "Administrative Non-Compliance"
       ],
-      "rationale": "These nine buckets capture the dominant clusters across all states: fraudulent acts tied to obtaining or using a license; criminal convictions; incompetence/negligence/substandard work; violations of statutes, codes, or board rules; improper lending, transferring, or misusing a license; aiding or engaging in unlicensed practice; contract abandonment, fund diversion, and financial failures toward clients or suppliers; substance abuse and physical/mental impairment; and a residual bucket for administrative failures (continuing education, recordkeeping, child support, reporting obligations) that do not fit the primary clusters.",
+      "rationale": "These nine buckets capture the dominant clusters across all states: fraudulent application/license-obtaining acts, competence/negligence failures, criminal history, code/statute violations, improper license lending or identity misuse, contract abandonment/fund diversion/payment failures, aiding or being unlicensed persons, substance/physical impairment, and procedural failures like supervision lapses, recordkeeping, insurance, and non-cooperation with boards.",
       "assignments": [
         {
           "state": "AK",
           "item_index": 0,
           "item_label": "fraudulent_application",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "AK",
           "item_index": 1,
-          "item_label": "knowing_violation_of_statute_or_regulation",
+          "item_label": "knowing_violation_of_statutes_or_codes",
           "bucket": "Regulatory or Code Violation"
         },
         {
@@ -38,7 +38,7 @@
           "state": "AL",
           "item_index": 0,
           "item_label": "fraud_in_obtaining_certificate",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "AL",
@@ -49,43 +49,49 @@
         {
           "state": "AL",
           "item_index": 2,
+          "item_label": "failure_to_satisfy_disciplinary_order",
+          "bucket": "Administrative Non-Compliance"
+        },
+        {
+          "state": "AL",
+          "item_index": 3,
           "item_label": "wrongful_use_of_certificate",
           "bucket": "License Misuse or Transfer"
         },
         {
           "state": "AL",
-          "item_index": 3,
+          "item_index": 4,
           "item_label": "misuse_of_certificate",
           "bucket": "License Misuse or Transfer"
         },
         {
           "state": "AL",
-          "item_index": 4,
+          "item_index": 5,
           "item_label": "sale_or_transfer_of_certificate",
           "bucket": "License Misuse or Transfer"
         },
         {
           "state": "AL",
-          "item_index": 5,
-          "item_label": "noncompliance_with_disciplinary_order",
-          "bucket": "Other Compliance Failures"
+          "item_index": 6,
+          "item_label": "violation_of_chapter_provisions",
+          "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "AR",
           "item_index": 0,
           "item_label": "material_misstatement_in_application",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "AR",
           "item_index": 1,
-          "item_label": "demonstrated_incompetency",
+          "item_label": "incompetency",
           "bucket": "Incompetence or Negligence"
         },
         {
           "state": "AR",
           "item_index": 2,
-          "item_label": "willful_violation_of_chapter_or_rules",
+          "item_label": "willful_violation",
           "bucket": "Regulatory or Code Violation"
         },
         {
@@ -97,32 +103,32 @@
         {
           "state": "AZ",
           "item_index": 1,
-          "item_label": "departure_from_plans_or_specs",
+          "item_label": "departure_from_plans_or_code",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "AZ",
           "item_index": 2,
-          "item_label": "violation_of_registrar_rules",
+          "item_label": "violation_of_registrar_rule",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "AZ",
           "item_index": 3,
-          "item_label": "failure_to_comply_social_security_workers_comp_unemployment",
+          "item_label": "failure_to_comply_social_security_workers_comp",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "AZ",
           "item_index": 4,
           "item_label": "misrepresentation_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "AZ",
           "item_index": 5,
-          "item_label": "fraudulent_act_as_contractor",
-          "bucket": "Contract or Financial Misconduct"
+          "item_label": "fraudulent_act",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "AZ",
@@ -140,7 +146,7 @@
           "state": "AZ",
           "item_index": 8,
           "item_label": "evading_chapter_requirements",
-          "bucket": "License Misuse or Transfer"
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "AZ",
@@ -164,7 +170,7 @@
           "state": "AZ",
           "item_index": 12,
           "item_label": "contracting_with_unlicensed_contractor",
-          "bucket": "Unlicensed Practice or Employment"
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "AZ",
@@ -176,61 +182,55 @@
           "state": "AZ",
           "item_index": 14,
           "item_label": "false_misleading_advertising",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "AZ",
           "item_index": 15,
           "item_label": "contracting_beyond_license_scope",
-          "bucket": "License Misuse or Transfer"
+          "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "AZ",
           "item_index": 16,
           "item_label": "contracting_while_suspended_or_inactive",
-          "bucket": "Unlicensed Practice or Employment"
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "AZ",
           "item_index": 17,
           "item_label": "failure_to_notify_of_qualifying_party_disassociation",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "AZ",
           "item_index": 18,
-          "item_label": "subsequent_discovery_of_disqualifying_facts",
-          "bucket": "Fraud in Licensure"
+          "item_label": "subsequent_disqualifying_facts",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "AZ",
           "item_index": 19,
-          "item_label": "named_person_on_suspended_or_revoked_license",
-          "bucket": "Other Compliance Failures"
+          "item_label": "named_on_suspended_or_revoked_license",
+          "bucket": "License Misuse or Transfer"
         },
         {
           "state": "AZ",
           "item_index": 20,
-          "item_label": "pretreatment_wood_destroying_pests_violation",
+          "item_label": "failure_to_ensure_termite_pretreatment",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "AZ",
           "item_index": 21,
           "item_label": "failure_to_take_corrective_action",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "AZ",
           "item_index": 22,
-          "item_label": "prohibiting_or_retaliating_against_preliminary_notice",
-          "bucket": "Other Compliance Failures"
-        },
-        {
-          "state": "AZ",
-          "item_index": 23,
-          "item_label": "failure_to_comply_title_44_chapter_11_article_11",
-          "bucket": "Regulatory or Code Violation"
+          "item_label": "retaliation_against_lien_notice_filer",
+          "bucket": "Contract or Financial Misconduct"
         },
         {
           "state": "CA",
@@ -259,14 +259,14 @@
         {
           "state": "CA",
           "item_index": 4,
-          "item_label": "failure_to_keep_records",
-          "bucket": "Other Compliance Failures"
+          "item_label": "failure_to_maintain_records",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "CA",
           "item_index": 5,
-          "item_label": "misrepresentation_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "item_label": "misrepresentation_in_application",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "CA",
@@ -278,7 +278,7 @@
           "state": "CA",
           "item_index": 7,
           "item_label": "aiding_unlicensed_person",
-          "bucket": "Unlicensed Practice or Employment"
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "CA",
@@ -289,43 +289,37 @@
         {
           "state": "CA",
           "item_index": 9,
-          "item_label": "willful_fraudulent_act",
-          "bucket": "Contract or Financial Misconduct"
+          "item_label": "willful_or_fraudulent_act",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "CA",
           "item_index": 10,
-          "item_label": "acting_outside_license_name",
+          "item_label": "acting_outside_license_name_or_personnel",
           "bucket": "License Misuse or Transfer"
         },
         {
           "state": "CA",
           "item_index": 11,
-          "item_label": "acting_under_inactive_suspended_expired_license",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "contracting_with_unlicensed_contractor",
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "CA",
           "item_index": 12,
-          "item_label": "contracting_with_unlicensed_contractor",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "willful_failure_to_prosecute",
+          "bucket": "Contract or Financial Misconduct"
         },
         {
           "state": "CA",
           "item_index": 13,
-          "item_label": "failure_to_prosecute_with_diligence",
+          "item_label": "failure_to_pay_money_due",
           "bucket": "Contract or Financial Misconduct"
         },
         {
           "state": "CA",
           "item_index": 14,
-          "item_label": "willful_failure_to_pay",
-          "bucket": "Contract or Financial Misconduct"
-        },
-        {
-          "state": "CA",
-          "item_index": 15,
-          "item_label": "conviction_of_related_crime",
+          "item_label": "conviction_of_substantially_related_crime",
           "bucket": "Criminal Conviction"
         },
         {
@@ -344,13 +338,13 @@
           "state": "CO",
           "item_index": 2,
           "item_label": "failure_to_remove_disapproval",
-          "bucket": "Incompetence or Negligence"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "CO",
           "item_index": 3,
-          "item_label": "cause_for_license_refusal",
-          "bucket": "Fraud in Licensure"
+          "item_label": "disqualifying_cause_at_issuance",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "CO",
@@ -368,13 +362,13 @@
           "state": "CO",
           "item_index": 6,
           "item_label": "false_or_misleading_advertising",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "CO",
           "item_index": 7,
           "item_label": "fraud_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "CO",
@@ -386,48 +380,48 @@
           "state": "CO",
           "item_index": 9,
           "item_label": "failure_to_report_violations",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "CO",
           "item_index": 10,
           "item_label": "employing_unlicensed_persons",
-          "bucket": "Unlicensed Practice or Employment"
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "CO",
           "item_index": 11,
-          "item_label": "substance_abuse",
-          "bucket": "Substance Abuse or Impairment"
+          "item_label": "habitual_substance_abuse",
+          "bucket": "Substance Use or Impairment"
         },
         {
           "state": "CO",
           "item_index": 12,
-          "item_label": "schedule_i_controlled_substance_use",
-          "bucket": "Substance Abuse or Impairment"
+          "item_label": "schedule_i_substance_use",
+          "bucket": "Substance Use or Impairment"
         },
         {
           "state": "CO",
           "item_index": 13,
           "item_label": "out_of_state_disciplinary_action",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "CO",
           "item_index": 14,
-          "item_label": "practicing_on_suspended_revoked_license",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "practicing_on_suspended_license",
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "CO",
           "item_index": 15,
-          "item_label": "fraudulent_license_dealings",
+          "item_label": "selling_or_fraudulently_obtaining_license",
           "bucket": "License Misuse or Transfer"
         },
         {
           "state": "CO",
           "item_index": 16,
-          "item_label": "willful_disregard_of_construction_laws",
+          "item_label": "willful_violation_of_construction_laws",
           "bucket": "Regulatory or Code Violation"
         },
         {
@@ -440,7 +434,7 @@
           "state": "CO",
           "item_index": 18,
           "item_label": "failure_to_display_registration_info",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "CT",
@@ -463,62 +457,44 @@
         {
           "state": "CT",
           "item_index": 3,
-          "item_label": "violation_of_regulations",
-          "bucket": "Regulatory or Code Violation"
+          "item_label": "false_misleading_deceptive_representations",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "CT",
           "item_index": 4,
-          "item_label": "practicing_without_license",
-          "bucket": "Unlicensed Practice or Employment"
-        },
-        {
-          "state": "CT",
-          "item_index": 5,
-          "item_label": "employing_unlicensed_person",
-          "bucket": "Unlicensed Practice or Employment"
-        },
-        {
-          "state": "CT",
-          "item_index": 6,
-          "item_label": "false_pretense_of_qualification",
-          "bucket": "Fraud in Licensure"
-        },
-        {
-          "state": "CT",
-          "item_index": 7,
-          "item_label": "practicing_after_license_expiration",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "violation_of_regulations",
+          "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "DE",
           "item_index": 0,
           "item_label": "fraud_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "DE",
           "item_index": 1,
-          "item_label": "illegal_incompetent_negligent_practice",
+          "item_label": "incompetent_or_negligent_practice",
           "bucket": "Incompetence or Negligence"
         },
         {
           "state": "DE",
           "item_index": 2,
-          "item_label": "substantially_related_criminal_conviction",
+          "item_label": "criminal_conviction",
           "bucket": "Criminal Conviction"
         },
         {
           "state": "DE",
           "item_index": 3,
-          "item_label": "drug_or_alcohol_impairment",
-          "bucket": "Substance Abuse or Impairment"
+          "item_label": "drug_or_alcohol_abuse",
+          "bucket": "Substance Use or Impairment"
         },
         {
           "state": "DE",
           "item_index": 4,
-          "item_label": "consumer_fraud_or_anticompetitive_conduct",
-          "bucket": "Contract or Financial Misconduct"
+          "item_label": "consumer_fraud_or_price_fixing",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "DE",
@@ -529,26 +505,26 @@
         {
           "state": "DE",
           "item_index": 6,
-          "item_label": "adverse_action_in_other_jurisdiction",
-          "bucket": "Other Compliance Failures"
+          "item_label": "adverse_action_in_another_jurisdiction",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "DE",
           "item_index": 7,
           "item_label": "failure_to_notify_of_out_of_state_discipline",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "DE",
           "item_index": 8,
           "item_label": "physical_or_mental_impairment",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Incompetence or Negligence"
         },
         {
           "state": "FL",
           "item_index": 0,
           "item_label": "fraud_in_obtaining_certificate",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "FL",
@@ -559,25 +535,25 @@
         {
           "state": "FL",
           "item_index": 2,
-          "item_label": "violation_of_chapter_455",
+          "item_label": "violation_chapter_455",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "FL",
           "item_index": 3,
           "item_label": "assisting_unlicensed_practice",
-          "bucket": "Unlicensed Practice or Employment"
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "FL",
           "item_index": 4,
-          "item_label": "license_lending",
+          "item_label": "license_sharing_with_unlicensed",
           "bucket": "License Misuse or Transfer"
         },
         {
           "state": "FL",
           "item_index": 5,
-          "item_label": "contracting_under_improper_name",
+          "item_label": "acting_outside_certificate_name",
           "bucket": "License Misuse or Transfer"
         },
         {
@@ -589,8 +565,8 @@
         {
           "state": "FL",
           "item_index": 7,
-          "item_label": "disciplined_by_municipality_or_county",
-          "bucket": "Other Compliance Failures"
+          "item_label": "disciplined_by_municipality_county",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "FL",
@@ -601,20 +577,20 @@
         {
           "state": "FL",
           "item_index": 9,
-          "item_label": "abandonment",
+          "item_label": "abandoning_project",
           "bucket": "Contract or Financial Misconduct"
         },
         {
           "state": "FL",
           "item_index": 10,
-          "item_label": "false_statements_re_bonding_or_insurance",
-          "bucket": "Fraud in Licensure"
+          "item_label": "false_bonding_or_insurance_statement",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "FL",
           "item_index": 11,
           "item_label": "fraud_or_deceit",
-          "bucket": "Contract or Financial Misconduct"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "FL",
@@ -631,14 +607,14 @@
         {
           "state": "FL",
           "item_index": 14,
-          "item_label": "proceeding_without_permits",
+          "item_label": "proceeding_without_permit",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "FL",
           "item_index": 15,
           "item_label": "intimidating_notice_to_owner",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Contract or Financial Misconduct"
         },
         {
           "state": "FL",
@@ -655,50 +631,50 @@
         {
           "state": "GA",
           "item_index": 0,
-          "item_label": "fraud_in_licensing",
-          "bucket": "Fraud in Licensure"
+          "item_label": "fraud_in_obtaining_license",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "GA",
           "item_index": 1,
-          "item_label": "failure_to_comply_requirements",
-          "bucket": "Other Compliance Failures"
+          "item_label": "failure_to_comply_with_requirements",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "GA",
           "item_index": 2,
           "item_label": "habitual_intemperance",
-          "bucket": "Substance Abuse or Impairment"
+          "bucket": "Substance Use or Impairment"
         },
         {
           "state": "GA",
           "item_index": 3,
-          "item_label": "dishonorable_conduct",
-          "bucket": "Other Compliance Failures"
+          "item_label": "dishonorable_or_unethical_conduct",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "GA",
           "item_index": 4,
           "item_label": "assisting_unlicensed_practice",
-          "bucket": "Unlicensed Practice or Employment"
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "GA",
           "item_index": 5,
-          "item_label": "violating_chapter_or_rules",
+          "item_label": "violating_chapter_or_regulations",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "GA",
           "item_index": 6,
-          "item_label": "faulty_unsafe_work",
+          "item_label": "faulty_or_unsafe_work",
           "bucket": "Incompetence or Negligence"
         },
         {
           "state": "HI",
           "item_index": 0,
           "item_label": "fraud_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "HI",
@@ -710,19 +686,19 @@
           "state": "HI",
           "item_index": 2,
           "item_label": "false_fraudulent_deceptive_advertising",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "HI",
           "item_index": 3,
-          "item_label": "permitting_unlicensed_person_to_perform",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "permitting_unlicensed_person",
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "HI",
           "item_index": 4,
-          "item_label": "aiding_abetting_unlicensed_person",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "aiding_abetting_unlicensed",
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "HI",
@@ -733,8 +709,8 @@
         {
           "state": "HI",
           "item_index": 6,
-          "item_label": "acting_as_agent_of_unlicensed_person",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "acting_as_agent_of_unlicensed",
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "HI",
@@ -746,7 +722,7 @@
           "state": "IA",
           "item_index": 0,
           "item_label": "fraud_in_procuring_license",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "IA",
@@ -758,19 +734,19 @@
           "state": "IA",
           "item_index": 2,
           "item_label": "fraudulent_misrepresentation",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "IA",
           "item_index": 3,
           "item_label": "fraud_in_representations_of_skill",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "IA",
           "item_index": 4,
-          "item_label": "untruthful_advertising",
-          "bucket": "Other Compliance Failures"
+          "item_label": "untruthful_advertisements",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "IA",
@@ -782,7 +758,7 @@
           "state": "IA",
           "item_index": 6,
           "item_label": "aiding_unlicensed_practice",
-          "bucket": "Unlicensed Practice or Employment"
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "IA",
@@ -794,13 +770,13 @@
           "state": "IA",
           "item_index": 8,
           "item_label": "other_grounds_by_rule",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "ID",
           "item_index": 0,
-          "item_label": "fraud_in_obtaining_certificate",
-          "bucket": "Fraud in Licensure"
+          "item_label": "obtained_through_error_or_fraud",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "ID",
@@ -811,14 +787,14 @@
         {
           "state": "ID",
           "item_index": 2,
-          "item_label": "repeated_rule_violations",
+          "item_label": "repeated_rule_violation",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "ID",
           "item_index": 3,
-          "item_label": "practicing_without_certificate",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "practice_without_certificate",
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "ID",
@@ -836,19 +812,19 @@
           "state": "ID",
           "item_index": 6,
           "item_label": "refusal_to_perform_lawful_duty",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "ID",
           "item_index": 7,
           "item_label": "failure_to_obey_lawful_order",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "IL",
           "item_index": 0,
           "item_label": "fraud_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "IL",
@@ -877,80 +853,62 @@
         {
           "state": "IL",
           "item_index": 5,
-          "item_label": "failure_to_maintain_valid_license",
-          "bucket": "Other Compliance Failures"
+          "item_label": "failure_to_maintain_valid_license_by_contractor_owner",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "IL",
           "item_index": 6,
-          "item_label": "unauthorized_use_of_license",
+          "item_label": "unauthorized_use_of_license_by_contractor",
           "bucket": "License Misuse or Transfer"
-        },
-        {
-          "state": "IL",
-          "item_index": 7,
-          "item_label": "failure_to_file_tax_return",
-          "bucket": "Other Compliance Failures"
         },
         {
           "state": "IN",
           "item_index": 0,
-          "item_label": "unlicensed_practice",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "false_statements_in_application",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "IN",
           "item_index": 1,
-          "item_label": "practice_after_suspension_revocation",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "operating_without_license",
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "IN",
           "item_index": 2,
-          "item_label": "practice_after_expiration",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "practicing_on_expired_license",
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "IN",
           "item_index": 3,
-          "item_label": "false_statements_in_application",
-          "bucket": "Fraud in Licensure"
+          "item_label": "failure_to_display_name_in_advertising",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "IN",
           "item_index": 4,
           "item_label": "failure_to_register_with_political_subdivision",
-          "bucket": "Regulatory or Code Violation"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "IN",
           "item_index": 5,
-          "item_label": "failure_to_repay_recovery_fund",
-          "bucket": "Other Compliance Failures"
-        },
-        {
-          "state": "IN",
-          "item_index": 6,
-          "item_label": "conviction_of_qualifying_offense",
-          "bucket": "Criminal Conviction"
-        },
-        {
-          "state": "IN",
-          "item_index": 7,
-          "item_label": "omission_of_name_in_advertising",
-          "bucket": "Regulatory or Code Violation"
+          "item_label": "recovery_fund_judgment",
+          "bucket": "Contract or Financial Misconduct"
         },
         {
           "state": "KY",
           "item_index": 0,
-          "item_label": "violation_of_chapter_or_code",
+          "item_label": "violation_of_chapter_code_or_regulations",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "KY",
           "item_index": 1,
           "item_label": "fraud_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "KY",
@@ -967,8 +925,8 @@
         {
           "state": "KY",
           "item_index": 4,
-          "item_label": "unprofessional_dishonorable_conduct",
-          "bucket": "Other Compliance Failures"
+          "item_label": "unprofessional_or_dishonorable_conduct",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "LA",
@@ -980,31 +938,31 @@
           "state": "LA",
           "item_index": 1,
           "item_label": "falsification_of_application",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "LA",
           "item_index": 2,
-          "item_label": "substandard_work_performance",
+          "item_label": "habitual_substandard_work",
           "bucket": "Incompetence or Negligence"
         },
         {
           "state": "LA",
           "item_index": 3,
           "item_label": "failure_to_designate_employing_entity",
-          "bucket": "Regulatory or Code Violation"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "LA",
           "item_index": 4,
-          "item_label": "allowing_unlicensed_entity_to_hold_out",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "allowing_unlicensed_employing_entity_to_hold_out",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "LA",
           "item_index": 5,
           "item_label": "allowing_unlicensed_persons_to_perform_work",
-          "bucket": "Unlicensed Practice or Employment"
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "LA",
@@ -1016,25 +974,25 @@
           "state": "LA",
           "item_index": 7,
           "item_label": "habitual_violation_of_board_rules",
-          "bucket": "Regulatory or Code Violation"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "LA",
           "item_index": 8,
-          "item_label": "habitual_violation_by_gas_fitter",
-          "bucket": "Regulatory or Code Violation"
+          "item_label": "habitual_violation_of_board_rules_gas_fitter",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "LA",
           "item_index": 9,
-          "item_label": "violation_of_gas_fitting_codes",
+          "item_label": "violation_of_local_gas_fitting_codes",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "LA",
           "item_index": 10,
           "item_label": "failure_to_designate_employing_entity_gas_fitter",
-          "bucket": "Regulatory or Code Violation"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "MA",
@@ -1045,20 +1003,26 @@
         {
           "state": "MA",
           "item_index": 1,
-          "item_label": "failure_to_comply_with_examiner_rules",
-          "bucket": "Other Compliance Failures"
+          "item_label": "failure_to_comply_with_examiners_rules",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "MA",
           "item_index": 2,
           "item_label": "other_sufficient_cause",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
+        },
+        {
+          "state": "MA",
+          "item_index": 3,
+          "item_label": "employing_unlicensed_journeyman_or_apprentice",
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "MD",
           "item_index": 0,
-          "item_label": "fraud_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "item_label": "fraudulent_obtaining_of_license",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "MD",
@@ -1088,19 +1052,19 @@
           "state": "MD",
           "item_index": 5,
           "item_label": "unfair_deceptive_trade_practice",
-          "bucket": "Contract or Financial Misconduct"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "MD",
           "item_index": 6,
-          "item_label": "failure_to_train_control_subordinates",
+          "item_label": "failure_to_train_and_control_subordinates",
           "bucket": "Incompetence or Negligence"
         },
         {
           "state": "MD",
           "item_index": 7,
-          "item_label": "failure_to_maintain_insurance",
-          "bucket": "Other Compliance Failures"
+          "item_label": "failure_to_maintain_liability_insurance",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "MD",
@@ -1111,31 +1075,37 @@
         {
           "state": "MD",
           "item_index": 9,
-          "item_label": "practice_outside_scope_of_license",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "performing_services_outside_license_scope",
+          "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "MD",
           "item_index": 10,
-          "item_label": "allowing_other_licensee_to_exceed_scope",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "permitting_another_to_work_outside_scope",
+          "bucket": "License Misuse or Transfer"
         },
         {
           "state": "MD",
           "item_index": 11,
-          "item_label": "violation_of_title_or_regulations",
-          "bucket": "Regulatory or Code Violation"
+          "item_label": "violation_of_title_provisions",
+          "bucket": "Administrative Non-Compliance"
+        },
+        {
+          "state": "MD",
+          "item_index": 12,
+          "item_label": "violation_of_regulations",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "ME",
           "item_index": 0,
-          "item_label": "general_disciplinary_grounds",
-          "bucket": "Other Compliance Failures"
+          "item_label": "denial_or_refusal_to_renew",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "ME",
           "item_index": 1,
-          "item_label": "violation_of_law",
+          "item_label": "violation_of_chapter_or_rules",
           "bucket": "Regulatory or Code Violation"
         },
         {
@@ -1148,25 +1118,25 @@
           "state": "MI",
           "item_index": 0,
           "item_label": "fraud_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "MI",
           "item_index": 1,
-          "item_label": "fraud_in_practicing_occupation",
-          "bucket": "Contract or Financial Misconduct"
+          "item_label": "fraud_in_practice",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "MI",
           "item_index": 2,
-          "item_label": "violation_of_rules_of_conduct",
+          "item_label": "violation_of_conduct_rules",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "MI",
           "item_index": 3,
           "item_label": "lack_of_good_moral_character",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Incompetence or Negligence"
         },
         {
           "state": "MI",
@@ -1178,7 +1148,7 @@
           "state": "MI",
           "item_index": 5,
           "item_label": "false_advertising",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "MI",
@@ -1196,25 +1166,25 @@
           "state": "MI",
           "item_index": 8,
           "item_label": "failure_to_comply_with_subpoena",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "MI",
           "item_index": 9,
           "item_label": "failure_to_respond_to_citation",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "MI",
           "item_index": 10,
           "item_label": "violation_of_final_order",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "MI",
           "item_index": 11,
           "item_label": "aiding_unlicensed_practice",
-          "bucket": "Unlicensed Practice or Employment"
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "MI",
@@ -1231,19 +1201,19 @@
         {
           "state": "MN",
           "item_index": 1,
-          "item_label": "violation_of_other_statutes",
+          "item_label": "violation_of_labor_employment_laws",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "MN",
           "item_index": 2,
-          "item_label": "false_or_misleading_information",
-          "bucket": "Fraud in Licensure"
+          "item_label": "false_misleading_information",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "MN",
           "item_index": 3,
-          "item_label": "allowing_use_of_license_by_another",
+          "item_label": "unauthorized_use_of_license",
           "bucket": "License Misuse or Transfer"
         },
         {
@@ -1256,43 +1226,43 @@
           "state": "MN",
           "item_index": 5,
           "item_label": "violation_of_final_order",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "MN",
           "item_index": 6,
           "item_label": "failure_to_cooperate_with_investigation",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "MN",
           "item_index": 7,
-          "item_label": "retaliation_against_complainant",
-          "bucket": "Other Compliance Failures"
+          "item_label": "retaliation_against_complainants",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "MN",
           "item_index": 8,
-          "item_label": "fraudulent_deceptive_dishonest_practice",
-          "bucket": "Contract or Financial Misconduct"
+          "item_label": "fraudulent_deceptive_dishonest_acts",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "MN",
           "item_index": 9,
-          "item_label": "incompetence_or_financial_irresponsibility",
+          "item_label": "incompetence_financial_irresponsibility",
           "bucket": "Incompetence or Negligence"
         },
         {
           "state": "MO",
           "item_index": 0,
-          "item_label": "fraud_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "item_label": "fraud_or_misrepresentation",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "MO",
           "item_index": 1,
           "item_label": "failure_to_comply_with_provisions",
-          "bucket": "Regulatory or Code Violation"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "MO",
@@ -1304,7 +1274,7 @@
           "state": "MS",
           "item_index": 0,
           "item_label": "not_responsible",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Incompetence or Negligence"
         },
         {
           "state": "MS",
@@ -1315,13 +1285,25 @@
         {
           "state": "MS",
           "item_index": 2,
+          "item_label": "poor_performance_of_contracts",
+          "bucket": "Incompetence or Negligence"
+        },
+        {
+          "state": "MS",
+          "item_index": 3,
+          "item_label": "bidding_without_certificate",
+          "bucket": "Unlicensed Practice or Aiding"
+        },
+        {
+          "state": "MS",
+          "item_index": 4,
           "item_label": "violation_of_chapter",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "MT",
           "item_index": 0,
-          "item_label": "substandard_plumbing_work",
+          "item_label": "substandard_work",
           "bucket": "Incompetence or Negligence"
         },
         {
@@ -1334,13 +1316,13 @@
           "state": "MT",
           "item_index": 2,
           "item_label": "fraud_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "MT",
           "item_index": 3,
           "item_label": "unfitness_negligence_or_addiction",
-          "bucket": "Substance Abuse or Impairment"
+          "bucket": "Substance Use or Impairment"
         },
         {
           "state": "MT",
@@ -1358,19 +1340,19 @@
           "state": "MT",
           "item_index": 6,
           "item_label": "unprofessional_conduct",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Incompetence or Negligence"
         },
         {
           "state": "NC",
           "item_index": 0,
-          "item_label": "fraud_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "item_label": "fraud_or_deceit_in_obtaining_license",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "NC",
           "item_index": 1,
-          "item_label": "failure_to_comply_with_article",
-          "bucket": "Regulatory or Code Violation"
+          "item_label": "failure_to_comply_with_article_or_rules",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "NC",
@@ -1388,7 +1370,7 @@
           "state": "NC",
           "item_index": 4,
           "item_label": "misconduct",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Incompetence or Negligence"
         },
         {
           "state": "ND",
@@ -1400,7 +1382,7 @@
           "state": "ND",
           "item_index": 1,
           "item_label": "fraud_in_obtaining_certificate",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "ND",
@@ -1418,61 +1400,79 @@
           "state": "ND",
           "item_index": 4,
           "item_label": "failure_to_complete_continuing_education",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "ND",
           "item_index": 5,
           "item_label": "failure_to_report_work",
+          "bucket": "Administrative Non-Compliance"
+        },
+        {
+          "state": "NH",
+          "item_index": 0,
+          "item_label": "false_claim_of_certification",
+          "bucket": "Fraud or Misrepresentation"
+        },
+        {
+          "state": "NH",
+          "item_index": 1,
+          "item_label": "violation_of_fire_safety_rules",
           "bucket": "Regulatory or Code Violation"
+        },
+        {
+          "state": "NH",
+          "item_index": 2,
+          "item_label": "failure_to_comply_with_order",
+          "bucket": "Administrative Non-Compliance"
+        },
+        {
+          "state": "NH",
+          "item_index": 3,
+          "item_label": "work_outside_specialty_license",
+          "bucket": "License Misuse or Transfer"
+        },
+        {
+          "state": "NH",
+          "item_index": 4,
+          "item_label": "criminal_conviction_with_direct_relationship",
+          "bucket": "Criminal Conviction"
         },
         {
           "state": "NJ",
           "item_index": 0,
-          "item_label": "license_transfer_or_assignment",
+          "item_label": "license_transferred_or_assigned",
           "bucket": "License Misuse or Transfer"
         },
         {
           "state": "NJ",
           "item_index": 1,
-          "item_label": "working_without_bond",
-          "bucket": "Other Compliance Failures"
-        },
-        {
-          "state": "NJ",
-          "item_index": 2,
-          "item_label": "unauthorized_practice_as_master_plumber",
-          "bucket": "Unlicensed Practice or Employment"
-        },
-        {
-          "state": "NJ",
-          "item_index": 3,
-          "item_label": "unauthorized_plumbing_contracting",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "violation_of_act",
+          "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "NM",
           "item_index": 0,
-          "item_label": "violation_of_act_or_rules",
+          "item_label": "willful_or_incompetent_violation",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "NM",
           "item_index": 1,
-          "item_label": "work_beyond_license_scope",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "contracting_beyond_scope",
+          "bucket": "License Misuse or Transfer"
         },
         {
           "state": "NM",
           "item_index": 2,
-          "item_label": "misrepresentation_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "item_label": "misrepresentation_to_obtain_license",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "NM",
           "item_index": 3,
           "item_label": "failure_to_maintain_proof_of_responsibility",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "NM",
@@ -1489,31 +1489,31 @@
         {
           "state": "NM",
           "item_index": 6,
-          "item_label": "departure_from_plans_causing_code_violations",
+          "item_label": "departure_from_plans_causing_code_violation",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "NM",
           "item_index": 7,
           "item_label": "willful_fraudulent_act_injuring_another",
-          "bucket": "Contract or Financial Misconduct"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "NM",
           "item_index": 8,
-          "item_label": "failure_to_maintain_workers_compensation_insurance",
-          "bucket": "Other Compliance Failures"
+          "item_label": "failure_to_maintain_workers_compensation",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "NM",
           "item_index": 9,
           "item_label": "aiding_unlicensed_person",
-          "bucket": "Unlicensed Practice or Employment"
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "NM",
           "item_index": 10,
-          "item_label": "acting_under_name_not_on_license",
+          "item_label": "acting_under_other_name",
           "bucket": "License Misuse or Transfer"
         },
         {
@@ -1537,134 +1537,164 @@
         {
           "state": "NV",
           "item_index": 3,
-          "item_label": "disregard_of_plans_or_laws",
+          "item_label": "disregard_of_plans_or_specs",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "NV",
           "item_index": 4,
+          "item_label": "violation_of_building_laws",
+          "bucket": "Regulatory or Code Violation"
+        },
+        {
+          "state": "NV",
+          "item_index": 5,
           "item_label": "diversion_of_funds",
           "bucket": "Contract or Financial Misconduct"
         },
         {
           "state": "NV",
-          "item_index": 5,
+          "item_index": 6,
           "item_label": "failure_to_pay_for_materials_or_services",
           "bucket": "Contract or Financial Misconduct"
         },
         {
           "state": "NV",
-          "item_index": 6,
-          "item_label": "failure_to_keep_records",
-          "bucket": "Other Compliance Failures"
-        },
-        {
-          "state": "NV",
           "item_index": 7,
-          "item_label": "misrepresentation_to_board",
-          "bucket": "Fraud in Licensure"
+          "item_label": "failure_to_keep_records",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "NV",
           "item_index": 8,
+          "item_label": "misrepresentation_to_board",
+          "bucket": "Fraud or Misrepresentation"
+        },
+        {
+          "state": "NV",
+          "item_index": 9,
+          "item_label": "failure_to_maintain_bond",
+          "bucket": "Administrative Non-Compliance"
+        },
+        {
+          "state": "NV",
+          "item_index": 10,
           "item_label": "misuse_of_license",
           "bucket": "License Misuse or Transfer"
         },
         {
           "state": "NV",
-          "item_index": 9,
-          "item_label": "aiding_unlicensed_person",
-          "bucket": "Unlicensed Practice or Employment"
-        },
-        {
-          "state": "NV",
-          "item_index": 10,
-          "item_label": "acting_beyond_scope_of_license",
-          "bucket": "Unlicensed Practice or Employment"
-        },
-        {
-          "state": "NV",
           "item_index": 11,
-          "item_label": "contracting_with_unlicensed_contractor",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "aiding_unlicensed_person",
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "NV",
           "item_index": 12,
-          "item_label": "fraudulent_or_deceitful_act",
-          "bucket": "Contract or Financial Misconduct"
+          "item_label": "acting_beyond_scope_of_license",
+          "bucket": "License Misuse or Transfer"
         },
         {
           "state": "NV",
           "item_index": 13,
+          "item_label": "contracting_with_unlicensed_contractor",
+          "bucket": "Unlicensed Practice or Aiding"
+        },
+        {
+          "state": "NV",
+          "item_index": 14,
+          "item_label": "fraudulent_acts",
+          "bucket": "Fraud or Misrepresentation"
+        },
+        {
+          "state": "NV",
+          "item_index": 15,
           "item_label": "criminal_conviction",
           "bucket": "Criminal Conviction"
         },
         {
           "state": "NV",
-          "item_index": 14,
+          "item_index": 16,
           "item_label": "substandard_workmanship",
           "bucket": "Incompetence or Negligence"
         },
         {
           "state": "NV",
-          "item_index": 15,
-          "item_label": "contracting_while_license_suspended_or_revoked",
-          "bucket": "Unlicensed Practice or Employment"
-        },
-        {
-          "state": "NV",
-          "item_index": 16,
-          "item_label": "out_of_state_disciplinary_action",
-          "bucket": "Other Compliance Failures"
-        },
-        {
-          "state": "NV",
           "item_index": 17,
-          "item_label": "failure_to_comply_with_board_order",
-          "bucket": "Other Compliance Failures"
+          "item_label": "failure_to_comply_with_citation",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "NV",
           "item_index": 18,
-          "item_label": "unfair_business_practices_misrepresentation",
-          "bucket": "Contract or Financial Misconduct"
+          "item_label": "contracting_while_license_suspended",
+          "bucket": "Unlicensed Practice or Aiding"
+        },
+        {
+          "state": "NV",
+          "item_index": 19,
+          "item_label": "out_of_state_disciplinary_action",
+          "bucket": "Administrative Non-Compliance"
+        },
+        {
+          "state": "NV",
+          "item_index": 20,
+          "item_label": "failure_to_cooperate_with_investigation",
+          "bucket": "Administrative Non-Compliance"
+        },
+        {
+          "state": "NV",
+          "item_index": 21,
+          "item_label": "unfair_business_practices",
+          "bucket": "Fraud or Misrepresentation"
+        },
+        {
+          "state": "NV",
+          "item_index": 22,
+          "item_label": "failure_to_maintain_industrial_insurance",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "OH",
           "item_index": 0,
-          "item_label": "denial_of_certification",
-          "bucket": "Other Compliance Failures"
+          "item_label": "denial_of_plumbing_inspector_certification",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "OH",
           "item_index": 1,
-          "item_label": "suspension_or_revocation",
-          "bucket": "Other Compliance Failures"
+          "item_label": "suspension_or_revocation_of_inspector_certification",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "OH",
           "item_index": 2,
-          "item_label": "violation_of_chapter",
+          "item_label": "violation_of_plumbing_rules_or_orders",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "OH",
           "item_index": 3,
-          "item_label": "failure_to_have_work_ready",
-          "bucket": "Regulatory or Code Violation"
+          "item_label": "failure_to_have_work_ready_for_inspection",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "OH",
           "item_index": 4,
+          "item_label": "faulty_or_improper_installation",
+          "bucket": "Incompetence or Negligence"
+        },
+        {
+          "state": "OH",
+          "item_index": 5,
           "item_label": "backflow_technician_violation",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "OK",
           "item_index": 0,
           "item_label": "material_misstatement_in_application",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "OK",
@@ -1681,7 +1711,7 @@
         {
           "state": "OK",
           "item_index": 3,
-          "item_label": "violation_of_law_or_rules",
+          "item_label": "violation_of_law_or_rule",
           "bucket": "Regulatory or Code Violation"
         },
         {
@@ -1693,32 +1723,32 @@
         {
           "state": "OR",
           "item_index": 0,
-          "item_label": "refusal_to_issue_or_renew",
-          "bucket": "Other Compliance Failures"
-        },
-        {
-          "state": "OR",
-          "item_index": 1,
-          "item_label": "revocation_or_suspension",
-          "bucket": "Other Compliance Failures"
-        },
-        {
-          "state": "OR",
-          "item_index": 2,
-          "item_label": "violation_of_chapter_or_rules",
+          "item_label": "violation_of_chapter",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "OR",
-          "item_index": 3,
-          "item_label": "criminal_conviction",
+          "item_index": 1,
+          "item_label": "refusal_revocation_suspension",
+          "bucket": "Administrative Non-Compliance"
+        },
+        {
+          "state": "OR",
+          "item_index": 2,
+          "item_label": "criminal_conviction_related",
           "bucket": "Criminal Conviction"
+        },
+        {
+          "state": "OR",
+          "item_index": 3,
+          "item_label": "expunged_juvenile_record_prohibition",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "RI",
           "item_index": 0,
           "item_label": "fraud_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "RI",
@@ -1730,12 +1760,12 @@
           "state": "RI",
           "item_index": 2,
           "item_label": "aiding_unlicensed_practice",
-          "bucket": "Unlicensed Practice or Employment"
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "RI",
           "item_index": 3,
-          "item_label": "fraudulent_license_loan",
+          "item_label": "fraudulent_loan_of_license",
           "bucket": "License Misuse or Transfer"
         },
         {
@@ -1751,22 +1781,16 @@
           "bucket": "Regulatory or Code Violation"
         },
         {
-          "state": "RI",
-          "item_index": 6,
-          "item_label": "willful_violation_by_entity",
-          "bucket": "Regulatory or Code Violation"
-        },
-        {
           "state": "SC",
           "item_index": 0,
           "item_label": "fraud_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "SC",
           "item_index": 1,
-          "item_label": "out_of_state_license_discipline",
-          "bucket": "Other Compliance Failures"
+          "item_label": "out_of_state_license_disciplined",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "SC",
@@ -1777,20 +1801,20 @@
         {
           "state": "SC",
           "item_index": 3,
-          "item_label": "fraudulent_professional_document",
-          "bucket": "Fraud in Licensure"
+          "item_label": "fraudulent_professional_statement",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "SC",
           "item_index": 4,
-          "item_label": "fraudulent_fees",
-          "bucket": "Contract or Financial Misconduct"
+          "item_label": "fees_under_fraud",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "SC",
           "item_index": 5,
           "item_label": "dishonorable_conduct",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "SC",
@@ -1801,32 +1825,32 @@
         {
           "state": "SC",
           "item_index": 7,
-          "item_label": "felony_or_crime_conviction",
+          "item_label": "criminal_conviction",
           "bucket": "Criminal Conviction"
         },
         {
           "state": "SC",
           "item_index": 8,
-          "item_label": "impaired_practice",
-          "bucket": "Substance Abuse or Impairment"
+          "item_label": "practice_under_influence",
+          "bucket": "Substance Use or Impairment"
         },
         {
           "state": "SC",
           "item_index": 9,
-          "item_label": "physical_or_mental_disability",
+          "item_label": "physical_mental_disability",
           "bucket": "Incompetence or Negligence"
         },
         {
           "state": "SC",
           "item_index": 10,
           "item_label": "violation_of_code_of_ethics",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "SD",
           "item_index": 0,
           "item_label": "failure_to_comply_with_law_or_rules",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "SD",
@@ -1837,110 +1861,98 @@
         {
           "state": "SD",
           "item_index": 2,
-          "item_label": "failure_to_notify_of_license_denial_revocation_suspension",
-          "bucket": "Other Compliance Failures"
+          "item_label": "failure_to_notify_of_denial_revocation_suspension",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "SD",
           "item_index": 3,
-          "item_label": "aiding_unlicensed_practice",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "aiding_unlicensed_persons",
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "SD",
           "item_index": 4,
-          "item_label": "conviction_of_crime_of_violence",
+          "item_label": "conviction_of_violent_crime",
           "bucket": "Criminal Conviction"
         },
         {
           "state": "TN",
           "item_index": 0,
-          "item_label": "faulty_workmanship",
+          "item_label": "faulty_plumbing_workmanship",
           "bucket": "Incompetence or Negligence"
         },
         {
           "state": "TN",
           "item_index": 1,
-          "item_label": "gross_negligence",
+          "item_label": "gross_negligence_incompetency",
           "bucket": "Incompetence or Negligence"
         },
         {
           "state": "TN",
           "item_index": 2,
-          "item_label": "incompetency",
-          "bucket": "Incompetence or Negligence"
+          "item_label": "fraud_dishonest_dealing",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "TN",
           "item_index": 3,
-          "item_label": "fraud",
-          "bucket": "Contract or Financial Misconduct"
-        },
-        {
-          "state": "TN",
-          "item_index": 4,
-          "item_label": "dishonest_dealing",
-          "bucket": "Contract or Financial Misconduct"
-        },
-        {
-          "state": "TN",
-          "item_index": 5,
           "item_label": "lack_of_expertise",
           "bucket": "Incompetence or Negligence"
         },
         {
           "state": "TN",
-          "item_index": 6,
+          "item_index": 4,
           "item_label": "false_evidence_in_application",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "TN",
-          "item_index": 7,
+          "item_index": 5,
           "item_label": "felony_conviction",
           "bucket": "Criminal Conviction"
         },
         {
           "state": "TN",
-          "item_index": 8,
-          "item_label": "improper_fraudulent_conduct",
-          "bucket": "Contract or Financial Misconduct"
+          "item_index": 6,
+          "item_label": "improper_fraudulent_dealing",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "TX",
           "item_index": 0,
           "item_label": "fraud_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "TX",
           "item_index": 1,
-          "item_label": "violating_municipal_sanitation_rules",
+          "item_label": "willful_negligent_violation_of_municipal_rules",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "TX",
           "item_index": 2,
           "item_label": "misrepresentation_of_services",
-          "bucket": "Contract or Financial Misconduct"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "TX",
           "item_index": 3,
           "item_label": "false_promise_to_induce_contract",
-          "bucket": "Contract or Financial Misconduct"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "TX",
           "item_index": 4,
           "item_label": "employing_unlicensed_person",
-          "bucket": "Unlicensed Practice or Employment"
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "TX",
           "item_index": 5,
-          "item_label": "performing_plumbing_without_proper_credential",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "performing_plumbing_without_proper_license",
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "TX",
@@ -1952,91 +1964,91 @@
           "state": "UT",
           "item_index": 0,
           "item_label": "unlicensed_practice",
-          "bucket": "Unlicensed Practice or Employment"
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "UT",
           "item_index": 1,
-          "item_label": "acting_beyond_scope_of_license",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "acting_beyond_scope",
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "UT",
           "item_index": 2,
           "item_label": "hiring_unlicensed_person",
-          "bucket": "Unlicensed Practice or Employment"
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "UT",
           "item_index": 3,
-          "item_label": "obtaining_permit_without_license",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "fraud_in_obtaining_license",
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "UT",
           "item_index": 4,
-          "item_label": "misrepresentation_in_application",
-          "bucket": "Fraud in Licensure"
-        },
-        {
-          "state": "UT",
-          "item_index": 5,
-          "item_label": "allowing_license_used_by_another",
+          "item_label": "license_used_by_another",
           "bucket": "License Misuse or Transfer"
         },
         {
           "state": "UT",
-          "item_index": 6,
+          "item_index": 5,
           "item_label": "failure_to_supervise_apprentice",
-          "bucket": "Incompetence or Negligence"
-        },
-        {
-          "state": "UT",
-          "item_index": 7,
-          "item_label": "misappropriation_of_project_funds",
-          "bucket": "Contract or Financial Misconduct"
-        },
-        {
-          "state": "UT",
-          "item_index": 8,
-          "item_label": "willful_disregard_of_building_laws",
           "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "UT",
-          "item_index": 9,
+          "item_index": 6,
+          "item_label": "misappropriation_of_funds",
+          "bucket": "Contract or Financial Misconduct"
+        },
+        {
+          "state": "UT",
+          "item_index": 7,
+          "item_label": "violation_of_construction_laws",
+          "bucket": "Regulatory or Code Violation"
+        },
+        {
+          "state": "UT",
+          "item_index": 8,
           "item_label": "failure_to_complete_continuing_education",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
+        },
+        {
+          "state": "UT",
+          "item_index": 9,
+          "item_label": "failure_to_maintain_financial_responsibility",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "UT",
           "item_index": 10,
-          "item_label": "failure_to_maintain_financial_responsibility",
-          "bucket": "Other Compliance Failures"
-        },
-        {
-          "state": "UT",
-          "item_index": 11,
-          "item_label": "gross_negligence_construction_laws",
+          "item_label": "gross_negligence_in_construction",
           "bucket": "Incompetence or Negligence"
         },
         {
           "state": "UT",
+          "item_index": 11,
+          "item_label": "willful_fraudulent_act",
+          "bucket": "Fraud or Misrepresentation"
+        },
+        {
+          "state": "UT",
           "item_index": 12,
-          "item_label": "fraudulent_act_causing_material_injury",
+          "item_label": "contract_violations",
           "bucket": "Contract or Financial Misconduct"
         },
         {
           "state": "UT",
           "item_index": 13,
-          "item_label": "contract_violations_threatening_public",
-          "bucket": "Contract or Financial Misconduct"
+          "item_label": "failure_to_comply_with_operating_standards",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "UT",
           "item_index": 14,
-          "item_label": "failure_to_comply_operating_standards",
-          "bucket": "Other Compliance Failures"
+          "item_label": "failure_to_maintain_insurance",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "VA",
@@ -2047,32 +2059,44 @@
         {
           "state": "VA",
           "item_index": 1,
-          "item_label": "practicing_without_license",
-          "bucket": "Unlicensed Practice or Employment"
-        },
-        {
-          "state": "VA",
-          "item_index": 2,
-          "item_label": "incompetent_practice_building_code_violations",
+          "item_label": "incompetent_practice_building_code",
           "bucket": "Incompetence or Negligence"
         },
         {
           "state": "VA",
+          "item_index": 2,
+          "item_label": "practicing_without_license",
+          "bucket": "Unlicensed Practice or Aiding"
+        },
+        {
+          "state": "VA",
           "item_index": 3,
-          "item_label": "contractor_license_violations",
-          "bucket": "Fraud in Licensure"
+          "item_label": "violation_of_statutes_contractor",
+          "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "VA",
           "item_index": 4,
+          "item_label": "substantial_identity_of_interest_with_revoked_licensee",
+          "bucket": "License Misuse or Transfer"
+        },
+        {
+          "state": "VA",
+          "item_index": 5,
+          "item_label": "violation_unemployment_workers_comp",
+          "bucket": "Regulatory or Code Violation"
+        },
+        {
+          "state": "VA",
+          "item_index": 6,
           "item_label": "fraudulent_or_dishonest_conduct_during_emergency",
-          "bucket": "Contract or Financial Misconduct"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "VT",
           "item_index": 0,
           "item_label": "fraud_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "VT",
@@ -2089,14 +2113,14 @@
         {
           "state": "VT",
           "item_index": 3,
-          "item_label": "failure_to_comply_with_written_notice",
-          "bucket": "Other Compliance Failures"
+          "item_label": "failure_to_comply_written_notice",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "WA",
           "item_index": 0,
           "item_label": "fraud_in_obtaining_credential",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "WA",
@@ -2114,13 +2138,13 @@
           "state": "WA",
           "item_index": 3,
           "item_label": "false_statement_in_application",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "WA",
           "item_index": 4,
           "item_label": "fraud_misrepresentation_bribery_in_securing_credential",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "WA",
@@ -2132,25 +2156,31 @@
           "state": "WA",
           "item_index": 6,
           "item_label": "contractor_lacks_qualified_plumber",
-          "bucket": "Unlicensed Practice or Employment"
+          "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "WA",
           "item_index": 7,
-          "item_label": "outstanding_penalties_renewal_denial",
-          "bucket": "Other Compliance Failures"
+          "item_label": "outstanding_penalties_denial_of_renewal",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "WA",
           "item_index": 8,
           "item_label": "noncompliance_with_support_order",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
+        },
+        {
+          "state": "WA",
+          "item_index": 9,
+          "item_label": "three_infractions_in_36_months",
+          "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "WI",
           "item_index": 0,
           "item_label": "material_misstatement_in_application",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "WI",
@@ -2162,13 +2192,13 @@
           "state": "WI",
           "item_index": 2,
           "item_label": "failure_to_correct_installation",
-          "bucket": "Regulatory or Code Violation"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "WI",
           "item_index": 3,
           "item_label": "falsified_inspection_form",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "WV",
@@ -2179,14 +2209,14 @@
         {
           "state": "WV",
           "item_index": 1,
-          "item_label": "failure_to_complete_project",
+          "item_label": "willful_failure_to_complete",
           "bucket": "Contract or Financial Misconduct"
         },
         {
           "state": "WV",
           "item_index": 2,
           "item_label": "departure_from_plans",
-          "bucket": "Incompetence or Negligence"
+          "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "WV",
@@ -2204,31 +2234,31 @@
           "state": "WV",
           "item_index": 5,
           "item_label": "misrepresentation_in_obtaining_license",
-          "bucket": "Fraud in Licensure"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "WV",
           "item_index": 6,
-          "item_label": "failure_to_comply_with_article",
-          "bucket": "Other Compliance Failures"
+          "item_label": "failure_to_comply_with_article_or_rules",
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "WV",
           "item_index": 7,
-          "item_label": "acting_without_license",
-          "bucket": "Unlicensed Practice or Employment"
+          "item_label": "acting_without_license_or_as_another",
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "WV",
           "item_index": 8,
           "item_label": "evading_article_provisions",
-          "bucket": "License Misuse or Transfer"
+          "bucket": "Unlicensed Practice or Aiding"
         },
         {
           "state": "WV",
           "item_index": 9,
           "item_label": "fraudulent_act_as_contractor",
-          "bucket": "Contract or Financial Misconduct"
+          "bucket": "Fraud or Misrepresentation"
         },
         {
           "state": "WV",
@@ -2240,19 +2270,19 @@
           "state": "WV",
           "item_index": 11,
           "item_label": "employing_unauthorized_workers",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Regulatory or Code Violation"
         },
         {
           "state": "WV",
           "item_index": 12,
           "item_label": "failure_to_execute_written_contracts",
-          "bucket": "Contract or Financial Misconduct"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "WV",
           "item_index": 13,
           "item_label": "failure_to_abide_by_board_order",
-          "bucket": "Other Compliance Failures"
+          "bucket": "Administrative Non-Compliance"
         },
         {
           "state": "WV",
@@ -2266,951 +2296,992 @@
       "field_name": "profession_specific.license_tiers",
       "bucket_set": [
         "Apprentice / Trainee",
-        "Journeyman / Journey-Level",
+        "Journeyman",
         "Master Plumber",
-        "Plumbing Contractor",
-        "General / Engineering Contractor",
+        "Contractor / Business License",
+        "Gas Fitter",
         "Specialty / Limited Scope",
-        "Endorsement / Add-On Credential",
-        "Inspector / Administrator"
+        "Endorsement / Add-On"
       ],
-      "rationale": "The items naturally cluster by career-ladder tier (apprentice → journeyman → master), business-entity license type (plumbing contractor vs. broader general/engineering contractor), scope-restricted licenses (specialty, limited, residential-only), add-on endorsements (medical gas, fire sprinkler, water supply protection), and the small residual group of inspectors and administrators, covering all rows without leaving a large uncategorized tail.",
+      "rationale": "The data naturally clusters into the classic trade-ladder tiers (apprentice, journeyman, master), a separate contractor/business-entity license, gas-fitter tracks that run parallel to the plumbing ladder in several states, limited-scope or specialty licenses (residential-only, restricted, drain cleaner, backflow, irrigation, etc.), and endorsements that attach to a base license (medical gas, fire sprinkler, water supply protection), covering all observed items without requiring a large catch-all.",
       "assignments": [
         {
           "state": "AK",
           "item_index": 0,
-          "item_label": "mechanical administrator (categories set by department regulation)",
-          "bucket": "Inspector / Administrator"
+          "item_label": "Mechanical Administrator",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "AL",
           "item_index": 0,
-          "item_label": "apprentice plumber",
+          "item_label": "Apprentice Plumber",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "AL",
           "item_index": 1,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Apprentice Gas Fitter",
+          "bucket": "Apprentice / Trainee"
         },
         {
           "state": "AL",
           "item_index": 2,
-          "item_label": "master plumber",
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
+        },
+        {
+          "state": "AL",
+          "item_index": 3,
+          "item_label": "Journeyman Gas Fitter",
+          "bucket": "Gas Fitter"
+        },
+        {
+          "state": "AL",
+          "item_index": 4,
+          "item_label": "Master Plumber",
           "bucket": "Master Plumber"
         },
         {
+          "state": "AL",
+          "item_index": 5,
+          "item_label": "Master Gas Fitter",
+          "bucket": "Gas Fitter"
+        },
+        {
+          "state": "AL",
+          "item_index": 6,
+          "item_label": "Medical Gas Piping Fitter",
+          "bucket": "Specialty / Limited Scope"
+        },
+        {
           "state": "AR",
           "item_index": 0,
-          "item_label": "apprentice plumber",
+          "item_label": "Apprentice plumber",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "AR",
           "item_index": 1,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journeyman plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "AR",
           "item_index": 2,
-          "item_label": "master plumber",
+          "item_label": "Master plumber",
           "bucket": "Master Plumber"
         },
         {
           "state": "AR",
           "item_index": 3,
-          "item_label": "restricted plumber",
+          "item_label": "Restricted plumber",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "AZ",
           "item_index": 0,
-          "item_label": "General commercial building contractor",
-          "bucket": "General / Engineering Contractor"
+          "item_label": "Specialty residential contracting",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "AZ",
           "item_index": 1,
-          "item_label": "General dual licensed contractor",
-          "bucket": "General / Engineering Contractor"
+          "item_label": "Specialty commercial contracting",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "AZ",
           "item_index": 2,
-          "item_label": "General engineering contractor",
-          "bucket": "General / Engineering Contractor"
+          "item_label": "Specialty dual licensed contracting",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "AZ",
           "item_index": 3,
-          "item_label": "General residential contractor",
-          "bucket": "General / Engineering Contractor"
+          "item_label": "General residential contracting",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "AZ",
           "item_index": 4,
-          "item_label": "Specialty commercial contractor",
-          "bucket": "Specialty / Limited Scope"
+          "item_label": "General commercial building contracting",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "AZ",
           "item_index": 5,
-          "item_label": "Specialty dual licensed contractor",
-          "bucket": "Specialty / Limited Scope"
-        },
-        {
-          "state": "AZ",
-          "item_index": 6,
-          "item_label": "Specialty residential contractor",
-          "bucket": "Specialty / Limited Scope"
+          "item_label": "General dual licensed contracting",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "CA",
           "item_index": 0,
-          "item_label": "General Engineering Contractor",
-          "bucket": "General / Engineering Contractor"
-        },
-        {
-          "state": "CA",
-          "item_index": 1,
-          "item_label": "General Building Contractor",
-          "bucket": "General / Engineering Contractor"
-        },
-        {
-          "state": "CA",
-          "item_index": 2,
-          "item_label": "Residential Remodeling Contractor (B-2)",
-          "bucket": "General / Engineering Contractor"
-        },
-        {
-          "state": "CA",
-          "item_index": 3,
-          "item_label": "Specialty Contractor (C-36 Plumbing)",
-          "bucket": "Specialty / Limited Scope"
+          "item_label": "Plumbing Contractor (C-36)",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "CO",
           "item_index": 0,
-          "item_label": "plumbing apprentice",
+          "item_label": "Plumbing Apprentice",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "CO",
           "item_index": 1,
-          "item_label": "residential plumber",
+          "item_label": "Residential Plumber",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "CO",
           "item_index": 2,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "CO",
           "item_index": 3,
-          "item_label": "master plumber",
+          "item_label": "Master Plumber",
           "bucket": "Master Plumber"
+        },
+        {
+          "state": "CO",
+          "item_index": 4,
+          "item_label": "Plumbing Contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "CT",
           "item_index": 0,
-          "item_label": "unlimited contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Unlimited Contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "CT",
           "item_index": 1,
-          "item_label": "limited contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Limited Contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "CT",
           "item_index": 2,
-          "item_label": "unlimited journeyman",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Unlimited Journeyman",
+          "bucket": "Journeyman"
         },
         {
           "state": "CT",
           "item_index": 3,
-          "item_label": "limited journeyman",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Limited Journeyman",
+          "bucket": "Journeyman"
         },
         {
           "state": "CT",
           "item_index": 4,
-          "item_label": "apprentice",
+          "item_label": "Apprentice",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "DE",
           "item_index": 0,
-          "item_label": "master plumber",
+          "item_label": "Master Plumber",
           "bucket": "Master Plumber"
         },
         {
           "state": "DE",
           "item_index": 1,
-          "item_label": "master HVACR licensee",
+          "item_label": "Master HVACR Licensee",
           "bucket": "Master Plumber"
         },
         {
           "state": "DE",
           "item_index": 2,
-          "item_label": "master HVACR restricted licensee",
+          "item_label": "Master HVACR Restricted Licensee",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "FL",
           "item_index": 0,
-          "item_label": "certified plumbing contractor (statewide)",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Plumbing Contractor (certified/statewide)",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "FL",
           "item_index": 1,
-          "item_label": "registered plumbing contractor (local jurisdiction only)",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Plumbing Contractor (registered/local)",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "FL",
           "item_index": 2,
-          "item_label": "journeyman plumber (county/municipality issued)",
-          "bucket": "Journeyman / Journey-Level"
-        },
-        {
-          "state": "FL",
-          "item_index": 3,
-          "item_label": "specialty contractor (subset of plumbing scope)",
-          "bucket": "Specialty / Limited Scope"
+          "item_label": "Journeyman Plumber (county/municipal license)",
+          "bucket": "Journeyman"
         },
         {
           "state": "GA",
           "item_index": 0,
-          "item_label": "Journeyman Plumber",
-          "bucket": "Journeyman / Journey-Level"
-        },
-        {
-          "state": "GA",
-          "item_index": 1,
           "item_label": "Master Plumber Class I",
           "bucket": "Master Plumber"
         },
         {
           "state": "GA",
-          "item_index": 2,
+          "item_index": 1,
           "item_label": "Master Plumber Class II",
           "bucket": "Master Plumber"
         },
         {
+          "state": "GA",
+          "item_index": 2,
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
+        },
+        {
           "state": "HI",
           "item_index": 0,
-          "item_label": "journey worker plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journey Worker Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "HI",
           "item_index": 1,
-          "item_label": "master plumber",
+          "item_label": "Master Plumber",
           "bucket": "Master Plumber"
         },
         {
           "state": "IA",
           "item_index": 0,
-          "item_label": "apprentice",
+          "item_label": "Apprentice",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "IA",
           "item_index": 1,
-          "item_label": "journeyperson",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journeyperson",
+          "bucket": "Journeyman"
         },
         {
           "state": "IA",
           "item_index": 2,
-          "item_label": "master",
+          "item_label": "Master",
           "bucket": "Master Plumber"
         },
         {
           "state": "IA",
           "item_index": 3,
-          "item_label": "contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "ID",
           "item_index": 0,
-          "item_label": "plumbing contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Plumbing Contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "ID",
           "item_index": 1,
-          "item_label": "plumbing journeyman",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Plumbing Journeyman",
+          "bucket": "Journeyman"
         },
         {
           "state": "ID",
           "item_index": 2,
-          "item_label": "plumbing apprentice",
+          "item_label": "Plumbing Apprentice",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "ID",
           "item_index": 3,
-          "item_label": "specialty contractor",
-          "bucket": "Specialty / Limited Scope"
+          "item_label": "Specialty Contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "ID",
           "item_index": 4,
-          "item_label": "specialty journeyman",
+          "item_label": "Specialty Journeyman",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "ID",
           "item_index": 5,
-          "item_label": "specialty apprentice",
-          "bucket": "Specialty / Limited Scope"
+          "item_label": "Specialty Apprentice",
+          "bucket": "Apprentice / Trainee"
         },
         {
           "state": "IL",
           "item_index": 0,
-          "item_label": "licensed apprentice plumber",
+          "item_label": "Apprentice Plumber",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "IL",
           "item_index": 1,
-          "item_label": "licensed plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Plumber (Journeyman)",
+          "bucket": "Journeyman"
         },
         {
           "state": "IL",
           "item_index": 2,
-          "item_label": "retired plumber",
-          "bucket": "Endorsement / Add-On Credential"
+          "item_label": "Plumbing Contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "IL",
           "item_index": 3,
-          "item_label": "plumbing contractor (registration)",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Retired Plumber",
+          "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "IN",
           "item_index": 0,
-          "item_label": "apprentice plumber (registration)",
+          "item_label": "Apprentice Plumber",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "IN",
           "item_index": 1,
-          "item_label": "journeyman plumber (license)",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "IN",
           "item_index": 2,
-          "item_label": "plumbing contractor (license)",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Plumbing Contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "KY",
           "item_index": 0,
-          "item_label": "apprentice",
-          "bucket": "Apprentice / Trainee"
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "KY",
           "item_index": 1,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
-        },
-        {
-          "state": "KY",
-          "item_index": 2,
-          "item_label": "master plumber",
+          "item_label": "Master Plumber",
           "bucket": "Master Plumber"
         },
         {
-          "state": "LA",
-          "item_index": 0,
-          "item_label": "apprentice plumber",
+          "state": "KY",
+          "item_index": 2,
+          "item_label": "Apprentice",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "LA",
-          "item_index": 1,
-          "item_label": "residential plumber limited",
+          "item_index": 0,
+          "item_label": "Residential Plumber Limited",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "LA",
+          "item_index": 1,
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
+        },
+        {
+          "state": "LA",
           "item_index": 2,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Master Plumber",
+          "bucket": "Master Plumber"
         },
         {
           "state": "LA",
           "item_index": 3,
-          "item_label": "master plumber",
-          "bucket": "Master Plumber"
+          "item_label": "Medical Gas Piping Installer",
+          "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "LA",
           "item_index": 4,
-          "item_label": "medical gas piping installer",
+          "item_label": "Medical Gas and Vacuum Systems Verifier",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "LA",
           "item_index": 5,
-          "item_label": "medical gas and vacuum systems verifier",
-          "bucket": "Specialty / Limited Scope"
+          "item_label": "Water Supply Protection Specialist (endorsement)",
+          "bucket": "Endorsement / Add-On"
         },
         {
           "state": "LA",
           "item_index": 6,
-          "item_label": "water supply protection specialist (endorsement)",
-          "bucket": "Endorsement / Add-On Credential"
+          "item_label": "Gas Fitter",
+          "bucket": "Gas Fitter"
         },
         {
           "state": "LA",
           "item_index": 7,
-          "item_label": "gas fitter",
-          "bucket": "Specialty / Limited Scope"
+          "item_label": "Master Gas Fitter",
+          "bucket": "Gas Fitter"
         },
         {
           "state": "LA",
           "item_index": 8,
-          "item_label": "master gas fitter",
-          "bucket": "Specialty / Limited Scope"
+          "item_label": "Apprentice Plumber (registration)",
+          "bucket": "Apprentice / Trainee"
         },
         {
           "state": "MA",
           "item_index": 0,
-          "item_label": "apprentice plumber",
+          "item_label": "Apprentice Plumber",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "MA",
           "item_index": 1,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Apprentice Gas Fitter",
+          "bucket": "Apprentice / Trainee"
         },
         {
           "state": "MA",
           "item_index": 2,
-          "item_label": "master plumber",
-          "bucket": "Master Plumber"
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "MA",
           "item_index": 3,
-          "item_label": "undiluted liquefied petroleum gas installer",
-          "bucket": "Specialty / Limited Scope"
+          "item_label": "Journeyman Gas Fitter",
+          "bucket": "Gas Fitter"
         },
         {
           "state": "MA",
           "item_index": 4,
-          "item_label": "limited undiluted liquefied petroleum gas installer",
-          "bucket": "Specialty / Limited Scope"
+          "item_label": "Master Plumber",
+          "bucket": "Master Plumber"
+        },
+        {
+          "state": "MA",
+          "item_index": 5,
+          "item_label": "Master Gas Fitter",
+          "bucket": "Gas Fitter"
+        },
+        {
+          "state": "MA",
+          "item_index": 6,
+          "item_label": "Undiluted Liquefied Petroleum Gas Installer",
+          "bucket": "Gas Fitter"
+        },
+        {
+          "state": "MA",
+          "item_index": 7,
+          "item_label": "Limited Undiluted Liquefied Petroleum Gas Installer",
+          "bucket": "Gas Fitter"
         },
         {
           "state": "MD",
           "item_index": 0,
-          "item_label": "apprentice plumber license",
-          "bucket": "Apprentice / Trainee"
+          "item_label": "Master Plumber",
+          "bucket": "Master Plumber"
         },
         {
           "state": "MD",
           "item_index": 1,
-          "item_label": "journey plumber license",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journey Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "MD",
           "item_index": 2,
-          "item_label": "limited journey plumber license",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Apprentice Plumber",
+          "bucket": "Apprentice / Trainee"
         },
         {
           "state": "MD",
           "item_index": 3,
-          "item_label": "master plumber license",
+          "item_label": "Limited Master Plumber",
           "bucket": "Master Plumber"
         },
         {
           "state": "MD",
           "item_index": 4,
-          "item_label": "limited master plumber license",
-          "bucket": "Master Plumber"
+          "item_label": "Limited Journey Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "MD",
           "item_index": 5,
-          "item_label": "propane gas fitter certificate",
-          "bucket": "Specialty / Limited Scope"
+          "item_label": "Master Natural Gas Fitter",
+          "bucket": "Gas Fitter"
         },
         {
           "state": "MD",
           "item_index": 6,
-          "item_label": "apprentice natural gas fitters license",
-          "bucket": "Apprentice / Trainee"
+          "item_label": "Journeyman Natural Gas Fitter",
+          "bucket": "Gas Fitter"
         },
         {
           "state": "MD",
           "item_index": 7,
-          "item_label": "journeyman natural gas fitters license",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Apprentice Natural Gas Fitter",
+          "bucket": "Apprentice / Trainee"
         },
         {
           "state": "MD",
           "item_index": 8,
-          "item_label": "master natural gas fitters license",
-          "bucket": "Master Plumber"
+          "item_label": "Propane Gas Fitter (Certificate)",
+          "bucket": "Gas Fitter"
         },
         {
           "state": "ME",
           "item_index": 0,
-          "item_label": "trainee plumber",
+          "item_label": "Trainee Plumber",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "ME",
           "item_index": 1,
-          "item_label": "journeyman-in-training",
+          "item_label": "Journeyman-in-Training",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "ME",
           "item_index": 2,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "ME",
           "item_index": 3,
-          "item_label": "limited license",
+          "item_label": "Limited License (Plumber)",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "ME",
           "item_index": 4,
-          "item_label": "master plumber",
+          "item_label": "Master Plumber",
           "bucket": "Master Plumber"
         },
         {
           "state": "MI",
           "item_index": 0,
-          "item_label": "apprentice plumber (registration)",
+          "item_label": "Apprentice Plumber",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "MI",
           "item_index": 1,
-          "item_label": "journey plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journey Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "MI",
           "item_index": 2,
-          "item_label": "master plumber",
+          "item_label": "Master Plumber",
           "bucket": "Master Plumber"
         },
         {
           "state": "MI",
           "item_index": 3,
-          "item_label": "plumbing contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Plumbing Contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "MN",
           "item_index": 0,
-          "item_label": "plumber's apprentice (registered unlicensed individual)",
+          "item_label": "Plumber's Apprentice",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "MN",
           "item_index": 1,
-          "item_label": "restricted journeyworker plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Registered Unlicensed Individual",
+          "bucket": "Apprentice / Trainee"
         },
         {
           "state": "MN",
           "item_index": 2,
-          "item_label": "journeyworker plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journeyworker Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "MN",
           "item_index": 3,
-          "item_label": "restricted master plumber",
-          "bucket": "Master Plumber"
+          "item_label": "Restricted Journeyworker Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "MN",
           "item_index": 4,
-          "item_label": "master plumber",
+          "item_label": "Master Plumber",
           "bucket": "Master Plumber"
         },
         {
           "state": "MN",
           "item_index": 5,
-          "item_label": "plumbing contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Restricted Master Plumber",
+          "bucket": "Master Plumber"
         },
         {
           "state": "MN",
           "item_index": 6,
-          "item_label": "restricted plumbing contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Plumbing Contractor",
+          "bucket": "Contractor / Business License"
+        },
+        {
+          "state": "MN",
+          "item_index": 7,
+          "item_label": "Restricted Plumbing Contractor",
+          "bucket": "Contractor / Business License"
+        },
+        {
+          "state": "MN",
+          "item_index": 8,
+          "item_label": "Backflow Prevention Tester",
+          "bucket": "Specialty / Limited Scope"
+        },
+        {
+          "state": "MN",
+          "item_index": 9,
+          "item_label": "Backflow Prevention Rebuilder",
+          "bucket": "Specialty / Limited Scope"
+        },
+        {
+          "state": "MN",
+          "item_index": 10,
+          "item_label": "Medical Gas Piping Fitter",
+          "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "MO",
           "item_index": 0,
-          "item_label": "apprentice plumber",
+          "item_label": "Master Plumber",
+          "bucket": "Master Plumber"
+        },
+        {
+          "state": "MO",
+          "item_index": 1,
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
+        },
+        {
+          "state": "MO",
+          "item_index": 2,
+          "item_label": "Apprentice Plumber",
           "bucket": "Apprentice / Trainee"
         },
         {
-          "state": "MO",
-          "item_index": 1,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
-        },
-        {
-          "state": "MO",
-          "item_index": 2,
-          "item_label": "master plumber / employing plumber",
-          "bucket": "Master Plumber"
-        },
-        {
-          "state": "MO",
-          "item_index": 3,
-          "item_label": "journeyman drainlayer",
-          "bucket": "Journeyman / Journey-Level"
-        },
-        {
-          "state": "MO",
-          "item_index": 4,
-          "item_label": "master drainlayer",
-          "bucket": "Master Plumber"
-        },
-        {
           "state": "MT",
           "item_index": 0,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "MT",
           "item_index": 1,
-          "item_label": "master plumber",
+          "item_label": "Master Plumber",
           "bucket": "Master Plumber"
+        },
+        {
+          "state": "MT",
+          "item_index": 2,
+          "item_label": "Medical Gas Piping Fitter (endorsement)",
+          "bucket": "Endorsement / Add-On"
         },
         {
           "state": "NC",
           "item_index": 0,
-          "item_label": "Class I (all plumbing, heating, and fire sprinkler systems for all structures)",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Class I",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "NC",
           "item_index": 1,
-          "item_label": "Class II (plumbing and heating systems in single-family detached residential dwe",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Class II",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "NC",
           "item_index": 2,
-          "item_label": "Fuel piping license (restricted)",
-          "bucket": "Specialty / Limited Scope"
+          "item_label": "Fuel Piping License",
+          "bucket": "Gas Fitter"
         },
         {
           "state": "NC",
           "item_index": 3,
-          "item_label": "Limited plumbing contractor license (restricted)",
-          "bucket": "Specialty / Limited Scope"
+          "item_label": "Limited Plumbing Contractor License",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "NC",
           "item_index": 4,
-          "item_label": "State and local government plumbing technician license (restricted)",
+          "item_label": "State and Local Government Technician License",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "NC",
           "item_index": 5,
-          "item_label": "Residential Fire Sprinkler Design license (restricted)",
+          "item_label": "Residential Fire Sprinkler Design License",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "ND",
           "item_index": 0,
-          "item_label": "master plumber",
-          "bucket": "Master Plumber"
+          "item_label": "Plumber's Apprentice",
+          "bucket": "Apprentice / Trainee"
         },
         {
           "state": "ND",
           "item_index": 1,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "ND",
           "item_index": 2,
-          "item_label": "plumber's apprentice",
-          "bucket": "Apprentice / Trainee"
+          "item_label": "Master Plumber",
+          "bucket": "Master Plumber"
         },
         {
           "state": "NH",
           "item_index": 0,
-          "item_label": "master plumber",
+          "item_label": "Master Plumber",
           "bucket": "Master Plumber"
         },
         {
           "state": "NH",
           "item_index": 1,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "NH",
           "item_index": 2,
-          "item_label": "apprentice plumber",
+          "item_label": "Apprentice Plumber",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "NJ",
           "item_index": 0,
-          "item_label": "apprentice plumber",
+          "item_label": "Apprentice Plumber",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "NJ",
           "item_index": 1,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "NJ",
           "item_index": 2,
-          "item_label": "master plumber",
+          "item_label": "Master Plumber",
           "bucket": "Master Plumber"
         },
         {
           "state": "NJ",
           "item_index": 3,
-          "item_label": "plumbing contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Plumbing Contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "NM",
           "item_index": 0,
-          "item_label": "apprentice",
-          "bucket": "Apprentice / Trainee"
+          "item_label": "journeyman plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "NM",
           "item_index": 1,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "journeyman gas fitter",
+          "bucket": "Gas Fitter"
         },
         {
           "state": "NM",
           "item_index": 2,
-          "item_label": "qualifying party (contractor)",
-          "bucket": "Plumbing Contractor"
+          "item_label": "plumbing contractor (mechanical contractor)",
+          "bucket": "Contractor / Business License"
+        },
+        {
+          "state": "NV",
+          "item_index": 0,
+          "item_label": "Specialty Contractor (Plumbing)",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "OK",
           "item_index": 0,
-          "item_label": "plumber's apprentice",
+          "item_label": "Apprentice Plumber",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "OK",
           "item_index": 1,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "OK",
           "item_index": 2,
-          "item_label": "temporary journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Temporary Journeyman Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "OK",
           "item_index": 3,
-          "item_label": "plumbing contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Plumbing Contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "OR",
           "item_index": 0,
-          "item_label": "apprentice plumber",
+          "item_label": "Apprentice Plumber",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "OR",
           "item_index": 1,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "OR",
           "item_index": 2,
-          "item_label": "supervising plumber",
+          "item_label": "Supervising Plumber",
           "bucket": "Master Plumber"
         },
         {
           "state": "OR",
           "item_index": 3,
-          "item_label": "limited specialty plumber",
+          "item_label": "Limited Specialty Plumber",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "OR",
           "item_index": 4,
-          "item_label": "solar heating and cooling system installer",
+          "item_label": "Solar Heating and Cooling System Installer",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "OR",
           "item_index": 5,
-          "item_label": "licensed plumbing contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Licensed Plumbing Contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "RI",
           "item_index": 0,
-          "item_label": "apprentice plumber",
+          "item_label": "Apprentice Plumber",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "RI",
           "item_index": 1,
-          "item_label": "journeyperson plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journeyperson Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "RI",
           "item_index": 2,
-          "item_label": "master plumber",
+          "item_label": "Master Plumber",
           "bucket": "Master Plumber"
         },
         {
           "state": "RI",
           "item_index": 3,
-          "item_label": "contractor master plumber",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Contractor Master Plumber",
+          "bucket": "Master Plumber"
         },
         {
           "state": "RI",
           "item_index": 4,
-          "item_label": "plumbing contractor (entity)",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Plumbing Contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "SC",
           "item_index": 0,
-          "item_label": "master plumber",
+          "item_label": "Master Plumber",
           "bucket": "Master Plumber"
         },
         {
           "state": "SC",
           "item_index": 1,
-          "item_label": "employing plumber",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Employing Plumber",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "SC",
           "item_index": 2,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "SD",
           "item_index": 0,
+          "item_label": "Plumber",
+          "bucket": "Journeyman"
+        },
+        {
+          "state": "SD",
+          "item_index": 1,
+          "item_label": "Plumbing contractor",
+          "bucket": "Contractor / Business License"
+        },
+        {
+          "state": "SD",
+          "item_index": 2,
           "item_label": "Plumber's apprentice",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "SD",
-          "item_index": 1,
-          "item_label": "Plumber",
-          "bucket": "Journeyman / Journey-Level"
-        },
-        {
-          "state": "SD",
-          "item_index": 2,
-          "item_label": "Plumbing contractor",
-          "bucket": "Plumbing Contractor"
-        },
-        {
-          "state": "SD",
           "item_index": 3,
-          "item_label": "Water conditioning plumbing apprentice",
-          "bucket": "Apprentice / Trainee"
+          "item_label": "Water conditioning contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "SD",
           "item_index": 4,
-          "item_label": "Water conditioning plumbing installer",
+          "item_label": "Water conditioning installer",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "SD",
           "item_index": 5,
-          "item_label": "Water conditioning plumbing contractor",
-          "bucket": "Specialty / Limited Scope"
-        },
-        {
-          "state": "SD",
-          "item_index": 6,
-          "item_label": "Appliance plumbing apprentice",
+          "item_label": "Water conditioning apprentice",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "SD",
+          "item_index": 6,
+          "item_label": "Appliance contractor",
+          "bucket": "Contractor / Business License"
+        },
+        {
+          "state": "SD",
           "item_index": 7,
-          "item_label": "Appliance plumbing installer",
+          "item_label": "Appliance installer",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "SD",
           "item_index": 8,
-          "item_label": "Appliance plumbing contractor",
-          "bucket": "Plumbing Contractor"
-        },
-        {
-          "state": "SD",
-          "item_index": 9,
-          "item_label": "Sewer and water plumbing apprentice",
+          "item_label": "Appliance apprentice",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "SD",
+          "item_index": 9,
+          "item_label": "Sewer and water contractor",
+          "bucket": "Contractor / Business License"
+        },
+        {
+          "state": "SD",
           "item_index": 10,
-          "item_label": "Sewer and water plumbing installer",
+          "item_label": "Sewer and water installer",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "SD",
           "item_index": 11,
-          "item_label": "Sewer and water plumbing contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Sewer and water apprentice",
+          "bucket": "Apprentice / Trainee"
         },
         {
           "state": "SD",
           "item_index": 12,
-          "item_label": "Manufactured and mobile home apprentice",
-          "bucket": "Apprentice / Trainee"
+          "item_label": "Manufactured and mobile home contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "SD",
@@ -3221,14 +3292,14 @@
         {
           "state": "SD",
           "item_index": 14,
-          "item_label": "Manufactured and mobile home contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Manufactured and mobile home apprentice",
+          "bucket": "Apprentice / Trainee"
         },
         {
           "state": "SD",
           "item_index": 15,
-          "item_label": "Underground irrigation installer apprentice",
-          "bucket": "Apprentice / Trainee"
+          "item_label": "Underground irrigation contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "SD",
@@ -3239,8 +3310,8 @@
         {
           "state": "SD",
           "item_index": 17,
-          "item_label": "Underground irrigation contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Underground irrigation installer apprentice",
+          "bucket": "Apprentice / Trainee"
         },
         {
           "state": "SD",
@@ -3249,697 +3320,775 @@
           "bucket": "Specialty / Limited Scope"
         },
         {
+          "state": "SD",
+          "item_index": 19,
+          "item_label": "Restricted plumbing contractor",
+          "bucket": "Contractor / Business License"
+        },
+        {
+          "state": "SD",
+          "item_index": 20,
+          "item_label": "Restricted plumber",
+          "bucket": "Specialty / Limited Scope"
+        },
+        {
           "state": "TN",
           "item_index": 0,
-          "item_label": "limited licensed plumber",
+          "item_label": "Limited Licensed Plumber",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "TN",
           "item_index": 1,
-          "item_label": "plumbing contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Plumbing Contractor (Mechanical Construction - CMC-A)",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "TX",
           "item_index": 0,
-          "item_label": "plumber's apprentice (registration)",
+          "item_label": "Plumber's Apprentice",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "TX",
           "item_index": 1,
-          "item_label": "drain cleaner-restricted registrant (registration)",
+          "item_label": "Drain Cleaner-Restricted Registrant",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "TX",
           "item_index": 2,
-          "item_label": "drain cleaner (registration)",
+          "item_label": "Drain Cleaner",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "TX",
           "item_index": 3,
-          "item_label": "residential utilities installer (registration)",
+          "item_label": "Residential Utilities Installer",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "TX",
           "item_index": 4,
-          "item_label": "tradesman plumber-limited license holder (license)",
+          "item_label": "Tradesman Plumber-Limited License Holder",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "TX",
           "item_index": 5,
-          "item_label": "journeyman plumber (license)",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "TX",
           "item_index": 6,
-          "item_label": "master plumber (license)",
+          "item_label": "Master Plumber",
           "bucket": "Master Plumber"
         },
         {
           "state": "TX",
           "item_index": 7,
-          "item_label": "responsible master plumber (license designation)",
+          "item_label": "Responsible Master Plumber",
           "bucket": "Master Plumber"
         },
         {
           "state": "TX",
           "item_index": 8,
-          "item_label": "plumbing inspector (license)",
-          "bucket": "Inspector / Administrator"
+          "item_label": "Plumbing Inspector",
+          "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "TX",
           "item_index": 9,
-          "item_label": "water supply protection specialist (endorsement)",
-          "bucket": "Endorsement / Add-On Credential"
+          "item_label": "Water Supply Protection Specialist (endorsement)",
+          "bucket": "Endorsement / Add-On"
         },
         {
           "state": "TX",
           "item_index": 10,
-          "item_label": "multipurpose residential fire protection sprinkler specialist (endorsement)",
-          "bucket": "Endorsement / Add-On Credential"
+          "item_label": "Medical Gas Piping Installation (endorsement)",
+          "bucket": "Endorsement / Add-On"
         },
         {
           "state": "TX",
           "item_index": 11,
-          "item_label": "medical gas piping installation endorsement holder (endorsement)",
-          "bucket": "Endorsement / Add-On Credential"
+          "item_label": "Multipurpose Residential Fire Protection Sprinkler Specialist (endorsement)",
+          "bucket": "Endorsement / Add-On"
         },
         {
           "state": "UT",
           "item_index": 0,
-          "item_label": "apprentice plumber",
+          "item_label": "Apprentice Plumber",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "UT",
           "item_index": 1,
-          "item_label": "residential journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "UT",
           "item_index": 2,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Residential Journeyman Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "UT",
           "item_index": 3,
-          "item_label": "residential master plumber",
+          "item_label": "Master Plumber",
           "bucket": "Master Plumber"
         },
         {
           "state": "UT",
           "item_index": 4,
-          "item_label": "master plumber",
+          "item_label": "Residential Master Plumber",
           "bucket": "Master Plumber"
         },
         {
           "state": "UT",
           "item_index": 5,
-          "item_label": "residential plumbing contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "General Plumbing Contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "UT",
           "item_index": 6,
-          "item_label": "general plumbing contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Residential Plumbing Contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "VA",
           "item_index": 0,
-          "item_label": "Class A plumbing contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Journeyman Plumber (Tradesman - Plumbing)",
+          "bucket": "Journeyman"
         },
         {
           "state": "VA",
           "item_index": 1,
-          "item_label": "Class B plumbing contractor",
-          "bucket": "Plumbing Contractor"
-        },
-        {
-          "state": "VA",
-          "item_index": 2,
-          "item_label": "Class C plumbing contractor",
-          "bucket": "Plumbing Contractor"
-        },
-        {
-          "state": "VA",
-          "item_index": 3,
-          "item_label": "plumbing tradesman (individual)",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Plumbing Contractor (Class A, B, or C)",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "VT",
           "item_index": 0,
-          "item_label": "apprentice plumber",
-          "bucket": "Apprentice / Trainee"
-        },
-        {
-          "state": "VT",
-          "item_index": 1,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
-        },
-        {
-          "state": "VT",
-          "item_index": 2,
-          "item_label": "master plumber",
+          "item_label": "Master Plumber",
           "bucket": "Master Plumber"
         },
         {
           "state": "VT",
+          "item_index": 1,
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
+        },
+        {
+          "state": "VT",
+          "item_index": 2,
+          "item_label": "Apprentice Plumber",
+          "bucket": "Apprentice / Trainee"
+        },
+        {
+          "state": "VT",
           "item_index": 3,
-          "item_label": "specialist",
+          "item_label": "Specialist",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "WA",
           "item_index": 0,
-          "item_label": "plumber trainee",
-          "bucket": "Apprentice / Trainee"
+          "item_label": "Journey Level Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "WA",
           "item_index": 1,
-          "item_label": "residential service plumber",
+          "item_label": "Specialty Plumber",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "WA",
           "item_index": 2,
-          "item_label": "specialty plumber",
+          "item_label": "Residential Service Plumber",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "WA",
           "item_index": 3,
-          "item_label": "journey level plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Medical Gas Piping Installer (endorsement)",
+          "bucket": "Endorsement / Add-On"
         },
         {
           "state": "WA",
           "item_index": 4,
-          "item_label": "medical gas piping installer (endorsement)",
-          "bucket": "Endorsement / Add-On Credential"
+          "item_label": "Plumber Trainee",
+          "bucket": "Apprentice / Trainee"
         },
         {
           "state": "WA",
           "item_index": 5,
-          "item_label": "plumbing contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Plumbing Contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "WI",
           "item_index": 0,
-          "item_label": "plumbing apprentice",
-          "bucket": "Apprentice / Trainee"
+          "item_label": "Journeyman Plumber",
+          "bucket": "Journeyman"
         },
         {
           "state": "WI",
           "item_index": 1,
-          "item_label": "journeyman plumber (restricted)",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Master Plumber",
+          "bucket": "Master Plumber"
         },
         {
           "state": "WI",
           "item_index": 2,
-          "item_label": "journeyman plumber",
-          "bucket": "Journeyman / Journey-Level"
+          "item_label": "Journeyman Plumber (Restricted)",
+          "bucket": "Journeyman"
         },
         {
           "state": "WI",
           "item_index": 3,
-          "item_label": "master plumber (restricted)",
+          "item_label": "Master Plumber (Restricted)",
           "bucket": "Master Plumber"
         },
         {
           "state": "WI",
           "item_index": 4,
-          "item_label": "master plumber",
-          "bucket": "Master Plumber"
+          "item_label": "Plumbing Apprentice",
+          "bucket": "Apprentice / Trainee"
         },
         {
           "state": "WI",
           "item_index": 5,
-          "item_label": "registered learner",
+          "item_label": "Registered Learner",
           "bucket": "Apprentice / Trainee"
         },
         {
           "state": "WI",
           "item_index": 6,
-          "item_label": "utility contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Utility Contractor",
+          "bucket": "Contractor / Business License"
         },
         {
           "state": "WI",
           "item_index": 7,
-          "item_label": "pipelayer",
+          "item_label": "Pipelayer",
           "bucket": "Specialty / Limited Scope"
         },
         {
           "state": "WV",
           "item_index": 0,
-          "item_label": "plumbing contractor",
-          "bucket": "Plumbing Contractor"
+          "item_label": "Plumbing Contractor",
+          "bucket": "Contractor / Business License"
         }
       ]
     },
     "profession_specific.journeyman_experience_pathways": {
       "field_name": "profession_specific.journeyman_experience_pathways",
       "bucket_set": [
-        "Apprenticeship Program Completion",
-        "On-the-Job Hours Experience",
-        "Academic or Trade School Training",
-        "Military Service Credit",
-        "Out-of-State License or Experience",
-        "Board Discretion or Equivalency",
-        "Examination Requirement"
+        "Registered Apprenticeship Program",
+        "Supervised Work Experience",
+        "Academic or Technical Training",
+        "Military Training or Service",
+        "Out-of-State Licensure or Reciprocity",
+        "Examination Requirement",
+        "Board Discretion or Equivalency"
       ],
-      "rationale": "These seven buckets cover the distinct pathways states use: formal registered apprenticeship completion, raw supervised work-hours requirements, academic/vocational school credit, military service recognition, reciprocity from other-state licenses or experience, open-ended board-determined equivalency, and standalone examination passage requirements.",
+      "rationale": "The items cluster around formal apprenticeship completions, hour-based supervised on-the-job experience, academic/trade-school credits, military service pathways, reciprocity from other states, standalone examination requirements, and catch-all board-determined equivalency provisions, which together cover every pathway in the dataset without significant overlap.",
       "assignments": [
         {
           "state": "AL",
           "item_index": 0,
-          "item_label": "two years of current work experience as an apprentice plumber or gas fitter",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "Two years of current work experience as an apprentice plumber or gas fitter",
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "AL",
           "item_index": 1,
-          "item_label": "completed an apprentice training program approved by the board",
-          "bucket": "Apprenticeship Program Completion"
+          "item_label": "Completed an apprentice training program approved by the board",
+          "bucket": "Registered Apprenticeship Program"
         },
         {
           "state": "AR",
           "item_index": 0,
-          "item_label": "minimum four years of plumbing experience",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "Registered apprenticeship program completion",
+          "bucket": "Registered Apprenticeship Program"
         },
         {
           "state": "AR",
           "item_index": 1,
-          "item_label": "successful completion of approved apprenticeship training program",
-          "bucket": "Apprenticeship Program Completion"
+          "item_label": "On-the-job work experience as an apprentice plumber",
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "AR",
           "item_index": 2,
-          "item_label": "currently licensed as journeyman plumber in another state with similar laws",
-          "bucket": "Out-of-State License or Experience"
+          "item_label": "General plumbing work experience (years in the trade)",
+          "bucket": "Supervised Work Experience"
+        },
+        {
+          "state": "AR",
+          "item_index": 3,
+          "item_label": "Licensure as journeyman plumber in another state (reciprocity/endorsement)",
+          "bucket": "Out-of-State Licensure or Reciprocity"
+        },
+        {
+          "state": "AZ",
+          "item_index": 0,
+          "item_label": "Minimum four years' practical or management trade experience",
+          "bucket": "Supervised Work Experience"
+        },
+        {
+          "state": "AZ",
+          "item_index": 1,
+          "item_label": "Technical training in an accredited college or university (substitution for up t",
+          "bucket": "Academic or Technical Training"
+        },
+        {
+          "state": "AZ",
+          "item_index": 2,
+          "item_label": "Manufacturer's accredited training program (substitution for up to two years of ",
+          "bucket": "Academic or Technical Training"
         },
         {
           "state": "CO",
           "item_index": 0,
-          "item_label": "practical experience up to the board-established minimum (max 6,800 hours)",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "Practical work experience (up to 6,800 hours maximum required)",
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "CO",
           "item_index": 1,
-          "item_label": "academic training at a board-approved community college or trade school plumbing",
-          "bucket": "Academic or Trade School Training"
+          "item_label": "Graduate of a community college or trade school plumbing program approved by the",
+          "bucket": "Academic or Technical Training"
         },
         {
           "state": "CO",
           "item_index": 2,
-          "item_label": "other academic or military training credited at a uniform ratio established by r",
-          "bucket": "Military Service Credit"
+          "item_label": "Academic or military training in the plumbing field (credited by uniform ratio e",
+          "bucket": "Military Training or Service"
         },
         {
           "state": "CO",
           "item_index": 3,
-          "item_label": "out-of-state plumbing work experience if shown adequate to comply with Colorado ",
-          "bucket": "Out-of-State License or Experience"
-        },
-        {
-          "state": "CT",
-          "item_index": 0,
-          "item_label": "completion of a bona fide apprenticeship program including not less than four ye",
-          "bucket": "Apprenticeship Program Completion"
-        },
-        {
-          "state": "CT",
-          "item_index": 1,
-          "item_label": "furnished satisfactory evidence of education and experience and passed an examin",
+          "item_label": "Out-of-state plumbing work experience (credited if adequate per board satisfacti",
           "bucket": "Board Discretion or Equivalency"
         },
         {
+          "state": "CT",
+          "item_index": 0,
+          "item_label": "Registered apprenticeship program completion",
+          "bucket": "Registered Apprenticeship Program"
+        },
+        {
+          "state": "CT",
+          "item_index": 1,
+          "item_label": "On-the-job work experience as an apprentice plumber",
+          "bucket": "Supervised Work Experience"
+        },
+        {
           "state": "DE",
           "item_index": 0,
-          "item_label": "Journeyman's certificate from completion of a plumbing apprenticeship meeting Fe",
-          "bucket": "Apprenticeship Program Completion"
+          "item_label": "Journeyman's certificate following completion of a plumbing apprenticeship progr",
+          "bucket": "Registered Apprenticeship Program"
         },
         {
           "state": "DE",
           "item_index": 1,
-          "item_label": "7 years supervised plumbing services under a master plumber plus apprenticeship ",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "7 years of supervised plumbing services under a master plumber plus apprenticesh",
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "FL",
           "item_index": 0,
-          "item_label": "scored at least 75 percent on a proctored journeyman examination approved by the",
-          "bucket": "Examination Requirement"
+          "item_label": "Completed a registered and state-approved apprenticeship program",
+          "bucket": "Registered Apprenticeship Program"
         },
         {
           "state": "FL",
           "item_index": 1,
-          "item_label": "completed a registered and state-approved apprenticeship program",
-          "bucket": "Apprenticeship Program Completion"
+          "item_label": "At least 12,000 hours of on-the-job training in the specific trade",
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "FL",
           "item_index": 2,
-          "item_label": "has at least 12,000 hours of on-the-job training in the specific trade",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "Scored at least 75 percent on a proctored journeyman examination approved by the",
+          "bucket": "Examination Requirement"
         },
         {
           "state": "HI",
           "item_index": 0,
-          "item_label": "5 years full-time (not less than 10,000 hours) as a journey worker's or master p",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "At least five years full-time experience (not less than 10,000 hours) as a journ",
+          "bucket": "Supervised Work Experience"
+        },
+        {
+          "state": "HI",
+          "item_index": 1,
+          "item_label": "Equivalent experience in the trade",
+          "bucket": "Board Discretion or Equivalency"
         },
         {
           "state": "IA",
           "item_index": 0,
-          "item_label": "four years of practical experience as an apprentice in an apprenticeship trainin",
-          "bucket": "Apprenticeship Program Completion"
+          "item_label": "Registered apprenticeship program completion (at least four years, registered wi",
+          "bucket": "Registered Apprenticeship Program"
         },
         {
           "state": "IA",
           "item_index": 1,
-          "item_label": "military waiver pathway for active or retired military members deployed on activ",
-          "bucket": "Military Service Credit"
+          "item_label": "Waiver for military service members who have passed a substantially similar exam",
+          "bucket": "Military Training or Service"
         },
         {
           "state": "IL",
           "item_index": 0,
-          "item_label": "4 years as an Illinois licensed apprentice plumber under supervision",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "4-year Illinois licensed apprentice plumber apprenticeship under supervision",
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "IL",
           "item_index": 1,
-          "item_label": "successful completion of an approved course of instruction in plumbing supervise",
-          "bucket": "Academic or Trade School Training"
+          "item_label": "Successful completion of an approved course of instruction in plumbing in colleg",
+          "bucket": "Academic or Technical Training"
         },
         {
           "state": "LA",
           "item_index": 0,
-          "item_label": "pass a written and manual journeyman plumber's examination given by the board",
+          "item_label": "Registered apprenticeship program completion (indentured, minimum 3,000 hours)",
+          "bucket": "Registered Apprenticeship Program"
+        },
+        {
+          "state": "LA",
+          "item_index": 1,
+          "item_label": "Unindentured apprenticeship (minimum 4,000 hours on-the-job under journeyman or ",
+          "bucket": "Supervised Work Experience"
+        },
+        {
+          "state": "LA",
+          "item_index": 2,
+          "item_label": "Pass written and manual journeyman plumber's examination given by the board",
           "bucket": "Examination Requirement"
         },
         {
-          "state": "LA",
+          "state": "MA",
+          "item_index": 0,
+          "item_label": "Apprenticeship of not less than three years (probationary license pathway)",
+          "bucket": "Registered Apprenticeship Program"
+        },
+        {
+          "state": "MA",
           "item_index": 1,
-          "item_label": "qualify under the state board's regulations",
-          "bucket": "Board Discretion or Equivalency"
+          "item_label": "Practical examination by the examiners",
+          "bucket": "Examination Requirement"
         },
         {
           "state": "MD",
           "item_index": 0,
           "item_label": "At least 4 years holding an apprentice plumber license with at least 7,500 hours",
-          "bucket": "On-the-Job Hours Experience"
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "MD",
           "item_index": 1,
-          "item_label": "Up to 1,500 hours of accredited, approved school study credited toward the 7,500",
-          "bucket": "Academic or Trade School Training"
+          "item_label": "Up to 1,500 hours of accredited, approved school study may be applied toward the",
+          "bucket": "Academic or Technical Training"
         },
         {
           "state": "MD",
           "item_index": 2,
-          "item_label": "License of equal stature to apprentice plumber issued by another state, as deter",
-          "bucket": "Out-of-State License or Experience"
+          "item_label": "Holding a license of equal stature issued by another state for at least 4 years ",
+          "bucket": "Out-of-State Licensure or Reciprocity"
         },
         {
           "state": "ME",
           "item_index": 0,
-          "item_label": "Minimum 2 years / 4,000 hours as licensed trainee plumber under supervision of a",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "Minimum of 2 years / 4,000 hours as licensed trainee plumber under supervision o",
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "ME",
           "item_index": 1,
-          "item_label": "Minimum 2,000 hours as journeyman-in-training under supervision of a licensed ma",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "Minimum of 2,000 hours as journeyman-in-training under supervision of a licensed",
+          "bucket": "Supervised Work Experience"
+        },
+        {
+          "state": "ME",
+          "item_index": 2,
+          "item_label": "Registered Department of Labor apprenticeship program completion (for journeyman",
+          "bucket": "Registered Apprenticeship Program"
         },
         {
           "state": "MI",
           "item_index": 0,
-          "item_label": "6,000 hours of experience over at least 3 years as an apprentice plumber under s",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "At least 6,000 hours over at least 3 years as an apprentice plumber under superv",
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "MI",
           "item_index": 1,
-          "item_label": "Armed forces service as a plumber or equivalent with honorable discharge within ",
-          "bucket": "Military Service Credit"
+          "item_label": "Military service as a plumber with at least 6,000 hours of entry-level experienc",
+          "bucket": "Military Training or Service"
         },
         {
           "state": "MN",
           "item_index": 0,
-          "item_label": "four years of practical plumbing experience as a plumber's apprentice or registe",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "Four years of practical plumbing experience as plumber's apprentice or registere",
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "MN",
           "item_index": 1,
-          "item_label": "up to 24 months of prior practical plumbing experience may be applied toward the",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "Up to 24 months of prior practical plumbing experience may be credited toward th",
+          "bucket": "Board Discretion or Equivalency"
         },
         {
           "state": "MO",
           "item_index": 0,
-          "item_label": "at least five years' experience as an apprentice under a master plumber licensed",
-          "bucket": "On-the-Job Hours Experience"
-        },
-        {
-          "state": "MO",
-          "item_index": 1,
-          "item_label": "at least five years' experience as an apprentice under a master plumber licensed",
-          "bucket": "Out-of-State License or Experience"
+          "item_label": "At least five years' experience as an apprentice under the direction and supervi",
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "MT",
           "item_index": 0,
-          "item_label": "5 years working in a major phase of the plumbing business, verified by time or p",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "Working 5 years in a major phase of the plumbing business, verified by time or p",
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "MT",
           "item_index": 1,
-          "item_label": "completing an apprenticeship program meeting the standards set by the department",
-          "bucket": "Apprenticeship Program Completion"
+          "item_label": "Completing an apprenticeship program meeting the standards set by the department",
+          "bucket": "Registered Apprenticeship Program"
         },
         {
           "state": "MT",
           "item_index": 2,
-          "item_label": "credit for time spent attending an accredited trade or other school specializing",
-          "bucket": "Academic or Trade School Training"
+          "item_label": "Credit for time attending an accredited trade or other school approved by the bo",
+          "bucket": "Academic or Technical Training"
         },
         {
           "state": "NH",
           "item_index": 0,
-          "item_label": "field experience",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "field experience or its equivalent in an approved educational setting as set by ",
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "NH",
           "item_index": 1,
-          "item_label": "equivalent in an approved educational setting",
-          "bucket": "Academic or Trade School Training"
+          "item_label": "registered apprenticeship program (if applicable, complying with US DOL requirem",
+          "bucket": "Registered Apprenticeship Program"
         },
         {
           "state": "NJ",
           "item_index": 0,
-          "item_label": "Completion of a plumbing apprenticeship program accredited and approved by the U",
-          "bucket": "Apprenticeship Program Completion"
+          "item_label": "Four years in a plumbing apprenticeship program accredited and approved by the U",
+          "bucket": "Registered Apprenticeship Program"
         },
         {
           "state": "NJ",
           "item_index": 1,
-          "item_label": "Employment in the plumbing trade or enrollment in a formal plumbing apprenticesh",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "Each year of employment in the plumbing trade or enrollment in a formal plumbing",
+          "bucket": "Supervised Work Experience"
+        },
+        {
+          "state": "NJ",
+          "item_index": 2,
+          "item_label": "Bachelor's degree in mechanical, plumbing or sanitary engineering plus one year ",
+          "bucket": "Academic or Technical Training"
         },
         {
           "state": "NM",
           "item_index": 0,
-          "item_label": "two years' experience in the occupation or trade",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "Two years' experience in the occupation or trade",
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "NM",
           "item_index": 1,
-          "item_label": "equivalent experience as determined by the commission",
+          "item_label": "Equivalent as determined by the commission",
           "bucket": "Board Discretion or Equivalency"
         },
         {
           "state": "NM",
           "item_index": 2,
-          "item_label": "successfully completed a course in the trade approved by the vocational educatio",
-          "bucket": "Academic or Trade School Training"
+          "item_label": "Successfully completing a course in the trade approved by the vocational educati",
+          "bucket": "Academic or Technical Training"
         },
         {
           "state": "NV",
           "item_index": 0,
-          "item_label": "Personal experience as a journeyman, foreman, supervising employee, or contracto",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "at least 4 years of experience as a journeyman, foreman, supervising employee or",
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "NV",
           "item_index": 1,
-          "item_label": "Training in an accredited college or university program (up to 3 years credit)",
-          "bucket": "Academic or Trade School Training"
+          "item_label": "training received in a program offered at an accredited college or university or",
+          "bucket": "Academic or Technical Training"
         },
         {
           "state": "NV",
           "item_index": 2,
-          "item_label": "Equivalent program accepted by the Board (up to 3 years credit)",
+          "item_label": "completion of a program of apprenticeship approved by the State Apprenticeship C",
+          "bucket": "Registered Apprenticeship Program"
+        },
+        {
+          "state": "NV",
+          "item_index": 3,
+          "item_label": "completion of an equivalent program accepted by the Board",
           "bucket": "Board Discretion or Equivalency"
         },
         {
-          "state": "OK",
+          "state": "OR",
           "item_index": 0,
-          "item_label": "Pass the journeyman plumber examination administered by the Construction Industr",
+          "item_label": "Registered apprenticeship program completion",
+          "bucket": "Registered Apprenticeship Program"
+        },
+        {
+          "state": "OR",
+          "item_index": 1,
+          "item_label": "Examination by State Plumbing Board",
           "bucket": "Examination Requirement"
         },
         {
-          "state": "OK",
-          "item_index": 1,
-          "item_label": "Military service training and experience accepted upon honorable discharge withi",
-          "bucket": "Military Service Credit"
-        },
-        {
           "state": "RI",
           "item_index": 0,
-          "item_label": "8,000 hours on-the-job training over 5 years as registered apprentice plumber pl",
-          "bucket": "Apprenticeship Program Completion"
+          "item_label": "Registered apprenticeship program completion (8,000 hours OJT over 5 years inclu",
+          "bucket": "Registered Apprenticeship Program"
         },
         {
           "state": "RI",
           "item_index": 1,
-          "item_label": "Registered student in recognized college/university/trade school pursuing plumbi",
-          "bucket": "Academic or Trade School Training"
+          "item_label": "Registered student in a recognized college, university, or trade school pursuing",
+          "bucket": "Academic or Technical Training"
         },
         {
           "state": "RI",
           "item_index": 2,
-          "item_label": "Associate degree in plumbing or sanitary engineering plus 2 years registered app",
-          "bucket": "Academic or Trade School Training"
+          "item_label": "Associate degree in plumbing or sanitary engineering with at least 2 years regis",
+          "bucket": "Academic or Technical Training"
         },
         {
           "state": "RI",
           "item_index": 3,
-          "item_label": "Out-of-state journeyperson plumber license from a state with equivalent requirem",
-          "bucket": "Out-of-State License or Experience"
-        },
-        {
-          "state": "TN",
-          "item_index": 0,
-          "item_label": "minimum one year of plumbing experience satisfactory to the board",
-          "bucket": "On-the-Job Hours Experience"
-        },
-        {
-          "state": "TN",
-          "item_index": 1,
-          "item_label": "municipal or county license with satisfactory test and minimum one year experien",
-          "bucket": "Out-of-State License or Experience"
+          "item_label": "Certificate of license as journeyperson plumber from another state with equivale",
+          "bucket": "Out-of-State Licensure or Reciprocity"
         },
         {
           "state": "TX",
           "item_index": 0,
-          "item_label": "8,000 hours working under supervision of responsible master plumber as plumber's",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "Completing at least 8,000 hours working under the supervision of a responsible m",
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "TX",
           "item_index": 1,
-          "item_label": "tradesman plumber-limited license holder pathway (4,000 hours under journeyman o",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "Registered apprenticeship program approved by the United States Department of La",
+          "bucket": "Registered Apprenticeship Program"
         },
         {
           "state": "TX",
           "item_index": 2,
-          "item_label": "associate of applied science degree from board-approved plumbing technology prog",
-          "bucket": "Academic or Trade School Training"
+          "item_label": "Associate of Applied Science degree from a board-approved plumbing technology pr",
+          "bucket": "Academic or Technical Training"
+        },
+        {
+          "state": "TX",
+          "item_index": 3,
+          "item_label": "Coherent sequence of courses in the plumbing trade through a career and technolo",
+          "bucket": "Academic or Technical Training"
+        },
+        {
+          "state": "TX",
+          "item_index": 4,
+          "item_label": "Completion of classroom portion of a training program approved by the U.S. Depar",
+          "bucket": "Academic or Technical Training"
         },
         {
           "state": "UT",
           "item_index": 0,
-          "item_label": "Successful completion of the equivalent of at least four years of full-time trai",
-          "bucket": "Apprenticeship Program Completion"
+          "item_label": "Successful completion of at least four years of full-time training and instructi",
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "UT",
           "item_index": 1,
           "item_label": "At least eight years of full-time experience approved by the division in collabo",
-          "bucket": "On-the-Job Hours Experience"
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "UT",
           "item_index": 2,
-          "item_label": "Meeting the qualifications for expedited licensure established by rules of the c",
+          "item_label": "Meeting qualifications for expedited licensure as established by rules",
+          "bucket": "Board Discretion or Equivalency"
+        },
+        {
+          "state": "VA",
+          "item_index": 0,
+          "item_label": "Completion of an apprenticeship program approved by the Commissioner of Labor an",
+          "bucket": "Registered Apprenticeship Program"
+        },
+        {
+          "state": "VA",
+          "item_index": 1,
+          "item_label": "Demonstrated years of discipline-free experience (for applicants between July 1,",
+          "bucket": "Supervised Work Experience"
+        },
+        {
+          "state": "VA",
+          "item_index": 2,
+          "item_label": "Certification or licensure by the Board of Housing and Community Development pri",
+          "bucket": "Out-of-State Licensure or Reciprocity"
+        },
+        {
+          "state": "VA",
+          "item_index": 3,
+          "item_label": "Certification or licensure by any local governing body prior to July 1, 1978",
           "bucket": "Board Discretion or Equivalency"
         },
         {
           "state": "VT",
           "item_index": 0,
-          "item_label": "apprenticeship in plumbing verified by Vermont Apprenticeship Council",
-          "bucket": "Apprenticeship Program Completion"
+          "item_label": "Registered apprenticeship program completion verified by Vermont Apprenticeship ",
+          "bucket": "Registered Apprenticeship Program"
         },
         {
           "state": "VT",
           "item_index": 1,
-          "item_label": "equivalent training and experience in or out of state acceptable to the Board",
+          "item_label": "Equivalent training and experience acceptable to the Board",
           "bucket": "Board Discretion or Equivalency"
         },
         {
           "state": "WA",
           "item_index": 0,
-          "item_label": "completion of a course of study in the plumbing trade in the armed services of t",
-          "bucket": "Military Service Credit"
+          "item_label": "Completion of a course of study in the plumbing trade in the armed services of t",
+          "bucket": "Military Training or Service"
         },
         {
           "state": "WA",
           "item_index": 1,
-          "item_label": "completion of a course of study at a school accredited by the workforce training",
-          "bucket": "Academic or Trade School Training"
+          "item_label": "Completion of a course of study at a school accredited by the workforce training",
+          "bucket": "Academic or Technical Training"
         },
         {
           "state": "WA",
           "item_index": 2,
-          "item_label": "four or more years of experience under the direct supervision of a certified jou",
-          "bucket": "On-the-Job Hours Experience"
+          "item_label": "Four or more years of experience under the direct supervision of a certified jou",
+          "bucket": "Supervised Work Experience"
         },
         {
           "state": "WI",
           "item_index": 0,
-          "item_label": "completed a plumbing apprenticeship under s. 106.025",
-          "bucket": "Apprenticeship Program Completion"
+          "item_label": "Completed plumbing apprenticeship under s. 106.025",
+          "bucket": "Registered Apprenticeship Program"
         },
         {
           "state": "WI",
           "item_index": 1,
-          "item_label": "holds a current equivalent license from another state or municipality determined",
-          "bucket": "Out-of-State License or Experience"
-        },
-        {
-          "state": "WI",
-          "item_index": 2,
-          "item_label": "has practical experience in plumbing in another state determined by the departme",
-          "bucket": "Out-of-State License or Experience"
+          "item_label": "Completed plumbing apprenticeship under the laws of any other state (for state c",
+          "bucket": "Out-of-State Licensure or Reciprocity"
         }
       ]
     }

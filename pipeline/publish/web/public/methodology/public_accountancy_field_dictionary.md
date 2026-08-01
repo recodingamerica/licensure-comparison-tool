@@ -2,7 +2,7 @@
 
 _Auto-generated from the extraction model (`standard_model.py` + the profession's discovered schema). Do not edit by hand — regenerate with `python -m pipeline.publish.generate_field_dictionary`._
 
-**Reflects extracted data as of 2026-07-29** (latest commit to `public_accountancy` records). Regenerate to refresh.
+**Reflects extracted data as of 2026-07-31** (latest commit to `public_accountancy` records). Regenerate to refresh.
 
 Every field is an **Evidence** object: a `value`, the verbatim `quote` from the statute that supports it, and the `citation` it came from. Each example below is drawn from the first state that has a value for that field; the source state is shown in parentheses.
 
@@ -49,7 +49,7 @@ character), fees, renewal, continuing education, and reciprocity._
 | &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.required` | boolean |  | true (AK) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.hours_per_period` | integer |  | 40 (AR) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.period_years` | integer |  | 2 (AK) |
-| &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.topical_requirements` | list | Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics'] | ["24 hours governmental accounting and auditing (for license (CA) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.topical_requirements` | list | Specific topical CE requirements, e.g. ['1.5 hrs opioid', 'ethics'] | ["24 hours in governmental accounting and auditing for licen (CA) |
 | `reciprocity` | object | Whether/how the state recognizes out-of-state credentials (endorsement/reciprocity). |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.available` | boolean |  | true (AK) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`reciprocity.requirements` | string | Free-form summary | "Applicant must have passed the Uniform CPA Examination for  (AK) |
@@ -69,7 +69,7 @@ character), fees, renewal, continuing education, and reciprocity._
 | &nbsp;&nbsp;&nbsp;&nbsp;`disciplinary_grounds[].description` | string | One-line plain-English description | "Fraud or deceit in obtaining a license or permit required b (AK) |
 | `alternative_regulation` | object | Non-credential regulatory mechanisms (bonding, insurance, establishment regulation) imposed by the state. Obama 2015 framework typology. Independent of credential_type. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.bonding_required` | boolean | Does the statute require the practitioner or firm to post a bond (funds against which consumer claims can be made)? Independent of whether a credential is also required. |  |
-| &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.insurance_required` | boolean | Does the statute require the practitioner or firm to carry insurance (e.g., professional liability, surety insurance)? | true (CA) |
+| &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.insurance_required` | boolean | Does the statute require the practitioner or firm to carry insurance (e.g., professional liability, surety insurance)? | true (CO) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`alternative_regulation.establishment_regulation_required` | boolean | Does the statute regulate the ESTABLISHMENT / FIRM (e.g., facility license, mandatory inspection of premises) as a route to consumer protection, independent of any practitioner credential? | true (AK) |
 | `citations` | list | Statutory citations supporting the licensure fields above. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`citations[].cite` | string |  | "08.04.005" (AK) |
@@ -98,7 +98,7 @@ _Fields discovered specifically for this profession (auto-derived from its statu
 | `compilation_services_authorized` | boolean | Whether compilation services (presenting financial statements as management's representation without assurance) are separately defined and regulated as a distinct service type. | true (AK) |
 | `education_semester_hours_required` | integer | Total semester hours of college education required for initial CPA licensure (typically 150 hours post-2000). | 150 (AK) |
 | `exam_sit_hours_minimum` | integer | Minimum semester hours of college education required before a candidate may sit for the CPA examination (often 120 hours, less than the full 150 required for licensure). | 120 (AL) |
-| `ethics_exam_required` | boolean | Whether a separate ethics examination (e.g., AICPA ethics exam or state-specific ethics exam) is required as a condition of initial licensure. | true (CA) |
+| `ethics_exam_required` | boolean | Whether a separate ethics examination (e.g., AICPA ethics exam or state-specific ethics exam) is required as a condition of initial licensure. | true (CO) |
 | `practice_privilege_no_notice_required` | boolean | Whether out-of-state CPAs with substantially equivalent qualifications may practice in the state without providing notice, paying a fee, or making any submission to the board. | true (AK) |
 | `practice_privilege_consent_conditions` | list | Conditions to which an out-of-state CPA exercising practice privileges must consent, including board jurisdiction, compliance with state law, cessation if license lapses, and appointment of home-state board as agent for service of process. | ["consent to the personal and subject matter jurisdiction an (AK) |
 | `attest_services_require_firm_permit` | boolean | Whether individuals with practice privileges or individual licensees must perform certain attest services (audits, PCAOB engagements) only through a firm holding a valid permit. | true (AK) |
@@ -121,8 +121,8 @@ _Fields discovered specifically for this profession (auto-derived from its statu
 | `single_act_evidence_sufficient` | boolean | Whether evidence of a single prohibited act is sufficient to justify a penalty, injunction, or conviction without evidence of a general course of conduct. | true (AK) |
 | `firm_corrective_action_period_for_ownership_noncompliance` | boolean | Whether firms that fall out of compliance with ownership requirements due to changes in personnel are granted a reasonable period to take corrective action before facing permit suspension or revocation. | true (AK) |
 | `firm_permit_required_for_attest_services` | boolean | Whether a firm must hold a valid permit or registration to provide attest or compilation services, separate from individual licensure requirements. | true (AK) |
-| `registered_municipal_accountant_designation` | boolean | Whether the state has a specialized 'Registered Municipal Accountant' designation requiring additional examination, limited to auditing municipal or county financial statements. | false (ME) |
-| `public_school_accountant_designation` | boolean | Whether the state has a specialized 'Public School Accountant' designation required for auditing school district financial statements. | false (ME) |
+| `registered_municipal_accountant_designation` | boolean | Whether the state has a specialized 'Registered Municipal Accountant' designation requiring additional examination, limited to auditing municipal or county financial statements. | true (NJ) |
+| `public_school_accountant_designation` | boolean | Whether the state has a specialized 'Public School Accountant' designation required for auditing school district financial statements. | true (NJ) |
 | `accounting_practitioner_tier` | boolean | Whether the state has a separate 'Accounting Practitioner' or 'Licensed Public Accountant' tier below CPA with its own examination, education, and scope-of-practice requirements. | true (AL) |
 | `cpa_emeritus_or_retired_status_available` | boolean | Whether the state provides a formal 'CPA Emeritus' or 'CPA Retired' status for licensees who have permanently ceased practice, with reduced or no fees and no CPE requirement. | true (AL) |
 | `government_audit_cpe_requirement` | boolean | Whether the state imposes additional or specific continuing professional education requirements for CPAs engaged in auditing governmental entities. | true (CA) |

@@ -2,7 +2,7 @@
 
 _Auto-generated from the extraction model (`standard_model.py` + the profession's discovered schema). Do not edit by hand — regenerate with `python -m pipeline.publish.generate_field_dictionary`._
 
-**Reflects extracted data as of 2026-07-28** (latest commit to `plumbing` records). Regenerate to refresh.
+**Reflects extracted data as of 2026-07-31** (latest commit to `plumbing` records). Regenerate to refresh.
 
 Every field is an **Evidence** object: a `value`, the verbatim `quote` from the statute that supports it, and the `citation` it came from. Each example below is drawn from the first state that has a value for that field; the source state is shown in parentheses.
 
@@ -44,7 +44,7 @@ character), fees, renewal, continuing education, and reciprocity._
 | &nbsp;&nbsp;&nbsp;&nbsp;`exams[].permitted_attempts` | integer | Max attempts allowed before re-qualification. Null if not specified. | 3 (DE) |
 | `renewal` | object | How the credential is renewed — interval and any conditions. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`renewal.interval_years` | integer | Most states are 1 or 2 | 2 (AK) |
-| `renewal_fee_usd` | integer | License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case. | 200 (MS) |
+| `renewal_fee_usd` | integer | License renewal fee in US dollars (integer). Many statutes leave the amount to the board's discretion — leave null in that case. | 150 (CT) |
 | `continuing_education` | object | Continuing-education requirement to keep the credential active. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.required` | boolean |  | false (AL) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`continuing_education.hours_per_period` | integer |  | 8 (CO) |
@@ -107,7 +107,7 @@ _Fields discovered specifically for this profession (auto-derived from its statu
 | `plumbing_trade_geographic_limit_feet` | integer | How many feet beyond the outside walls of a building the plumbing trade definition extends. | 5 (AK) |
 | `gas_supply_work_included_in_scope` | boolean | Whether the delivery of gas for lighting, heating, and industrial purposes is explicitly included within the plumbing trade scope. | true (AL) |
 | `natural_gas_appliance_certification_required` | boolean | Whether a separate certification (beyond the plumbing license) is required before a licensee may install, repair, or replace a residential or commercial gas appliance or combustion system. | true (AL) |
-| `fire_sprinkler_work_authorized` | boolean | Whether a licensed journeyman plumber is authorized to perform installation, repair, or replacement of water-based fire protection systems. | false (AK) |
+| `fire_sprinkler_work_authorized` | boolean | Whether a licensed journeyman plumber is authorized to perform installation, repair, or replacement of water-based fire protection systems. | false (AR) |
 | `natural_gas_facilities_installation_authorized` | boolean | Whether a licensed plumber (as a qualifying installer) is authorized to install natural gas mains and service lines beyond the building. | true (FL) |
 | `contractor_qualifier_license_requirement` | enum — one of: master plumber required for general plumbing contractor, master plumber or master residential plumber required for residential plumbing contractor | The specific individual plumber license tier that the qualifier for a plumbing contractor entity must hold. | "master plumber required for general plumbing contractor" (AL) |
 | `qualifier_replacement_notice_days` | integer | Number of days within which a contractor must notify the licensing division after a qualifier ceases association with the business. | 15 (AZ) |
@@ -116,7 +116,7 @@ _Fields discovered specifically for this profession (auto-derived from its statu
 | `minor_plumbing_repair_exemption` | boolean | Whether the statute provides an exemption from licensure for minor plumbing repair work incidental to fixing a fixture or appliance in a residential or small commercial building, provided no piping or gas system is altered. | true (AK) |
 | `small_project_dollar_threshold` | integer | Maximum total project cost (labor and materials) below which an unlicensed person may perform certain construction work, with plumbing and electrical systems explicitly excluded from this exemption. | 50000 (AK) |
 | `continuing_education_hours_plumber` | integer | Number of continuing education hours a licensed plumber (individual, not contractor) must complete per two-year renewal cycle. | 8 (CO) |
-| `continuing_education_hours_contractor` | integer | Number of continuing education hours a licensed plumbing contractor must complete per two-year renewal cycle. | 14 (FL) |
+| `continuing_education_hours_contractor` | integer | Number of continuing education hours a licensed plumbing contractor must complete per two-year renewal cycle. | 7 (CT) |
 | `scope__license_tiers` | list | Scope checklist for 'license_tiers'. Return EXACTLY one entry for each of these 11 items, using the item name verbatim: ['Apprentice Plumber', 'Apprentice Gas Fitter', 'Journeyman Plumber', 'Journeyman Gas Fitter', 'Master Plumber', 'Master Gas Fitter', 'Residential Plumber', 'Restricted Plumber', 'Medical Gas Piping Fitter', 'Plumbing Contractor', 'Mechanical Administrator']. For EACH item, status is `present` if this state's statute provides for it, else `absent`. Quote verbatim for `present`. |  |
 | &nbsp;&nbsp;&nbsp;&nbsp;`scope__license_tiers[].item` | string |  | "Apprentice Plumber" (AK) |
 | &nbsp;&nbsp;&nbsp;&nbsp;`scope__license_tiers[].status` | string |  | "absent" (AK) |
