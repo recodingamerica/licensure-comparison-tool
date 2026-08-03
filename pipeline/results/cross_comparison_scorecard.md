@@ -1,6 +1,6 @@
 # Universal Field Cross-Comparison Scorecard
 
-_Generated 2026-08-01T07:27:32+00:00_
+_Generated 2026-08-03T18:15:44+00:00_
 
 How well our extracted data matches Atharv's universal-field schema
 (see PDF cross-comparison table). One row per universal field, one
