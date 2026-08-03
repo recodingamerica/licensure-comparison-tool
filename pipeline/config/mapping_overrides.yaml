@@ -9460,6 +9460,13 @@ professional_engineering:
       slug: chapter-29
       via: chapter_map
       note: ''
+      source_unavailable:
+        reason: Regulated (Wyo. Stat. 33-29-101 et seq. is real) but Justia does not publish this chapter's SECTIONS. The chapter page fetches fine -- 73KB, verify_urls LIVE, title "Wyoming Statutes Title 33,
+          Chapter 29 (2025) - Surveyors and Engineers" -- and contains ZERO section links, only breadcrumbs, year alternates and prev/next nav. Not our parser and not fetch flakiness -- in the same run
+          title-33/chapter-4 (Architects) and chapter-42 each returned 17 section links while chapters 28, 29 and 30 each returned 0. The undated URL resolves to Justia's year-SELECTOR interstitial, so the
+          cell had been storing 1 section of Justia chrome ("There Is a Newer Version of this Chapter") as if it were statute. Re-pull if Justia ever indexes these chapters. (#129)
+        citation: Wyo. Stat. Ann. tit. 33, ch. 29 (SS 33-29-101 et seq.)
+        official_url: https://wyoleg.gov/statutes/compress/title33.pdf
 professional_geology:
   AK:
     add:
