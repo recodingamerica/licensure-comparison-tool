@@ -59,6 +59,23 @@ def main() -> None:
     if not all_profs:
         sys.exit("no core professions found in structured/")
 
+    # Fail fast on names that aren't professions. zsh does NOT word-split an unquoted
+    # `$VAR`, so `--professions $PROFS` passes the whole list as ONE argument; the run
+    # then dies deep inside map_prep with a FileNotFoundError naming a 400-character
+    # "profession" (2026-08-03). Command substitution `$(cat file)` does split — but the
+    # runner should not depend on the caller's shell getting that right.
+    known = set(core_professions())
+    unknown = [p for p in all_profs if p not in known]
+    if unknown:
+        looks_split = any(" " in p for p in unknown)
+        msg = ["--professions got name(s) that aren't professions:"]
+        msg += [f"    {p[:80]!r}" for p in unknown]
+        if looks_split:
+            msg.append("  A name containing spaces means the shell passed the list as ONE")
+            msg.append("  argument. In zsh use $(cat file) or ${=VAR}, not $VAR.")
+        msg.append(f"  Known professions: {', '.join(sorted(known))}")
+        sys.exit("\n".join(msg))
+
     # --force also forces the content-hash upload skip in blob_upload to
     # re-upload everything (subprocesses inherit this env).
     if args.force:

@@ -154,7 +154,11 @@ def harmonize_field(dotted: str, concept: str) -> dict | None:
         user=user,
         schema_cls=_HarmonizedFieldLLM,
         embed_schema=True,
-        max_tokens=16000,
+        # One {profession, state, bucket} object per row, and the widest fields span
+        # ~38 professions x 50 states ~= 1900 rows ~= 50k tokens. 16000 was NOT a
+        # generous ceiling: on 2026-08-01 and again 08-03 every call returned exactly
+        # 16000 output tokens and died on unterminated JSON (#127).
+        max_tokens=64000,
         max_retries=2,
         temperature=None,
         log_prefix=f"[harmonize/{dotted}]",
@@ -181,21 +185,50 @@ def main() -> int:
                     help="Dotted field names to harmonize (default: all in HARMONIZE_FIELDS)")
     args = ap.parse_args()
 
-    fields_out = []
+    _HARMONIZED_DIR.mkdir(parents=True, exist_ok=True)
+    out_path = _HARMONIZED_DIR / "universal_buckets.json"
+
+    # Start from what's already on disk and REPLACE only what this run harmonized.
+    # Writing just this run's fields meant `--fields a b` deleted every other field,
+    # and a run where every field failed wrote an empty file — which is how the
+    # 2026-08-01 run silently shrank 5 fields to 3, and an 08-03 re-run of 2 fields
+    # took it to 0 (#127).
+    existing: dict[str, dict] = {}
+    if out_path.exists():
+        try:
+            for f in (json.loads(out_path.read_text()).get("fields") or []):
+                if f.get("field_name"):
+                    existing[f["field_name"]] = f
+        except Exception:
+            log.warning("could not read existing %s — starting fresh", out_path)
+
+    failed = []
     for dotted in args.fields:
         concept = HARMONIZE_FIELDS.get(dotted, "")
         if not concept:
             log.warning("%s not in HARMONIZE_FIELDS — using empty concept hint", dotted)
         res = harmonize_field(dotted, concept)
-        if res is not None:
-            fields_out.append(res)
-            log.info("%s → %d buckets: %s", dotted, len(res["bucket_set"]), res["bucket_set"])
+        if res is None:
+            failed.append(dotted)
+            if dotted in existing:
+                log.error("%s FAILED — keeping the previously harmonized version", dotted)
+            else:
+                log.error("%s FAILED and has no previous version — it will be absent", dotted)
+            continue
+        existing[dotted] = res
+        log.info("%s → %d buckets: %s", dotted, len(res["bucket_set"]), res["bucket_set"])
 
-    _HARMONIZED_DIR.mkdir(parents=True, exist_ok=True)
-    out_path = _HARMONIZED_DIR / "universal_buckets.json"
+    # Preserve HARMONIZE_FIELDS order for a stable diff, then any extras.
+    order = [f for f in HARMONIZE_FIELDS if f in existing]
+    order += [f for f in existing if f not in order]
+    fields_out = [existing[f] for f in order]
+
     out_path.write_text(json.dumps({"fields": fields_out}, indent=2, ensure_ascii=False))
-    log.info("wrote %s — %d field(s) harmonized", out_path, len(fields_out))
-    return 0
+    log.info("wrote %s — %d field(s) total, %d harmonized this run, %d failed%s",
+             out_path, len(fields_out), len(args.fields) - len(failed), len(failed),
+             f" ({', '.join(failed)})" if failed else "")
+    # Non-zero so the runner cannot report `ok` on a partial harmonize.
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":
