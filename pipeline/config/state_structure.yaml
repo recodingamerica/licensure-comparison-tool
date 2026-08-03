@@ -561,6 +561,16 @@ OR:
 
 # ---- Non-Justia sources ----
 
+NM:
+  professions:
+    # 2026-08-03: index held only 59A-13-15 (contracts) and 59A-13-17 (records) via
+    # =section_match — neither is the licensing act, so the cell extracted to almost
+    # nothing. Art. 13 of chapter 59A (the current Insurance Code) is the adjuster
+    # article; chapter-59/article-14 is the superseded one. (#121)
+    public_adjuster:
+      url: "https://law.justia.com/codes/new-mexico/chapter-59a/article-13/"
+      label: "NM Insurance Code Art. 13 — Adjusters"
+
 MN:
   # FLIPPED TO JUSTIA 2026-07-02 (everything-except-PA directive). Was source: revisor_mn.
   # Justia MN is RANGE-GROUPED, not year-versioned: /codes/minnesota/chapters-{LO}-{HI}/
@@ -574,6 +584,12 @@ MN:
   # Justia section_url_list (converted from the revisor cites, intersected with Justia's
   # live 148 sections -> repealed sections auto-dropped).
   professions:
+    # 2026-08-03: the index held only section-72b-135 ("Insured's right to cancel"),
+    # written by match_sections via=section_match — a SECTION, not its parent. One
+    # subdivision is not the licensing act, so the cell extracted to near-nothing (#121).
+    public_adjuster:
+      url: "https://law.justia.com/codes/minnesota/chapters-59a-79a/chapter-72b/"
+      label: "MN Statutes Ch 72B — Insurance Adjusters"
     architecture:
       # Straggler flipped 2026-07-02 (was a 1-section revisor.mn.gov stub, not in
       # the MN-9 flip). MN Ch 326 is the shared design-professions chapter
