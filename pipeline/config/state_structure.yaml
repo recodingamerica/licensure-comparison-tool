@@ -599,6 +599,23 @@ NM:
       url: "https://law.justia.com/codes/new-mexico/chapter-59a/article-13/"
       label: "NM Insurance Code Art. 13 — Adjusters"
 
+WY:
+  professions:
+    # 2026-08-03: the UNDATED /title-33/chapter-29/ resolves to Justia's year-SELECTOR
+    # interstitial ("There Is a Newer Version of this Chapter", the 2024 copy) instead
+    # of statute text, so the whole cell was 1 section of Justia chrome. The drill in
+    # extract_child_links only fires on a genuinely EMPTY undated page; this one is
+    # populated, so the guard never triggered and a forced re-pull reproduced the stub.
+    # verify_urls says this 2025 URL is LIVE ("Wyoming Statutes Title 33, Chapter 29
+    # (2025) - Surveyors and Engineers") but pinning it is NOT sufficient: a forced
+    # re-pull still yields 1 section of chrome ("Go to Previous Versions of..."), and
+    # extract_child_links returns ZERO nodes for this page. The parser cannot read WY's
+    # chapter layout, so the fix is in the parser, not here. See #129. Left pinned
+    # because it is the correct target once that is fixed.
+    professional_engineering:
+      url: "https://law.justia.com/codes/wyoming/2025/title-33/chapter-29/"
+      label: "WY Stat. Title 33 Ch 29 — Surveyors and Engineers (2025)"
+
 MN:
   # FLIPPED TO JUSTIA 2026-07-02 (everything-except-PA directive). Was source: revisor_mn.
   # Justia MN is RANGE-GROUPED, not year-versioned: /codes/minnesota/chapters-{LO}-{HI}/
