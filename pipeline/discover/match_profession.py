@@ -24,6 +24,7 @@ import urllib.parse
 from pipeline.paths import HIERARCHY_DIR, PROFESSION_INDEX_DIR, CONFIG_DIR, LOGS_DIR
 from pipeline.config.states import ALL_STATES
 from pipeline.config.loaders import load_professions, load_state_structure  # noqa: F401 — re-exported for backward compat
+from pipeline.discover._url import _abs_url
 from pipeline.discover._mapping_overrides import (
     load_mapping_overrides,
     apply_mapping_overrides,
@@ -72,7 +73,7 @@ def match_state(profession_def: dict, state_record: dict) -> list[dict]:
         if label_matches(ch.get("label", ""), patterns, excludes):
             matched.append({
                 "label": ch["label"],
-                "url": ch["url"],
+                "url": _abs_url(ch["url"]),
                 "slug": ch.get("slug", ""),
             })
     return matched
@@ -111,7 +112,7 @@ def _node_from_override(ov: dict) -> dict:
     or manual_overrides shape; both have identical fields per profession)."""
     node = {
         "label": ov.get("label", ""),
-        "url": ov.get("url", ""),
+        "url": _abs_url(ov.get("url", "")),
         "slug": (ov.get("url") or "").rstrip("/").rsplit("/", 1)[-1],
         "via": ov.get("_source", "manual_override"),
         "note": ov.get("note", ""),

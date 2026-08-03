@@ -9364,6 +9364,53 @@ professional_engineering:
       label: Chapter 310-A - Office of Professional Licensure and Certification
       slug: ''
       via: gap_locator
+  NJ:
+    # The 9 loose SECTION nodes the label matcher finds for NJ are exactly what the
+    # hand repair replaced with whole chapters. Without this they come back on every
+    # rebuild and sit alongside the chapters, double-pulling the same law.
+    exclude:
+    - https://law.justia.com/codes/new-jersey/title-45/section-45-3-5-1/
+    - https://law.justia.com/codes/new-jersey/title-45/section-45-4b-9/
+    - https://law.justia.com/codes/new-jersey/title-45/section-45-8-30/
+    - https://law.justia.com/codes/new-jersey/title-45/section-45-8-35/
+    - https://law.justia.com/codes/new-jersey/title-45/section-45-8-35-1/
+    - https://law.justia.com/codes/new-jersey/title-45/section-45-8-35-18/
+    - https://law.justia.com/codes/new-jersey/title-45/section-45-8-43/
+    - https://law.justia.com/codes/new-jersey/title-45/section-45-14a-3/
+    - https://law.justia.com/codes/new-jersey/title-45/section-45-26-12/
+    add:
+    # 2026-08-03: MIGRATED here from the generated index. These five chapter nodes
+    # were written straight into results/profession_index/professional_engineering.json
+    # by a repair commit, so every match_profession rebuild silently discarded them and
+    # replaced them with 9 auto-matched SECTION nodes. A hand repair has to live in this
+    # file to survive — the index is a generated artifact. NJ Justia is flat (no chapter
+    # pages), so label heuristics cannot find these on their own.
+    - url: https://law.justia.com/codes/new-jersey/title-45/chapter-14a/
+      label: "NJ Title 45 chapter-14a — professional engineering / land surveying (hand-repaired mapping)"
+      slug: chapter-14a
+      via: nj_mapping_repair
+      note: ''
+    - url: https://law.justia.com/codes/new-jersey/title-45/chapter-26/
+      label: "NJ Title 45 chapter-26 — professional engineering / land surveying (hand-repaired mapping)"
+      slug: chapter-26
+      via: nj_mapping_repair
+      note: ''
+    - url: https://law.justia.com/codes/new-jersey/title-45/chapter-3/
+      label: "NJ Title 45 chapter-3 — professional engineering / land surveying (hand-repaired mapping)"
+      slug: chapter-3
+      via: nj_mapping_repair
+      note: ''
+    - url: https://law.justia.com/codes/new-jersey/title-45/chapter-4b/
+      label: "NJ Title 45 chapter-4b — professional engineering / land surveying (hand-repaired mapping)"
+      slug: chapter-4b
+      via: nj_mapping_repair
+      note: ''
+    - url: https://law.justia.com/codes/new-jersey/title-45/chapter-8/
+      label: "NJ Title 45 chapter-8 — professional engineering / land surveying (hand-repaired mapping)"
+      slug: chapter-8
+      via: nj_mapping_repair
+      note: ''
+
   NM:
     add:
     - label: "NM article-23 \u2014 Article 23 - Engineering and Surveying (LLM-mapped)"

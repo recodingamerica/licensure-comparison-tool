@@ -26,6 +26,8 @@ Shape:
 from __future__ import annotations
 
 import logging
+
+from pipeline.discover._url import _abs_url
 from pathlib import Path
 
 import yaml
@@ -80,6 +82,11 @@ def apply_override_adds(profession: str, state: str, matched: list[dict], overri
     entry = ((overrides.get(profession) or {}).get(state)) or {}
     out = list(matched)
     for node in entry.get("add") or []:
+        # Absolutize before the dedup-by-url compare below: the hierarchy hands some
+        # urls back root-relative, so an `add` node written from one ("/codes/mass/...")
+        # would never equal the absolute copy already in `matched` and the index would
+        # flip between the two forms on every rebuild (MA, 2026-08-03).
+        node = {**node, "url": _abs_url(node.get("url", ""))}
         same_url = [x for x in out if x.get("url") == node.get("url")]
         if any(x == node for x in same_url):
             continue
