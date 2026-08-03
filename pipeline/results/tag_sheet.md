@@ -1,6 +1,6 @@
 # Field Tag Sheet
 
-_Generated 2026-08-03T18:15:36+00:00_
+_Generated 2026-08-03T18:33:25+00:00_
 
 Plain-English tags for each profession's key licensure fields, derived
 by `pipeline.map_prep.bucket_text` (no per-row hand-curation — the LLM
@@ -3362,6 +3362,30 @@ _No bucketed tags for this field (data too sparse or not yet run)._
 - **Discovery + Hard Cap** (1)
 - **Board Discovery Rule** (1)
 - **External Statute Only** (1)
+
+## Public Adjuster
+
+### Priority fields
+
+#### Minimum Degree
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Professional Experience
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Licensing Authority
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Scope of Practice
+
+_No bucketed tags for this field (data too sparse or not yet run)._
+
+#### Discipline
+
+_No bucketed tags for this field (data too sparse or not yet run)._
 
 ## Real Estate Broker
 

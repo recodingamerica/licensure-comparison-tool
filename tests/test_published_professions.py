@@ -87,10 +87,22 @@ def test_publish_false_beats_a_lingering_payload(tmp_path, monkeypatch):
     assert paths.published_professions(d) == ["optometry"]
 
 
-def test_public_adjuster_is_actually_opted_out_in_the_real_config():
-    """The config edit itself, not just the mechanism (#121)."""
-    assert "public_adjuster" not in paths.core_professions()
-    assert "public_adjuster" not in paths.published_professions()
+def test_public_adjuster_is_published_again():
+    """2026-08-03: public_adjuster was UN-retired (#121), so this test now asserts the
+    opposite of what it did.
+
+    The `publish: false` it used to guard was set on 07-31 in 72b2ec07, a "one source of
+    truth for which professions are published" cleanup — a side effect of consolidating
+    the count, not a decision to drop the occupation. It showed 10 of 50 states only
+    because trim/extract had never finished; 49 states of statute text were already
+    pulled and committed. Finishing the run (plus repairing LA/MN/NM, whose corpora were
+    a fragment rather than the licensing act) brought it to 49 extracted, so it is a real
+    profession again.
+
+    The opt-out MECHANISM is still covered by the test above, which exercises it against
+    a fake registry rather than the live config."""
+    assert "public_adjuster" in paths.core_professions()
+    assert "public_adjuster" in paths.published_professions()
 
 
 def test_nobody_recomputes_the_published_data_path():

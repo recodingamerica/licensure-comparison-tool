@@ -636,7 +636,12 @@ public_adjuster:
   - business
   # Past the >=10-state core threshold on count alone (11/50), but too sparse to sit
   # beside the published set in the scorecard/tag sheet. Excluded per issue #121.
-  publish: false
+  # 2026-08-03: un-retired (#121). Was set publish:false on 07-31 in 72b2ec07, a
+  # 'one source of truth for published professions' cleanup — the flag was a side
+  # effect of that consolidation, not a decision to drop the occupation. It had 10
+  # of 50 states only because trim/extract never finished, not because the data was
+  # thin: 49 states of statute text were already pulled. Now 49 extracted.
+  publish: true
   patterns:
   - public adjuster
   - public insurance adjuster
