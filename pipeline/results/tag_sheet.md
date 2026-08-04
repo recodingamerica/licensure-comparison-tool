@@ -1,6 +1,6 @@
 # Field Tag Sheet
 
-_Generated 2026-08-03T18:33:25+00:00_
+_Generated 2026-08-04T02:11:53+00:00_
 
 Plain-English tags for each profession's key licensure fields, derived
 by `pipeline.map_prep.bucket_text` (no per-row hand-curation — the LLM
