@@ -10,10 +10,10 @@
   ],
   "excludes": [],
   "coverage": {
-    "states_matched": 41,
+    "states_matched": 40,
     "states_total": 50,
-    "overrides_used": 6,
-    "mapping_overrides_used": 34
+    "overrides_used": 7,
+    "mapping_overrides_used": 32
   },
   "by_state": {
     "AL": {
@@ -94,7 +94,7 @@
         },
         {
           "url": "https://law.justia.com/codes/delaware/title-19/chapter-36/",
-          "label": "Title 19 Ch 36 - Delaware Contractor Registration Act (\u00a73601-3611, DOL Office of Contractor Registration). Distinct from Title 30 Ch25 (a gross-receipts-tax registration): this is the substantive anti-misclassification/labor-compliance contractor regulation regime -- registration denial/suspension/revocation grounds, appeals, penalties. Confirmed via delcode.delaware.gov, 2026-07-08.",
+          "label": "Title 19 Ch 36 - Delaware Contractor Registration Act (SS3601-3611, DOL Office of Contractor Registration). Distinct from Title 30 Ch25 (a gross-receipts-tax registration): this is the substantive anti-misclassification/ labor-compliance contractor regulation regime -- registration denial/ suspension/revocation grounds, appeals, penalties. Confirmed via delcode.delaware.gov, 2026-07-08.",
           "slug": "",
           "via": "relocate_2026-07-08"
         }
@@ -307,10 +307,12 @@
     "NJ": {
       "matched": [
         {
-          "url": "https://law.justia.com/codes/new-jersey/title-45/chapter-5aaa/",
-          "label": "",
-          "slug": "",
-          "via": "nj_mapping_repair"
+          "label": "NJ Title 45 Ch 1 (Uniform Enforcement Act) + Ch 5AAA (Home Improvement and Home Elevation Contractors)",
+          "url": "https://law.justia.com/codes/new-jersey/title-45/",
+          "slug": "title-45",
+          "via": "state_structure",
+          "note": "",
+          "section_slug_pattern": "^section-45-(1|5aaa)-\\d"
         }
       ]
     },
