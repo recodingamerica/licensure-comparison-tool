@@ -278,7 +278,6 @@ class TestRebuildIsANoOp:
             HIERARCHY_DIR,
             PROFESSION_INDEX_DIR,
             TEXT_DIR,
-            published_professions,
         )
 
         hierarchy = json.loads((HIERARCHY_DIR / "NJ.json").read_text())
@@ -287,8 +286,19 @@ class TestRebuildIsANoOp:
             for c in (hierarchy.get("chapters") or [])
         ]
 
+        # "Published" via the committed provenance publish stamps, NOT
+        # published_professions() — that derives from the gitignored payload dir and
+        # is [] on a fresh clone (CI), which turned this guard into `checked 0` and a
+        # hard fail there. Exactly the shipped professions carry a publish stamp.
+        from pipeline.paths import RESULTS_DIR
+        published = sorted(
+            f.parent.name
+            for f in (RESULTS_DIR / "provenance").glob("*/_profession.json")
+            if "publish" in json.loads(f.read_text())
+        )
+
         mismatched, checked = [], 0
-        for profession in sorted(published_professions()):
+        for profession in published:
             index_path = PROFESSION_INDEX_DIR / f"{profession}.json"
             corpus_path = TEXT_DIR / profession / "NJ.json"
             if not index_path.exists() or not corpus_path.exists():

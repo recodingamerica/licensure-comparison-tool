@@ -102,7 +102,12 @@ def test_public_adjuster_is_published_again():
     The opt-out MECHANISM is still covered by the test above, which exercises it against
     a fake registry rather than the live config."""
     assert "public_adjuster" in paths.core_professions()
-    assert "public_adjuster" in paths.published_professions()
+    # The un-retirement itself is a config fact: no `publish: false` in professions.yaml.
+    assert "public_adjuster" not in paths._publish_excluded()
+    # Payload presence only means something where payloads have been built — public/data
+    # is gitignored, so a fresh clone (CI) legitimately has none at all.
+    if paths.published_professions():
+        assert "public_adjuster" in paths.published_professions()
 
 
 def test_nobody_recomputes_the_published_data_path():
