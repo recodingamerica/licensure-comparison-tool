@@ -817,6 +817,48 @@ NJ:
     public_accountancy:
       section_slug_pattern: '^section-45-(1-\d|2b-\d)'
       label: "NJ Title 45 Ch 1 (Uniform Enforcement Act) + Ch 2B (Public Accountancy)"
+    # The trades below had NO pattern, so the matcher fell back to whatever loose sections
+    # their labels happened to hit — 6 of chapter 5A's 71, 2 of 14C's 37, 4 of 16A's 42,
+    # 15 of architecture's 148 (#130).
+    #
+    # All of them carry 45:1 for the same reason the health professions above do: 45:1-2.1
+    # names their boards explicitly — the Board of Examiners of Electrical Contractors, the
+    # State Board of Examiners of Master Plumbers, the State Board of Examiners of Heating,
+    # Ventilating, Air Conditioning and Refrigeration Contractors, the NJ State Board of
+    # Architects, the State Board of Professional Engineers and Land Surveyors, and (added
+    # by the same 2023 c.237 that created chapter 5AAA) the NJ State Board of Home
+    # Improvement and Home Elevation Contractors. The Uniform Enforcement Act carries the
+    # disciplinary grounds their own chapters don't repeat.
+    #
+    # Chapter sets preserve exactly what each corpus already held; the only delta is 45:1.
+    electrician:
+      section_slug_pattern: '^section-45-(1|5a)-\d'
+      label: "NJ Title 45 Ch 1 (Uniform Enforcement Act) + Ch 5A (Electrical Contractors)"
+    plumbing:
+      section_slug_pattern: '^section-45-(1|14c)-\d'
+      label: "NJ Title 45 Ch 1 (Uniform Enforcement Act) + Ch 14C (Master Plumbers)"
+    hvac:
+      section_slug_pattern: '^section-45-(1|16a)-\d'
+      label: "NJ Title 45 Ch 1 (Uniform Enforcement Act) + Ch 16A (HVACR Contractors)"
+    construction_trades:
+      section_slug_pattern: '^section-45-(1|5aaa)-\d'
+      label: "NJ Title 45 Ch 1 (Uniform Enforcement Act) + Ch 5AAA (Home Improvement and Home Elevation Contractors)"
+    # architecture and professional_engineering had NEARLY IDENTICAL chapter sets (3, 4B, 8,
+    # 14A, +26 for PE) because the label matcher grabbed any chapter naming either trade.
+    # Split on which board each chapter actually establishes:
+    #   45:3  NJ State Board of Architects                      -> architecture
+    #   45:8  Board of Professional Engineers, Land Surveyors   -> professional_engineering
+    #   45:4B Joint Committee of Architects and Engineers       -> BOTH (it governs the
+    #         boundary between the two practices, so it is genuinely shared, not a dupe)
+    # Dropped from both: 45:14A is the professional PLANNERS licensing act, and 45:14A-3
+    # exempts architects, engineers and land surveyors — it explicitly does not regulate
+    # them. Dropped from PE: 45:26 is the Crane Operators License Advisory Board.
+    architecture:
+      section_slug_pattern: '^section-45-(1|3|4b)-\d'
+      label: "NJ Title 45 Ch 1 (Uniform Enforcement Act) + Ch 3 (Architects) + Ch 4B (Joint Committee of Architects and Engineers)"
+    professional_engineering:
+      section_slug_pattern: '^section-45-(1|4b|8)-\d'
+      label: "NJ Title 45 Ch 1 (Uniform Enforcement Act) + Ch 4B (Joint Committee of Architects and Engineers) + Ch 8 (Professional Engineers and Land Surveyors)"
 
 MA:
   source: justia

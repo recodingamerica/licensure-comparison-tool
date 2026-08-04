@@ -1959,13 +1959,9 @@ construction_trades:
       url: https://law.justia.com/codes/north-dakota/title-43/chapter-43-07/
       slug: chapter-43-07
       via: coverage_add
-  NJ:
-    add:
-    - label: NJ 45:5AAA Contractors
-      url: https://law.justia.com/codes/new-jersey/title-45/
-      slug: title-45
-      section_slug_pattern: ^section-45-5aaa-
-      via: section_scope
+  # NJ moved to config/state_structure.yaml (NJ.professions.construction_trades) on
+  # 2026-08-03, alongside the other twelve NJ professions — same chapter 5AAA, plus the
+  # 45:1 Uniform Enforcement Act that 45:1-2.1 applies to its board (#130).
   NM:
     add:
     - label: "NM Construction Industries Licensing Act \u2014 Ch 60 Art 13"
@@ -9364,53 +9360,11 @@ professional_engineering:
       label: Chapter 310-A - Office of Professional Licensure and Certification
       slug: ''
       via: gap_locator
-  NJ:
-    # The 9 loose SECTION nodes the label matcher finds for NJ are exactly what the
-    # hand repair replaced with whole chapters. Without this they come back on every
-    # rebuild and sit alongside the chapters, double-pulling the same law.
-    exclude:
-    - https://law.justia.com/codes/new-jersey/title-45/section-45-3-5-1/
-    - https://law.justia.com/codes/new-jersey/title-45/section-45-4b-9/
-    - https://law.justia.com/codes/new-jersey/title-45/section-45-8-30/
-    - https://law.justia.com/codes/new-jersey/title-45/section-45-8-35/
-    - https://law.justia.com/codes/new-jersey/title-45/section-45-8-35-1/
-    - https://law.justia.com/codes/new-jersey/title-45/section-45-8-35-18/
-    - https://law.justia.com/codes/new-jersey/title-45/section-45-8-43/
-    - https://law.justia.com/codes/new-jersey/title-45/section-45-14a-3/
-    - https://law.justia.com/codes/new-jersey/title-45/section-45-26-12/
-    add:
-    # 2026-08-03: MIGRATED here from the generated index. These five chapter nodes
-    # were written straight into results/profession_index/professional_engineering.json
-    # by a repair commit, so every match_profession rebuild silently discarded them and
-    # replaced them with 9 auto-matched SECTION nodes. A hand repair has to live in this
-    # file to survive — the index is a generated artifact. NJ Justia is flat (no chapter
-    # pages), so label heuristics cannot find these on their own.
-    - url: https://law.justia.com/codes/new-jersey/title-45/chapter-14a/
-      label: "NJ Title 45 chapter-14a — professional engineering / land surveying (hand-repaired mapping)"
-      slug: chapter-14a
-      via: nj_mapping_repair
-      note: ''
-    - url: https://law.justia.com/codes/new-jersey/title-45/chapter-26/
-      label: "NJ Title 45 chapter-26 — professional engineering / land surveying (hand-repaired mapping)"
-      slug: chapter-26
-      via: nj_mapping_repair
-      note: ''
-    - url: https://law.justia.com/codes/new-jersey/title-45/chapter-3/
-      label: "NJ Title 45 chapter-3 — professional engineering / land surveying (hand-repaired mapping)"
-      slug: chapter-3
-      via: nj_mapping_repair
-      note: ''
-    - url: https://law.justia.com/codes/new-jersey/title-45/chapter-4b/
-      label: "NJ Title 45 chapter-4b — professional engineering / land surveying (hand-repaired mapping)"
-      slug: chapter-4b
-      via: nj_mapping_repair
-      note: ''
-    - url: https://law.justia.com/codes/new-jersey/title-45/chapter-8/
-      label: "NJ Title 45 chapter-8 — professional engineering / land surveying (hand-repaired mapping)"
-      slug: chapter-8
-      via: nj_mapping_repair
-      note: ''
-
+  # NJ moved to config/state_structure.yaml (NJ.professions.professional_engineering) on
+  # 2026-08-03. The five chapter nodes and the nine excludes that suppressed the loose
+  # section matches are both subsumed by one section_slug_pattern there, which also adds
+  # the 45:1 Uniform Enforcement Act — 45:1-2.1 names the State Board of Professional
+  # Engineers and Land Surveyors (#130).
   NM:
     add:
     - label: "NM article-23 \u2014 Article 23 - Engineering and Surveying (LLM-mapped)"
@@ -10262,7 +10216,9 @@ public_adjuster:
       - https://law.justia.com/codes/oklahoma/title-36/section-36-6224/
   OR:
     add:
-    - url: https://law.justia.com/codes/oregon/chapter-744/
+    # Justia's Oregon is volume-scoped: the volume-less url is dead, so this override was
+    # overwriting the committed index's working volume-18 node on every rebuild (#130).
+    - url: https://law.justia.com/codes/oregon/volume-18/chapter-744/
       label: Insurance Producers; Life Settlement Providers, Brokers and Contracts; Adjusters; Consultants; Third Party Administrators; Reinsurance Intermediaries; Limited Licenses
       slug: ''
       via: gap_locator

@@ -1,218 +1,245 @@
-# Plan — pin the 8 cells a `match_profession` rebuild breaks (#130)
+# NJ mapping repairs (#130) — what was actually wrong, and what changed
 
-Self-contained. Everything below was verified on 2026-08-03; nothing is assumed.
-Working tree is clean at `70381efd` and the suite is green (954), so start from `main`-clean.
-
----
-
-## Why this is a plan and not a patch
-
-The obvious move — "pin the committed index values as overrides" — is **wrong for at
-least two of the eight cells**, which is why it wasn't done inline. Two cells already
-have overrides, and in one of them the override is the thing that's wrong. Read the
-per-cell table before editing anything.
-
-The file is `pipeline/config/mapping_overrides.yaml`, ~10,000 lines, and it drives every
-corpus mapping in the repo. A bad splice is a bad pull for every profession.
+**Status: mappings fixed and re-pulled; extraction in progress.** Read the correction
+first — the original plan for #130, and the `f49c11bc` commit message, both describe a
+bug that does not exist, and prescribe a fix that would have made things worse.
 
 ---
 
-## Verified facts you can build on
+## Correction 1 — five of the eight "broken" cells were never broken
 
-**1. NJ Justia is FLAT — chapter URLs are not real pages.** Probed:
+#130 claimed a rebuild collapses five NJ cells to the whole of Title 45 (~2,500 sections)
+because NJ Justia is flat and the label matcher hits the title.
 
-| url | verdict | `<title>` |
+A rebuild emits `title-45/` **with a `section_slug_pattern`** — the explicit-pattern form,
+which is the legitimate second form of an NJ mapping. Those patterns were pinned in
+`config/state_structure.yaml` under `NJ.professions.*` all along.
+
+Resolved against the 2,285 title-45 section slugs in the committed hierarchy, both forms
+give identical section sets, each matching the committed corpus exactly:
+
+| cell | chapter form | pattern form | corpus |
+|---|---|---|---|
+| dentistry/NJ | 203 | 203 | 203 |
+| dietetics/NJ | 129 | 129 | 129 |
+| podiatry/NJ | 132 | 132 | 132 |
+| public_accountancy/NJ | 149 | 149 | 149 |
+| construction_trades/NJ | 22 | 22 | 22 |
+
+The prescribed fix — exclude bare `title-45/`, re-add chapter nodes — would have been
+net-negative: `exclude` matches on exact url, and the pattern node's url **is**
+`https://law.justia.com/codes/new-jersey/title-45/`, so it would have deleted a working
+`state_structure` pin and replaced it with a redundant `mapping_overrides` one.
+
+## Correction 2 — "0 published cells changed" was the wrong success criterion
+
+Keyed on `(url, via)`, it was unachievable: chapter-form and pattern-form are both
+correct, so those cells differ by url form no matter what. Chasing it to zero is what
+would have produced the churn it was meant to prevent.
+
+Five more cells (`architecture/MA`, `hvac/AL|MD|NC|TX`) differ only because the committed
+indexes held root-relative urls that `f49c11bc` normalized; MA also carries year-stamped
+duplicates. Canonicalize scheme, host and year segments away and all five are identical.
+
+**Compare resolved section SETS, not node urls.**
+
+---
+
+## What was actually broken
+
+### a. Loose-section fallback (4 cells)
+
+A profession with no `section_slug_pattern` fell back to whatever loose sections the label
+matcher happened to hit:
+
+| cell | index held | corpus held |
 |---|---|---|
-| `new-jersey/title-45/chapter-1/` | LIVE | New Jersey Revised Statutes Title 45 (2025) - Profession… |
-| `new-jersey/title-45/chapter-6/` | LIVE | *(identical)* |
-| `new-jersey/title-45/` | LIVE | *(identical)* |
+| electrician/NJ | 6 loose sections | 71 (chapter 5A) |
+| plumbing/NJ | 2 loose sections | 37 (chapter 14C) |
+| architecture/NJ | 15 loose sections | 148 |
+| hvac/NJ | 4 loose sections | 42 |
 
-All three serve the **same title page**. A NJ "chapter" URL 301s to its title. This
-matches `pull_text`'s `nj_flat` handling and the CLAUDE.md note.
+electrician and plumbing were caught because their committed indexes still held
+hand-written chapter nodes. **architecture and hvac were not** — their indexes were
+already broken and nobody had re-pulled them, so the corpus was the only witness. A
+routine re-pull would have collapsed 148 → 15 and 42 → 4. This class is invisible to an
+index-vs-rebuild check: both sides agree on the wrong answer.
 
-So a NJ mapping only works if something narrows the title down to one chapter's
-sections. There are two mechanisms and BOTH are legitimate:
+### b. `public_adjuster/OR` pointed at a dead url
 
-- **chapter-URL form** — `url: .../title-45/chapter-6/`. `pull_text` derives the chapter
-  token via `nj_flat.key_from_chapter_url()` and keeps only `section-45-6-*`. This is
-  what the committed indexes use.
-- **explicit-pattern form** — `url: .../title-45/` plus
-  `section_slug_pattern: "^section-45-5aaa-"`. This is what `construction_trades/NJ`'s
-  existing override uses.
+Justia's Oregon is volume-scoped. The override held `oregon/chapter-744/` and overwrote
+the committed index's working `volume-18/chapter-744/` on every rebuild. Fixed in place.
 
-**What a rebuild produces is neither**: a bare `title-45/` with **no** pattern, which
-pulls all ~2,500 sections of the title unfiltered. That is the bug.
+### c. Six cells were missing law that governs them by statute
 
-**2. `public_adjuster/OR`'s existing override points at a DEAD url.** Probed:
+NJ 45:1-2.1 "Applicability of act" enumerates the boards the **Uniform Enforcement Act**
+covers, and names the Board of Examiners of Electrical Contractors, the State Board of
+Examiners of Master Plumbers, the State Board of Examiners of Heating, Ventilating, Air
+Conditioning and Refrigeration Contractors, the NJ State Board of Architects, and the
+State Board of Professional Engineers and Land Surveyors. For construction_trades the
+chain is exact: 45:5AAA-3 establishes the NJ State Board of Home Improvement and Home
+Elevation Contractors, added to 45:1-2.1 by **the same 2023 c.237** that created 5AAA.
 
-| url | verdict |
-|---|---|
-| `oregon/chapter-744/` (the override) | **ERROR** |
-| `oregon/volume-18/chapter-744/` (the committed index) | **LIVE** — "Oregon Revised Statutes Chapter 744 (2025) - Insurance Producers" |
+Chapter 1 carries the disciplinary grounds the individual chapters don't repeat —
+`45:1-21 "Refusal to license or renew, grounds."` construction_trades/NJ had **zero**
+disciplinary grounds before this.
 
-Justia's Oregon is volume-scoped. The override is wrong and the index is right — so here
-you FIX AN EXISTING ENTRY rather than adding an exclude.
+The seven health/finance NJ cells already included 45:1. The six trades did not.
+`public_adjuster/NJ` correctly stays out: Title 17, not a Title-45 board.
 
----
+### d. architecture and professional_engineering were mutually over-broad
 
-## Per-cell prescription
+Both had near-identical chapter sets (3, 4B, 8, 14A, +26 for PE) because the label matcher
+grabbed any chapter naming either trade. Split on which board each chapter establishes:
 
-Current override state (checked 2026-08-03):
-
-| cell | override today | action |
+| chapter | what it is | goes to |
 |---|---|---|
-| `construction_trades/NJ` | `title-45/` + `section_slug_pattern: ^section-45-5aaa-`, via `section_scope` | **LEAVE ALONE.** This is the explicit-pattern form working as designed. The rebuild reproduces it. Not a regression — my #130 table listed it wrongly. |
-| `public_adjuster/OR` | `oregon/chapter-744/`, via `gap_locator` | **EDIT IN PLACE**: change the url to `https://law.justia.com/codes/oregon/volume-18/chapter-744/`. Do not add an exclude — there is only one node and it is simply wrong. |
-| `dentistry/NJ` | none (profession key exists, no NJ block) | add block: exclude bare `title-45/`, add `chapter-1/` + `chapter-6/` |
-| `dietetics/NJ` | none (key exists) | exclude bare `title-45/`, add `chapter-1/` + `chapter-16b/` |
-| `public_accountancy/NJ` | none (key exists) | exclude bare `title-45/`, add `chapter-1/` + `chapter-2b/` |
-| `electrician/NJ` | none (key exists) | exclude the 6 `section-45-5a-*` urls, add `chapter-5a/` |
-| `plumbing/NJ` | none (key exists) | exclude the 2 `section-45-14c-*` urls, add `chapter-14c/` |
-| `podiatry/NJ` | **no top-level `podiatry:` key at all** | create the profession key, then the NJ block: exclude bare `title-45/`, add `chapter-1/` + `chapter-5/` |
+| 45:3 | NJ State Board of **Architects** | architecture |
+| 45:8 | Board of **Professional Engineers, Land Surveyors** | professional_engineering |
+| 45:4B | **Joint Committee of Architects and Engineers** | **both** — it governs the boundary between the two practices |
+| 45:14A | professional **planners**; 45:14A-3 *exempts* architects, engineers, surveyors | neither |
+| 45:26 | **Crane Operators** License Advisory Board | neither |
 
-### The exact URLs
-
-Correct values (these are what the committed indexes hold — verified by reading
-`results/profession_index/<prof>.json` at `70381efd`):
-
-```
-dentistry/NJ           .../new-jersey/title-45/chapter-1/   .../new-jersey/title-45/chapter-6/
-dietetics/NJ           .../new-jersey/title-45/chapter-1/   .../new-jersey/title-45/chapter-16b/
-podiatry/NJ            .../new-jersey/title-45/chapter-1/   .../new-jersey/title-45/chapter-5/
-public_accountancy/NJ  .../new-jersey/title-45/chapter-1/   .../new-jersey/title-45/chapter-2b/
-electrician/NJ         .../new-jersey/title-45/chapter-5a/
-plumbing/NJ            .../new-jersey/title-45/chapter-14c/
-public_adjuster/OR     .../oregon/volume-18/chapter-744/
-```
-
-What to EXCLUDE (what a rebuild produces instead):
-
-```
-the 5 whole-title cells:  https://law.justia.com/codes/new-jersey/title-45/
-electrician/NJ:           section-45-5a-9/ -9-1/ -11-1/ -11-2/ -13-1/ -55/     (full urls under title-45/)
-plumbing/NJ:              section-45-14c-3/ section-45-14c-18-1/               (full urls under title-45/)
-```
-
-> Careful: `exclude` matches on exact url string. The rebuild emits ABSOLUTE urls
-> (`https://law.justia.com/...`) since `70381efd` normalized them, so write absolute.
-
-### Block shape
-
-Copy the shape already in the file (`professional_engineering/NJ`, added 2026-08-03):
-
-```yaml
-  NJ:
-    # why this exists, in one or two lines
-    exclude:
-    - https://law.justia.com/codes/new-jersey/title-45/
-    add:
-    - url: https://law.justia.com/codes/new-jersey/title-45/chapter-6/
-      label: "NJ Title 45 ch. 6 — dentistry (pinned; a rebuild collapses this to the whole title)"
-      slug: chapter-6
-      via: pinned_2026-08-03
-      note: ''
-```
+Both cells gained relevant law and shed irrelevant law at once: PE picked up 114 sections
+of disciplinary grounds and dropped 77 about cranes and architects.
 
 ---
 
-## Editing method — do NOT round-trip the YAML
+## Final state
 
-`yaml.safe_load` → `yaml.safe_dump` **reformats all ~10,000 lines** (tried it on
-2026-08-03: a 7-line change became a 649-line diff, and it silently dropped an existing
-`WY` entry). Two safe options:
+| cell | before | after | delta |
+|---|---|---|---|
+| architecture/NJ | 148 | 169 | +45:1, −ch 8, −ch 14A |
+| professional_engineering/NJ | 165 | 202 | +45:1, −ch 3, −ch 14A, −ch 26 |
+| electrician/NJ | 71 | 185 | +45:1 |
+| hvac/NJ | 42 | 156 | +45:1 |
+| plumbing/NJ | 37 | 151 | +45:1 |
+| construction_trades/NJ | 22 | 136 | +45:1 |
 
-1. **Hand-edit in the editor.** Seven blocks. Slowest to type, zero tooling risk.
-2. **Targeted text insertion** — read the file as text, find the `^<profession>:$` line,
-   insert the block immediately after it. Assert the anchor appears exactly once first.
-   `podiatry` has no key, so append a new top-level `podiatry:` block at the end instead.
+Every cell landed on its predicted count with the intended chapter composition, no thin
+sections and no fetch errors. The four health cells resolve identically to before and were
+not re-pulled.
 
-Either way: **one profession per step, `git diff` after each.** The diff should be only
-the lines you added.
+All 13 NJ professions now run on ONE mechanism — `state_structure.yaml` patterns — instead
+of three. That retired two now-redundant `mapping_overrides` blocks, including the 47-line
+`professional_engineering/NJ` migration from `f49c11bc`; its nine `exclude` entries turned
+out unnecessary once a pattern node replaces label matching.
 
-Profession key line numbers at `70381efd` (they shift as you insert — re-grep each time):
+### The overwrite guard did its job
 
-```
-construction_trades 1819   dentistry 2574   dietetics 2816   electrician 3010
-plumbing 8865   public_accountancy 9922   public_adjuster 10032   podiatry ABSENT
-```
+architecture and PE fetched fully and then **refused to write**: `pull_text._is_regression`
+blocks a pull that loses committed sections. The losses were the intended re-scoping (93
+and 77 sections), but a guard cannot tell deliberate narrowing from a bad pull, so
+refusing is correct. Overridden deliberately with `--force`.
 
 ---
 
-## Verification — the part that actually proves it
+## Guards added
 
-After each edit:
+`tests/test_match_profession.py::TestRebuildIsANoOp`, two tests:
+
+1. **`test_rebuilding_does_not_change_published_mappings`** — rebuilds every published
+   profession in memory and asserts no cell's resolved section set moves. Compares section
+   sets, not urls. Verified red on the real regression (`electrician/NJ: 71 -> 6`).
+2. **`test_nj_corpus_matches_what_the_index_maps`** — asserts each NJ cell's committed
+   corpus is exactly what its mapping resolves to. This is the one that catches class (a)
+   above, which the first test structurally cannot see. Verified red at
+   `corpus 185 vs mapping 71 (corpus-only 114)`.
+
+**Test 2 is NJ-scoped deliberately.** NJ is flat, so the mapping is a title url plus a
+pattern and `hierarchy/NJ.json` is the complete flat section list — the pattern alone
+resolves exactly. Elsewhere a pattern is relative to its node's chapter: matching it
+against a whole state's hierarchy over-matches (MA repeats `section-43` across many
+chapters of a title) and under-matches (OR's hierarchy is chapter-level, so no section
+slug appears). Generalizing needs container-scoped resolution. The other states are not
+broken — an earlier draft of this check reported 14 "mismatches" that were all artifacts
+of resolving patterns without chapter scope.
+
+`pipeline.eval.audit_mappings` already covers this bug class and *would* have caught the
+original architecture/hvac breakage (133 strays against 15 mapped nodes), but nothing
+gates on it for published cells. It also cannot see the new mapping style: the node url is
+the whole title, so every section counts as "under a mapped chapter" and the pattern that
+does the narrowing is invisible to it.
+
+---
+
+## The 45:1 question, settled by measurement
+
+Adding chapter 1 looked like it might be redundant churn, because NJ had an umbrella that
+was supposed to supply it. It was not redundant, and the reason matters:
+
+`extract_state.load_umbrella_text` drops sections whose `scope_source` is `undetermined`
+— "that's the loud failure path." **All 39 NJ umbrella sections were `undetermined`**, so
+the function returned an empty string for every NJ profession. The umbrella was shipping
+108KB of duplicate text into every payload while contributing **nothing** to extraction.
+
+The evidence: chapter-1 quotes per cell went **0 → 3, 15, 14, 16, 14, 14** (76 total).
+Zero before, in every one. These professions had none of the Uniform Enforcement Act.
+
+The cost is real but smaller: practice-act quotes drift 295 → 277, and six fields dropped.
+Investigating each rather than trusting the summary, four of the six are **corrections**:
+
+- `electrician.age_minimum` / `moral_character_required` cited **45:5A-27**, which reads
+  "An applicant seeking licensure to engage in the **alarm business** shall: (1) Be at
+  least 18 years of age". NJ chapter 5A covers electrical contractors, alarm businesses
+  and pool/spa contractors under one board — the old extraction attributed alarm-business
+  requirements to electricians.
+- `architecture` + `professional_engineering` `renewal_fee_usd` dropped in BOTH, which is
+  a pattern, not variance. Chapter 1 carries the renewal-fee framework (45:1-7.1, 45:1-7.4)
+  under which boards set fees by rule; the old value was the **$15** in 45:3-7, long
+  superseded. Publishing "$15" as the architect renewal fee would have been misleading.
+
+The remaining two (`electrician.apprentice_supervision_ratio`, `plumbing.national_association`)
+are marginal captures, not clear regressions. No re-extract was run to chase them: that
+would risk 76 good quotes to maybe recover one questionable field.
+
+## NJ umbrella: retired
+
+It was 100% chapter 1, a strict SUBSET of chapter 1 in all 13 title-45 corpora, never
+injected into extraction, and for `public_adjuster` (title 17, not a 45:1-2.1 board) it
+shipped law that does not apply. Removed `umbrella_text/`, `umbrella_scope/`,
+`umbrella_scope_llm/` and `umbrella_chapters/` for NJ so the generator won't recreate it.
+
+Corpus-based chapter 1 is also better for the UI: it ships real per-section citations that
+resolve against the displayable-quote gate, where the umbrella shipped one opaque
+`UMBRELLA / <chapter>` aggregate.
+
+`build_frontend` additionally skips any umbrella section the profession's own corpus
+already carries (both `row.sections` and browse) — general, not NJ-specific. This changes
+payload content, so `CODE_VERSION['publish']` went 2 → 3.
+
+## The publish path (learned the hard way)
+
+`refresh_all` hardcodes `run_to("publish", p, start="verify")`, so it runs the LLM `verify`
+and `map_prep` stages for every profession whose extract is stale — which is most of them.
+Started on 39 professions, it modified `anesthesiologist_assistant/CO.json` (a profession
+nobody touched) before being killed; that change was reverted.
+
+**Use `--start publish` and scope to the professions actually on the site:**
 
 ```bash
-pipeline/.venv/bin/python -c "import yaml; yaml.safe_load(open('pipeline/config/mapping_overrides.yaml'))"
-git diff --stat pipeline/config/mapping_overrides.yaml   # only your lines
+python -m pipeline.pipeline_stages --queue <14 published> --target publish --start publish --yes
 ```
 
-Then the real test — a rebuild must be a no-op for the published professions:
+That runs `build_frontend` only — deterministic, no LLM, `$0` (neither `publish` nor
+`fanout` has a `costs.yaml` entry). Do NOT run the full `fanout`: **26 of 39** professions
+lack `field_semantics.yaml`, so it fires `gen_semantics` for each, plus `harmonize_universal`.
+The two artifacts the freshness test needs — `build_scope_matrices` and
+`cross_comparison_scorecard` — have their own LLM-free builders and can be run directly.
 
-```bash
-SNAP=/tmp/idx_snap; mkdir -p $SNAP; cp pipeline/results/profession_index/*.json $SNAP/
-pipeline/.venv/bin/python -m pipeline.discover.match_profession
-pipeline/.venv/bin/python - <<'EOF'
-import json
-from pathlib import Path
-from pipeline.paths import published_professions
-snap=Path("/tmp/idx_snap"); pub=set(published_professions())
-key=lambda n:(str(n.get("url") or ""), str(n.get("via") or ""))
-bad=[]
-for f in sorted(Path("pipeline/results/profession_index").glob("*.json")):
-    if f.stem.startswith("_") or f.stem not in pub or not (snap/f.name).exists(): continue
-    b=json.loads((snap/f.name).read_text()); c=json.loads(f.read_text())
-    for s in sorted(set(b["by_state"])|set(c["by_state"])):
-        nb=sorted(key(n) for n in (b["by_state"].get(s,{}).get("matched") or []))
-        nc=sorted(key(n) for n in (c["by_state"].get(s,{}).get("matched") or []))
-        if nb!=nc: bad.append((f.stem,s,nb,nc))
-print("published cells changed by a rebuild:", len(bad))
-for p,s,nb,nc in bad: print(" ",p,s,"\n   was",nb,"\n   now",nc)
-EOF
-```
+## Open
 
-**Success = 0 published cells changed.** Until then you are not done.
-
-Note the rebuild also creates ~8 index files for professions in the taxonomy that have
-none yet (`asbestos_abatement`, `boxer`, `hawker_peddler`, `managing_general_agent`,
-`meat_inspector`, `outfitter_guide`, `pest_control`, `septage_pumper`). They are
-untracked and harmless; delete them or leave them, but do not mistake them for churn.
-
-Finally:
-
-```bash
-pipeline/.venv/bin/python -m pytest -q          # expect 954+
-```
-
----
-
-## Then, optionally: the guard that makes this permanent
-
-Add a test asserting a rebuild is a no-op for published professions — turn "a rebuild
-silently breaks mappings" into a red test. Sketch:
-
-```python
-def test_rebuilding_the_index_does_not_change_published_mappings():
-    """A generated artifact that changes on a no-op rebuild hides the changes you
-    actually made — and on 2026-08-03 a rebuild silently collapsed five NJ cells to
-    the whole of Title 45 (~2500 sections). #130."""
-    from pipeline.discover.match_profession import rebuild_index
-    for prof in published_professions():
-        on_disk = json.loads((PROFESSION_INDEX_DIR / f"{prof}.json").read_text())
-        rebuilt = rebuild_index(prof)          # in memory; writes nothing
-        assert _urls(rebuilt) == _urls(on_disk), prof
-```
-
-`rebuild_index(profession)` already exists (`match_profession.py:266`) and does not
-write, so the test is cheap and side-effect-free.
-
----
-
-## Scope discipline
-
-Do **not** re-pull anything as part of this. The committed corpora are correct; this is
-purely about making the mapping config survive a rebuild. Pulling is a separate decision
-with a separate cost.
-
-Do **not** run `match_profession` and commit the result until the verification above
-passes — that is exactly how the 8 cells would get broken for real.
+- **`construction_trades/MO`** — an 89-section corpus that is Missouri chapter 436,
+  FRANCHISE law, under construction trades. The index has **no matched nodes** for the
+  cell, so a re-pull reproduces nothing and extraction correctly returned an all-null
+  record. Needs either a correct chapter or a verified-absence marking.
+- **56 NO_MAPPING published cells** across all states (`audit_mappings`) — committed
+  corpora a re-pull could not reproduce at all. MO above is one of them.
+- **Duplicate override nodes** — rebuilds log `add url ... already present with a
+  different dict` for `construction_trades` ID/UT/WV and `public_adjuster` MD.
+- **`public_adjuster` AK / AR** — empty, undiagnosed. OR was empty because of the dead
+  volume-less url fixed here, and needs a re-pull + re-extract to fill.
+- **`land_surveying`** shares 45:8 with PE. Unpublished, not touched.
+- **Pull provenance** for the six cells reads stale because `pull_text` was invoked by
+  hand rather than through the runner. The corpora are verified correct; the stamps need
+  settling.

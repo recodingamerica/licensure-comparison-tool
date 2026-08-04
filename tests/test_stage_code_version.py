@@ -57,7 +57,11 @@ PINNED = {
     "schema":  "ce3a4fff44437a13",
     "verify":  "023b289280b002a8",
     "mapprep": "9d15d2bb31cc0e10",
-    "publish": "e8c2b08549bfc23e",
+    # 2026-08-03: build_frontend skips an umbrella section whose url the profession's own
+    # practice corpus already ships (both in row.sections and the browse view). This DOES
+    # change the payload — every NJ title-45 row carried ~108KB of chapter 1 twice — so
+    # CODE_VERSION['publish'] went 2 -> 3 and committed payloads go stale.
+    "publish": "21233dfe4887e199",
 }
 
 

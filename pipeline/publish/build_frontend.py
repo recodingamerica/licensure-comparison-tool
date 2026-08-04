@@ -231,13 +231,16 @@ def _build_browse_sections(
             "evidence": _section_evidence_spans(record, text),
         })
 
-    # Umbrella sections (individual — not aggregated by chapter).
+    # Umbrella sections (individual — not aggregated by chapter). Skip any the
+    # practice act already shipped above: it is the same statute text, and the
+    # practice copy is the one carrying the real citation and scope_layer.
+    practice_urls = {s.get("url") for s in practice_sections if s.get("url")}
     for s in (umbrella_state_data or {}).get("sections", []) or []:
         # Same Justia-chrome strip as build_state_browse uses, so the per-
         # profession browse view shows clean section text too.
         text = clean_justia_text(s.get("text") or "")
         url = s.get("url") or ""
-        if not text or not url:
+        if not text or not url or url in practice_urls:
             continue
         info = umb_scope.get(url) or {}
         scope_source = info.get("scope_source") or ""
@@ -729,9 +732,19 @@ def _collect_section_sources(trimmed_dir: Path, umbrella_text_dir: Path) -> _Sec
                 umb = json.loads(umb_path.read_text())
                 umbrella_data_by_state[p.stem] = umb
                 umb_scope_by_state[p.stem] = merged_scope_by_url(p.stem)
+                # An umbrella section the profession's OWN corpus already ships is pure
+                # duplicate text — the practice copy carries the real citation, while the
+                # umbrella copy is folded into an opaque "UMBRELLA / <chapter>" blob. NJ is
+                # the worked case: every title-45 profession's pattern includes chapter 1
+                # (the Uniform Enforcement Act), of which the state umbrella is a 39-section
+                # SUBSET, so each row shipped ~108KB of chapter 1 twice. Keyed on url, so an
+                # umbrella section that trim dropped from the practice corpus still ships.
+                practice_urls = {s.get("url") for s in section_list if s.get("url")}
                 by_chap: dict[str, dict] = {}
                 for s in umb.get("sections", []):
                     if not s.get("text"):
+                        continue
+                    if s.get("url") in practice_urls:
                         continue
                     chap_label = (s.get("umbrella_chapter_label") or "")[:60]
                     cite = f"UMBRELLA / {chap_label}"
