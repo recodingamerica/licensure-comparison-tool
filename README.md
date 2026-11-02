@@ -1,10 +1,10 @@
-# utah
+# Licensure Comparison Tool
 
 Pipeline that turns state statutes into a structured, evidence-backed view of
 licensure and scope of practice for regulated professions, with a Next.js
 viewer (AG Grid table, choropleth maps, per-field tag sheets).
 
-Built for Utah's Office of Professional Licensure Review (OPLR) as the
+Built originally for Utah's Office of Professional Licensure Review (OPLR) as the
 descriptive layer that feeds their Universal Occupational Regulation Framework
 (UORF) — the prescriptive six-rung ladder OPLR uses to evaluate how strictly
 each occupation should be regulated. We answer "what does each state currently
