@@ -4,16 +4,10 @@ Pipeline that turns state statutes into a structured, evidence-backed view of
 licensure and scope of practice for regulated professions, with a Next.js
 viewer (AG Grid table, choropleth maps, per-field tag sheets).
 
-Built originally for Utah's Office of Professional Licensure Review (OPLR) as the
-descriptive layer that feeds their Universal Occupational Regulation Framework
-(UORF) — the prescriptive six-rung ladder OPLR uses to evaluate how strictly
-each occupation should be regulated. We answer "what does each state currently
-do?"; UORF answers "what should they do?".
+> [!WARNING]
+> This project is under active development and is provided as-is. We are not accepting any new issues or pull requests at this time.
 
-Seeded from Utah's Title 58 (46 licensed professions); the registry has since
-grown well beyond Title 58 (`pipeline/config/professions.yaml` — exact, auto-updated
-counts are under **Current status** below). Other states fill in those same
-professions where they exist.
+Built originally for Utah's Office of Professional Licensure Review (OPLR)
 
 ## Which document to read
 
